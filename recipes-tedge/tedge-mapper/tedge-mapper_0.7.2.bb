@@ -367,6 +367,29 @@ SRC_URI += " \
 "
 
 
+pkg_postinst_ontarget:${PN} () {
+    #!/bin/sh
+    set -e
+
+    groupadd -r tedge-mapper
+
+    ### Create a user "tedge-mapper" if not created before
+    # Create user tedge-mapper with no home(--no-create-home), no login(--shell) and in group tedge(--ingroup)
+    useradd -r -M -g tedge-mapper -s /usr/sbin/nologin tedge-mapper
+
+    ### Create supported cloud operations directories
+    install -g tedge -o tedge -m 755 -d /etc/tedge/operations/c8y
+    install -g tedge -o tedge -m 755 -d /etc/tedge/operations/az
+
+    ### Create operation file.
+    # This allows thin-edge.io components to list and declare supported operations for the cloud provider.
+    # Some of the examples for Cumulocity IoT supported opertations: https://cumulocity.com/api/10.11.0/#section/Device-management-library/Miscellaneous
+    install -g tedge -o tedge -m 644 /dev/null /etc/tedge/operations/c8y/c8y_SoftwareUpdate
+    install -g tedge -o tedge -m 644 /dev/null /etc/tedge/operations/c8y/c8y_Restart
+    install -g tedge -o tedge -m 644 /dev/null /etc/tedge/operations/c8y/c8y_LogfileRequest
+
+}
+
 SUMMARY = "tedge_mapper is the mapper that translates thin-edge.io data model to c8y/az data model."
 HOMEPAGE = "test"
 LICENSE = "CLOSED"
