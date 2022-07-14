@@ -7,7 +7,7 @@ This is Openembedded layer of [thin-edge.io](https://github.com/thin-edge/thin-e
 It bases on `meta-networking` and `meta-oe` which are part of `meta-openembedded` layer. 
 
 ## Installation
-> If you are not familiar with building Yocto distribution or you have not configured your build host yet, we strongly recommend to look into [official yocto documentation](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html) as the installation process will now skip all information that were mentioned there! For workspace organization or raspberry pi distribution, we also reccomend this [guide](https://github.com/jynik/ready-set-yocto)
+> If you are not familiar with building Yocto distribution or you have not configured your build host yet, we strongly recommend to look into [official yocto documentation](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html) as the installation process will now skip all information that were mentioned there! For workspace organization or raspberry pi distribution, we also recommend this [guide](https://github.com/jynik/ready-set-yocto)
 
 Clone current version of `meta-tedge` using : 
 ```bash
@@ -35,4 +35,4 @@ $ bitbake tedge-image
 
 Currently, minimal thin-edge installation is completed i.e `tedge` and `tedge-mapper` modules. 
 
-TODO: Adding rest of the modules and plugins to `meta-tedge`
+TODO: Adding remaining modules and plugins to `meta-tedge`
