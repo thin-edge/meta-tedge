@@ -367,6 +367,14 @@ SRC_URI += " \
 "
 
 
+pkg_postinst_ontarget:${PN} () {
+    #!/bin/sh
+    set -e
+
+    sudo -u tedge tedge_mapper -- --init c8y
+    sudo -u tedge tedge_mapper -- --init az
+}
+
 SUMMARY = "tedge_mapper is the mapper that translates thin-edge.io data model to c8y/az data model."
 HOMEPAGE = "test"
 LICENSE = "CLOSED"
