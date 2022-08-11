@@ -369,6 +369,13 @@ SUMMARY = "Thin-edge device configuration management for Cumulocity"
 HOMEPAGE = "https://github.com/thin-edge/thin-edge.io"
 LICENSE = "CLOSED"
 
+pkg_postinst_ontarget:${PN} () {
+set -e
+
+### Create supported operation files
+c8y_configuration_plugin --init
+}
+
 # includes this file if it exists but does not fail
 # this is useful for anything you may want to override from
 # what cargo-bitbake generates.
