@@ -1,9 +1,0 @@
-diff --git a/Cargo.toml b/Cargo.toml
-index ee34205..10b6647 100644
---- a/Cargo.toml
-+++ b/Cargo.toml
-@@ -15,4 +15,3 @@ resolver = "2"
- codegen-units = 1
- lto = true
- opt-level = "z"
--panic = 'abort'
