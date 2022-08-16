@@ -366,12 +366,9 @@ pkg_postinst_ontarget:${PN} () {
     c8y_configuration_plugin --init
 }
 
-# FIXME: update generateme with the real MD5 of the license file
 LIC_FILES_CHKSUM = " \
-    file://Apache-2.0;md5=generateme \
+    file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
 "
-
-
 
 SUMMARY = "Thin-edge device configuration management for Cumulocity"
 HOMEPAGE = "https://thin-edge.io"

@@ -367,9 +367,8 @@ pkg_postinst_ontarget:${PN} () {
     sudo -u tedge tedge_mapper -- --init az
 }
 
-# FIXME: update generateme with the real MD5 of the license file
 LIC_FILES_CHKSUM = " \
-    file://Apache-2.0;md5=generateme \
+    file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
 "
 
 SUMMARY = "tedge_mapper is the mapper that translates thin-edge.io data model to c8y/az data model."

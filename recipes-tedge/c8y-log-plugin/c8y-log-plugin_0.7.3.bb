@@ -359,10 +359,6 @@ SRC_URI += " \
     file://0001-Cargo.toml-do-not-abort-on-panic.patch \
 "
 
-# FIXME: update generateme with the real MD5 of the license file
-LIC_FILES_CHKSUM = " \
-    file://Apache-2.0;md5=generateme \
-"
 pkg_postinst_ontarget:${PN} () {
     
     set -e
@@ -380,6 +376,10 @@ pkg_postinst_ontarget:${PN} () {
         fi
     fi
 }
+
+LIC_FILES_CHKSUM = " \
+    file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
+"
 
 SUMMARY = "Thin-edge device log file retriever for Cumulocity"
 HOMEPAGE = "https://thin-edge.io"
