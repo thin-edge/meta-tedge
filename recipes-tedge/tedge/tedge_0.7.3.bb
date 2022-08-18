@@ -355,152 +355,26 @@ SRC_URI += " \
     crate://crates.io/zip/0.6.2 \
 "
 
-# patch out `panic = "abort"`, which fails
 SRC_URI += " \
     file://0001-Cargo.toml-do-not-abort-on-panic.patch \
+    file://postinst-tedge.service \
 "
 
-# installation scripts that set up the tedge user, create the service, etc.
-# https://github.com/thin-edge/thin-edge.io/tree/main/configuration
+do_install:append(){
+    install -d ${D}/${sbindir}/tedge
+    install -m 0755 ${S}/configuration/debian/tedge/preinst ${D}/${sbindir}/tedge
+    install -m 0755 ${S}/configuration/debian/tedge/postinst ${D}/${sbindir}/tedge
 
-pkg_postinst_ontarget:${PN} () {
-    #!/bin/sh
-    set -e
-
-    ### Create groups
-    groupadd -r tedge
-
-    ### Create users
-    # Create user tedge with no additional info(--gecos "") no home(--no-create-home), no login(--shell) and in group tedge(--ingroup)
-    useradd -r -M -s /sbin/nologin -g tedge tedge
-
-    ### Create file in /etc/sudoers.d directory. With this configuration, the tedge user have the right to call the tedge command with sudo rights, which is required for system-wide configuration in "/etc/tedge"
-    echo "tedge  ALL = (ALL) NOPASSWD: /usr/bin/tedge, /etc/tedge/sm-plugins/[a-zA-Z0-9]*, /bin/sync, /sbin/init" >/etc/sudoers.d/tedge
-
-    if [ -f "/etc/sudoers.d/010_pi-nopasswd" ]; then
-        echo "tedge   ALL = (ALL) NOPASSWD: /usr/bin/tedge, /etc/tedge/sm-plugins/[a-zA-Z0-9]*, /bin/sync, /sbin/init" >/etc/sudoers.d/tedge-nopasswd
+    if [ ! -d "${D}${systemd_system_unitdir}" ]; then
+        install -d ${D}${systemd_system_unitdir}
     fi
-
-
-    # change the owenership of the below directories/files to `tedge` user,
-    # as there is only `tedge` user exists.
-
-    if [ -d "/etc/tedge/operations/c8y" ]; then
-        sudo chown tedge:tedge /etc/tedge/operations/c8y
-        sudo chown tedge:tedge /etc/tedge/operations/c8y/c8y_*
-    fi
-
-    if [ -d "/etc/tedge/operations/az" ]; then
-        sudo chown tedge:tedge /etc/tedge/operations/az
-    fi
-
-    if [ -d "/etc/tedge/.agent/" ]; then
-        sudo chown tedge:tedge /etc/tedge/.agent
-    fi
-
-    if [ -d "/var/log/tedge/agent/" ]; then
-        sudo chown tedge:tedge /var/log/tedge/agent
-    fi
-
-    if [ -f "/run/lock/tedge_agent.lock" ]; then
-        sudo chown tedge:tedge /run/lock/tedge_agent.lock
-    fi
-
-    if [ -f "/run/lock/tedge-mapper-c8y.lock" ]; then
-        sudo chown tedge:tedge /run/lock/tedge-mapper-c8y.lock
-    fi
-
-    if [ -f "/run/lock/tedge-mapper-az.lock" ]; then
-        sudo chown tedge:tedge /run/lock/tedge-mapper-az.lock
-    fi
-
-    if [ -f "/run/lock/tedge-mapper-collectd.lock" ]; then
-        sudo chown tedge:tedge /run/lock/tedge-mapper-collectd.lock
-    fi
-
-    ### Add include to mosquitto.conf so tedge specific conf will be loaded
-    if ! grep -q "/etc/tedge/mosquitto-conf" "/etc/mosquitto/mosquitto.conf"; then
-        echo "include_dir /etc/tedge/mosquitto-conf" >>/etc/mosquitto/mosquitto.conf
-    fi
-
-    # Initialize the tedge
-    tedge --init
+    install -m 0644 "${WORKDIR}/postinst-tedge.service" "${D}${systemd_system_unitdir}"
 }
+FILES:${PN} += " ${systemd_system_unitdir}/postinst-tedge.service"
 
-pkg_postrm:${PN} () {
-    #!/bin/sh
-    set -e
-
-    remove_user_tedge() {
-        if getent passwd tedge > /dev/null; then
-            deluser --quiet --system tedge
-        fi
-    }
-
-    remove_tedge_group() {
-        if getent group tedge > /dev/null; then
-            groupdel tedge
-        fi
-    }
-
-    remove_sudoers_file() {
-        if [ -f "/etc/sudoers.d/tedge" ]; then
-            rm /etc/sudoers.d/tedge
-        fi
-
-        if [ -f "/etc/sudoers.d/tedge-nopasswd" ]; then
-            rm /etc/sudoers.d/tedge-nopasswd
-        fi
-    }
-
-    purge_configs() {
-        if [ -d "/etc/tedge" ]; then
-            rm -rf /etc/tedge
-        fi
-    }
-
-    remove_mosquitto_edit() {
-        if [ -f "/etc/mosquitto/mosquitto.conf" ]; then
-            sed -i '/include_dir \/etc\/tedge\/mosquitto-conf/d' /etc/mosquitto/mosquitto.conf
-        fi
-    }
-
-    purge_var_log() {
-        if [ -d "/var/log/tedge" ]; then
-            rm -rf /var/log/tedge
-        fi
-    }
-
-    case "$1" in
-        purge)
-            remove_user_tedge
-            remove_tedge_group
-            remove_mosquitto_edit
-            remove_sudoers_file
-            purge_configs
-            purge_var_log
-        ;;
-
-        remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
-        ;;
-
-        *)
-            echo "tedge postrm called with unknown argument \`$1\`" >&2
-            exit 1
-        ;;
-    esac
-}
-
-
-do_install:append() {
-    install -d ${D}${systemd_system_unitdir}
-    for file in ${S}/configuration/init/systemd/*; do
-        install -m 0644 "$file" "${D}${systemd_system_unitdir}"
-    done
-}
-
-FILES:${PN} += " ${systemd_system_unitdir}/tedge-* ${systemd_system_unitdir}/c8y-*"
-
+NATIVE_SYSTEMD_SUPPORT = "1"
+SYSTEMD_PACKAGES = "${PN}"
+SYSTEMD_SERVICE_${PN} = "postinst-tedge.service"
 
 LIC_FILES_CHKSUM = " \
     file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \

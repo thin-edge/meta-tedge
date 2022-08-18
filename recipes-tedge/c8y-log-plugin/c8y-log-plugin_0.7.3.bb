@@ -357,25 +357,25 @@ SRC_URI += " \
 
 SRC_URI += " \
     file://0001-Cargo.toml-do-not-abort-on-panic.patch \
+    file://postinst-c8y-log-plugin.service \
 "
 
-pkg_postinst_ontarget:${PN} () {
-    
-    set -e
+do_install:append(){
+    install -d ${D}/${sbindir}/c8y-log-plugin
+    install -m 0755 ${S}/configuration/debian/c8y_log_plugin/postinst ${D}/${sbindir}/c8y-log-plugin
 
-    ### Create supported operation files
-    c8y_log_plugin --init
-
-    # Reenable the services only if systemctl is available
-    if command -v systemctl >/dev/null; then
-        ### Enable the sm services if the device is connected to c8y cloud
-        if [ -f "/etc/tedge/mosquitto-conf/c8y-bridge.conf" ]; then
-            # start and enable c8y-log-plugin
-            systemctl start c8y-log-plugin.service
-            systemctl enable c8y-log-plugin.service
-        fi
+    if [ ! -d "${D}${systemd_system_unitdir}" ]; then
+        install -d ${D}${systemd_system_unitdir}
     fi
+    install -m 0644 "${S}/configuration/init/systemd/c8y-log-plugin.service" "${D}${systemd_system_unitdir}"
+    install -m 0644 "${WORKDIR}/postinst-c8y-log-plugin.service" "${D}${systemd_system_unitdir}"
 }
+
+FILES:${PN} += " ${systemd_system_unitdir}/c8y-log-plugin.service ${systemd_system_unitdir}/postinst-c8y-log-plugin.service"
+
+NATIVE_SYSTEMD_SUPPORT = "1"
+SYSTEMD_PACKAGES = "${PN}"
+SYSTEMD_SERVICE_${PN} = "postinst-c8y-log-plugin.service"
 
 LIC_FILES_CHKSUM = " \
     file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
