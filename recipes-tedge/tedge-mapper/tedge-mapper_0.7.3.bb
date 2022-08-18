@@ -362,7 +362,7 @@ SRC_URI += " \
 
 do_install:append(){
     install -d ${D}/${sbindir}/tedge-mapper
-    install -m 0755 ${S}/configuration/debian/tedge_mapper/postinst ${D}/${sbindir}/tedge_mapper
+    install -m 0755 ${S}/configuration/debian/tedge_mapper/postinst ${D}/${sbindir}/tedge-mapper
 
     if [ ! -d "${D}${systemd_system_unitdir}" ]; then
         install -d ${D}${systemd_system_unitdir}
