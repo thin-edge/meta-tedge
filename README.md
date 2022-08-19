@@ -1,5 +1,5 @@
 ## Introduction
-This is Openembedded layer of [thin-edge.io](https://github.com/thin-edge/thin-edge.io) for version 0.7.2.  
+This is Openembedded layer of [thin-edge.io](https://github.com/thin-edge/thin-edge.io) for version 0.7.3.  
 
 ## Dependencies
 
@@ -33,6 +33,4 @@ $ bitbake tedge-image
 
 ## Current progress
 
-Currently, minimal thin-edge installation is completed i.e `tedge` and `tedge-mapper` modules. 
-
-TODO: Adding remaining modules and plugins to `meta-tedge`
+Currently, all thin-edge modules are added to the layer.
