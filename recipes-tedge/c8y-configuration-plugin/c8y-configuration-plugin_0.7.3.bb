@@ -355,28 +355,6 @@ SRC_URI += " \
     crate://crates.io/zip/0.6.2 \
 "
 
-SRC_URI += " \
-    file://0001-Cargo.toml-do-not-abort-on-panic.patch \
-    file://postinst-c8y-configuration-plugin.service \
-"
-
-do_install:append(){
-    install -d ${D}/${sbindir}/c8y-configuration-plugin
-    install -m 0755 ${S}/configuration/debian/c8y_configuration_plugin/postinst ${D}/${sbindir}/c8y-configuration-plugin
-
-    if [ ! -d "${D}${systemd_system_unitdir}" ]; then
-        install -d ${D}${systemd_system_unitdir}
-    fi
-    install -m 0644 "${S}/configuration/init/systemd/c8y-configuration-plugin.service" "${D}${systemd_system_unitdir}"
-    install -m 0644 "${WORKDIR}/postinst-c8y-configuration-plugin.service" "${D}${systemd_system_unitdir}"
-}
-
-FILES:${PN} += " ${systemd_system_unitdir}/c8y-configuration-plugin.service ${systemd_system_unitdir}/postinst-c8y-configuration-plugin.service"
-
-NATIVE_SYSTEMD_SUPPORT = "1"
-SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "postinst-c8y-configuration-plugin.service"
-
 LIC_FILES_CHKSUM = " \
     file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
 "
