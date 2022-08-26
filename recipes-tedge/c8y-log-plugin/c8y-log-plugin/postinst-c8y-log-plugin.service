@@ -1,9 +1,11 @@
 [Unit]
 Description=start postinst script upon first boot
+Requires=postinst-tedge-agent.service
+After=postinst-tedge-agent.service
 
 [Service]
 Type=simple
-ExecStart=/bin/sh -c 'sleep 5 ; /usr/sbin/c8y-log-plugin/postinst'
+ExecStart=/bin/sh -c 'sleep 1 ; /usr/sbin/c8y-log-plugin/postinst'
 
 [Install]
 WantedBy=multi-user.target
