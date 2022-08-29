@@ -1,6 +1,20 @@
-require recipes-extended/images/core-image-full-cmdline.bb
+require recipes-core/images/core-image-minimal.bb
 
-IMAGE_INSTALL += " tedge tedge-mapper tedge-agent c8y-configuration-plugin c8y-log-plugin tedge-apama-plugin tedge-apt-plugin tedge-dummy-plugin tedge-watchdog mosquitto ca-certificates glibc-utils"
+IMAGE_INSTALL += " \
+                tedge  \
+                tedge-mapper  \
+                tedge-agent \
+                c8y-configuration-plugin \
+                c8y-log-plugin \
+                tedge-apama-plugin \
+                tedge-apt-plugin \
+                tedge-dummy-plugin \
+                tedge-watchdog \
+                mosquitto \
+                ca-certificates \
+                glibc-utils \
+                sudo \
+"
 
 
 # On Ubuntu, which is primary target of thin-edge.io, directory `/run/lock`
