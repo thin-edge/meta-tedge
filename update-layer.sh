@@ -70,4 +70,7 @@ done
 # Remove scripts files
 rm -f -r $layer_dir/recipes 
 
+# Update README
+sed -i -e "s/[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}/'$version'/" README.md
+
 exit 
