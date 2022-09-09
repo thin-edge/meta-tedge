@@ -6,12 +6,12 @@ inherit cargo
 # DEFAULT_PREFERENCE = "-1"
 
 # how to get tedge_apt_plugin could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/tedge_apt_plugin/0.7.3"
-SRC_URI += "git://github.com/thin-edge/thin-edge.io.git;protocol=https;nobranch=1;branch=main"
-SRCREV = "d7863fc8c154135d95f99da81a0e4e8f30e0a8d2"
+# SRC_URI += "crate://crates.io/tedge_apt_plugin/0.7.4"
+SRC_URI += "git://github.com/thin-edge/thin-edge.io;protocol=https;nobranch=1;branch=main"
+SRCREV = "2673aa078759801a636da642afc991fe4d3af3fc"
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = "plugins/tedge_apt_plugin"
-PV:append = ".AUTOINC+d7863fc8c1"
+PV:append = ".AUTOINC+2673aa0787"
 
 # please note if you have entries that do not begin with crate://
 # you must change them to how that package can be fetched
@@ -355,6 +355,9 @@ SRC_URI += " \
     crate://crates.io/zip/0.6.2 \
 "
 
+
+
+# FIXME: update generateme with the real MD5 of the license file
 LIC_FILES_CHKSUM = " \
     file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
 "
