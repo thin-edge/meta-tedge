@@ -6,8 +6,8 @@ SRC_URI += " \
 "
 
 do_install:append(){
-    install -d ${D}/${sbindir}/tedge-mapper
-    install -m 0755 ${S}/configuration/debian/tedge_mapper/postinst ${D}/${sbindir}/tedge-mapper
+    install -d ${D}${sbindir}/tedge-mapper
+    install -m 0755 ${S}/configuration/debian/tedge_mapper/postinst ${D}${sbindir}/tedge-mapper
 
     if [ ! -d "${D}${systemd_system_unitdir}" ]; then
         install -d ${D}${systemd_system_unitdir}
@@ -20,6 +20,4 @@ do_install:append(){
 
 FILES:${PN} += " ${systemd_system_unitdir}/tedge-mapper-collectd.service ${systemd_system_unitdir}/tedge-mapper-az.service ${systemd_system_unitdir}/tedge-mapper-c8y.service ${systemd_system_unitdir}/postinst-tedge-mapper.service"
 
-NATIVE_SYSTEMD_SUPPORT = "1"
-SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "postinst-tedge-mapper.service"
+SYSTEMD_SERVICE:${PN} = "postinst-tedge-mapper.service"
