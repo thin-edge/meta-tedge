@@ -6,8 +6,8 @@ SRC_URI += " \
 "
 
 do_install:append(){
-    install -d ${D}/${sbindir}/tedge-agent
-    install -m 0755 ${S}/configuration/debian/tedge_agent/postinst ${D}/${sbindir}/tedge-agent
+    install -d ${D}${sbindir}/tedge-agent
+    install -m 0755 ${S}/configuration/debian/tedge_agent/postinst ${D}${sbindir}/tedge-agent
 
     if [ ! -d "${D}${systemd_system_unitdir}" ]; then
         install -d ${D}${systemd_system_unitdir}
@@ -18,6 +18,4 @@ do_install:append(){
 
 FILES:${PN} += " ${systemd_system_unitdir}/tedge-agent.service ${systemd_system_unitdir}/postinst-tedge-agent.service"
 
-NATIVE_SYSTEMD_SUPPORT = "1"
-SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "postinst-tedge-agent.service"
+SYSTEMD_SERVICE:${PN} = "postinst-tedge-agent.service"

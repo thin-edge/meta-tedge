@@ -5,13 +5,13 @@ inherit cargo
 # If this is git based prefer versioned ones if they exist
 # DEFAULT_PREFERENCE = "-1"
 
-# how to get tedge_watchdog could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/tedge_watchdog/0.7.3"
-SRC_URI += "git://github.com/thin-edge/thin-edge.io.git;protocol=https;nobranch=1;branch=main"
-SRCREV = "d7863fc8c154135d95f99da81a0e4e8f30e0a8d2"
+# how to get tedge_mapper could be as easy as but default to a git checkout:
+# SRC_URI += "crate://crates.io/tedge_mapper/0.7.4"
+SRC_URI += "git://github.com/thin-edge/thin-edge.io;protocol=https;nobranch=1;branch=main"
+SRCREV = "2673aa078759801a636da642afc991fe4d3af3fc"
 S = "${WORKDIR}/git"
-CARGO_SRC_DIR = "crates/core/tedge_watchdog"
-PV:append = ".AUTOINC+d7863fc8c1"
+CARGO_SRC_DIR = "crates/core/tedge_mapper"
+PV:append = ".AUTOINC+2673aa0787"
 
 # please note if you have entries that do not begin with crate://
 # you must change them to how that package can be fetched
@@ -355,16 +355,19 @@ SRC_URI += " \
     crate://crates.io/zip/0.6.2 \
 "
 
+
+
+# FIXME: update generateme with the real MD5 of the license file
 LIC_FILES_CHKSUM = " \
     file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
 "
 
-SUMMARY = "tedge_watchdog checks the health of all the thin-edge.io components/services."
+SUMMARY = "tedge_mapper is the mapper that translates thin-edge.io data model to c8y/az data model."
 HOMEPAGE = "https://thin-edge.io"
 LICENSE = "Apache-2.0"
 
 # includes this file if it exists but does not fail
 # this is useful for anything you may want to override from
 # what cargo-bitbake generates.
-include tedge_watchdog-${PV}.inc
-include tedge_watchdog.inc
+include tedge_mapper-${PV}.inc
+include tedge_mapper.inc

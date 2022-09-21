@@ -5,10 +5,10 @@ SRC_URI += " \
     file://postinst-tedge.service \
 "
 
-do_install:append(){
-    install -d ${D}/${sbindir}/tedge
-    install -m 0755 ${S}/configuration/debian/tedge/preinst ${D}/${sbindir}/tedge
-    install -m 0755 ${S}/configuration/debian/tedge/postinst ${D}/${sbindir}/tedge
+do_install:append() {
+    install -d ${D}${sbindir}/tedge
+    install -m 0755 ${S}/configuration/debian/tedge/preinst ${D}${sbindir}/tedge
+    install -m 0755 ${S}/configuration/debian/tedge/postinst ${D}${sbindir}/tedge
 
     if [ ! -d "${D}${systemd_system_unitdir}" ]; then
         install -d ${D}${systemd_system_unitdir}
@@ -18,6 +18,4 @@ do_install:append(){
 
 FILES:${PN} += " ${systemd_system_unitdir}/postinst-tedge.service"
 
-NATIVE_SYSTEMD_SUPPORT = "1"
-SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "postinst-tedge.service"
+SYSTEMD_SERVICE:${PN} = "postinst-tedge.service"

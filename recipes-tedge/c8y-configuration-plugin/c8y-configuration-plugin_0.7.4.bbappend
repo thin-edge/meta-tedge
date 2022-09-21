@@ -6,8 +6,8 @@ SRC_URI += " \
 "
 
 do_install:append(){
-    install -d ${D}/${sbindir}/c8y-configuration-plugin
-    install -m 0755 ${S}/configuration/debian/c8y_configuration_plugin/postinst ${D}/${sbindir}/c8y-configuration-plugin
+    install -d ${D}${sbindir}/c8y-configuration-plugin
+    install -m 0755 ${S}/configuration/debian/c8y_configuration_plugin/postinst ${D}${sbindir}/c8y-configuration-plugin
 
     if [ ! -d "${D}${systemd_system_unitdir}" ]; then
         install -d ${D}${systemd_system_unitdir}
@@ -18,6 +18,4 @@ do_install:append(){
 
 FILES:${PN} += " ${systemd_system_unitdir}/c8y-configuration-plugin.service ${systemd_system_unitdir}/postinst-c8y-configuration-plugin.service"
 
-NATIVE_SYSTEMD_SUPPORT = "1"
-SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "postinst-c8y-configuration-plugin.service"
+SYSTEMD_SERVICE:${PN} = "postinst-c8y-configuration-plugin.service"

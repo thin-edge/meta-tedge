@@ -5,13 +5,13 @@ inherit cargo
 # If this is git based prefer versioned ones if they exist
 # DEFAULT_PREFERENCE = "-1"
 
-# how to get c8y_log_plugin could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/c8y_log_plugin/0.7.3"
-SRC_URI += "git://github.com/thin-edge/thin-edge.io.git;protocol=https;nobranch=1;branch=main"
-SRCREV = "d7863fc8c154135d95f99da81a0e4e8f30e0a8d2"
+# how to get c8y_configuration_plugin could be as easy as but default to a git checkout:
+# SRC_URI += "crate://crates.io/c8y_configuration_plugin/0.7.4"
+SRC_URI += "git://github.com/thin-edge/thin-edge.io;protocol=https;nobranch=1;branch=main"
+SRCREV = "2673aa078759801a636da642afc991fe4d3af3fc"
 S = "${WORKDIR}/git"
-CARGO_SRC_DIR = "plugins/c8y_log_plugin"
-PV:append = ".AUTOINC+d7863fc8c1"
+CARGO_SRC_DIR = "plugins/c8y_configuration_plugin"
+PV:append = ".AUTOINC+2673aa0787"
 
 # please note if you have entries that do not begin with crate://
 # you must change them to how that package can be fetched
@@ -355,16 +355,19 @@ SRC_URI += " \
     crate://crates.io/zip/0.6.2 \
 "
 
+
+
+# FIXME: update generateme with the real MD5 of the license file
 LIC_FILES_CHKSUM = " \
     file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
 "
 
-SUMMARY = "Thin-edge device log file retriever for Cumulocity"
+SUMMARY = "Thin-edge device configuration management for Cumulocity"
 HOMEPAGE = "https://thin-edge.io"
 LICENSE = "Apache-2.0"
 
 # includes this file if it exists but does not fail
 # this is useful for anything you may want to override from
 # what cargo-bitbake generates.
-include c8y_log_plugin-${PV}.inc
-include c8y_log_plugin.inc
+include c8y_configuration_plugin-${PV}.inc
+include c8y_configuration_plugin.inc
