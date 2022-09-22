@@ -4,7 +4,8 @@ Requires=postinst-tedge-agent.service
 After=postinst-tedge-agent.service
 
 [Service]
-Type=simple
+Type=oneshot
+RemainAfterExit=true
 ExecStart=/bin/sh -c 'sleep 1 ; /usr/sbin/c8y-configuration-plugin/postinst'
 
 [Install]

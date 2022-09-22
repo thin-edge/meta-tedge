@@ -4,7 +4,8 @@ Requires=postinst-tedge-mapper.service
 After=postinst-tedge-mapper.service
 
 [Service]
-Type=simple
+Type=oneshot
+RemainAfterExit=true
 ExecStart=/bin/sh -c 'sleep 1 ; /usr/sbin/tedge-agent/postinst'
 
 [Install]

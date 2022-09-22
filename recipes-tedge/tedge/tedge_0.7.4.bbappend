@@ -21,3 +21,7 @@ FILES:${PN} += " ${systemd_system_unitdir}/postinst-tedge.service"
 SYSTEMD_SERVICE:${PN} = "postinst-tedge.service"
 
 RDEPENDS:${PN} = "mosquitto ca-certificates glibc-utils sudo"  
+
+chmod_rootfs() {
+    sed -i 's/d \/run\/lock 0755 root root -/d \/run\/lock 1777 root root -/' ${IMAGE_ROOTFS}/usr/lib/tmpfiles.d/legacy.conf
+}
