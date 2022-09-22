@@ -19,3 +19,5 @@ do_install:append() {
 FILES:${PN} += " ${systemd_system_unitdir}/postinst-tedge.service"
 
 SYSTEMD_SERVICE:${PN} = "postinst-tedge.service"
+
+RDEPENDS:${PN} = "mosquitto ca-certificates glibc-utils sudo"  
