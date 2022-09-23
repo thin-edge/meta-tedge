@@ -1,5 +1,5 @@
 [Unit]
-Description=start postinst script upon first boot
+Description=start postinst c8y log plugin script upon first boot
 Requires=postinst-tedge-agent.service
 After=postinst-tedge-agent.service
 

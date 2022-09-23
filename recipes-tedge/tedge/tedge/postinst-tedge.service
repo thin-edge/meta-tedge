@@ -1,5 +1,5 @@
 [Unit]
-Description=start postinst script upon first boot
+Description=start preinst and postinst tedge scripts upon first boot
 
 [Service]
 Type=oneshot

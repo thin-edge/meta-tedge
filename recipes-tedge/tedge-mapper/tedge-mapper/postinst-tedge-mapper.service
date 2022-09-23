@@ -1,5 +1,5 @@
 [Unit]
-Description=start postinst script upon first boot
+Description=start postinst tedge mapper script upon first boot
 Requires=postinst-tedge.service
 After=postinst-tedge.service run-postinsts.service
 
