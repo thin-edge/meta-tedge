@@ -1,11 +1,11 @@
 [Unit]
-Description=start postinst script upon first boot
+Description=start postinst c8y configuration plugin script upon first boot
 Requires=postinst-tedge-agent.service
 After=postinst-tedge-agent.service
 
 [Service]
 Type=oneshot
-RemainAfterExit=true
+RemainAfterExit=trsue
 ExecStart=/bin/sh -c 'sleep 1 ; /usr/sbin/c8y-configuration-plugin/postinst'
 
 [Install]
