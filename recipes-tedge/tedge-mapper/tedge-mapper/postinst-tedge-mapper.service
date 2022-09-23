@@ -1,7 +1,7 @@
 [Unit]
 Description=start postinst script upon first boot
 Requires=postinst-tedge.service
-After=postinst-tedge.service
+After=postinst-tedge.service run-postinsts.service
 
 [Service]
 Type=oneshot
