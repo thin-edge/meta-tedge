@@ -16,6 +16,12 @@ do_install:append() {
     install -m 0644 "${WORKDIR}/postinst-tedge.service" "${D}${systemd_system_unitdir}"
 }
 
+pkg_postinst_ontarget:${PN}() {
+    chmod -R 1777 /run/lock
+}
+
 FILES:${PN} += " ${systemd_system_unitdir}/postinst-tedge.service"
 
 SYSTEMD_SERVICE:${PN} = "postinst-tedge.service"
+
+RDEPENDS:${PN} = "mosquitto ca-certificates glibc-utils sudo"

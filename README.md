@@ -28,7 +28,7 @@ VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
 
 Build `tedge` by running following command :
 ```bash
-$ bitbake tedge-image  
+$ bitbake tedge-full-image  
 ```
 
 ## Current progress
