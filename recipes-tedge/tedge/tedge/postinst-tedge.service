@@ -1,8 +1,9 @@
 [Unit]
-Description=start postinst script upon first boot
+Description=start preinst and postinst tedge scripts upon first boot
 
 [Service]
-Type=simple
+Type=oneshot
+RemainAfterExit=true
 ExecStartPre=/bin/sh -c 'sleep 1 ; /usr/sbin/tedge/preinst'
 ExecStart=/bin/sh -c 'sleep 1 ; /usr/sbin/tedge/postinst'
 
