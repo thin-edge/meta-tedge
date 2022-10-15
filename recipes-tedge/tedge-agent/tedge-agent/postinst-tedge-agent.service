@@ -1,11 +1,11 @@
 [Unit]
 Description=start postinst tedge agent script upon first boot
-Requires=postinst-tedge-mapper.service
+BindsTo=postinst-tedge-mapper.service
 After=postinst-tedge-mapper.service
 
 [Service]
 Type=oneshot
-RemainAfterExit=true
+RemainAfterExit=yes
 ExecStart=/bin/sh -c 'sleep 1 ; /usr/sbin/tedge-agent/postinst'
 
 [Install]
