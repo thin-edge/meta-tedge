@@ -7,11 +7,13 @@ if [ ! "$thin_edge_path" ]; then
     exit
 fi
 
-layer_dir=$(pwd) 
+layer_dir=${PWD%/*}
+echo "$layer_dir"
+# create directory for new recipes
+mkdir -p $layer_dir/recipes
 
-mkdir recipes
 # Create new recipes
-for package in recipes-tedge/*; do
+for package in $layer_dir/recipes-tedge/*; do
     package=$(basename "$package" | sed 's/-/_/g') 
 
     package_dir=$(find "$thin_edge_path" -path "**/$package/Cargo.toml") 
@@ -29,39 +31,27 @@ done
 # Current md5 sum of License file
 md5_sum=`md5sum $thin_edge_path/LICENSE.txt | cut -f 1 -d " "` 
 
-cd recipes
-
 # Replace the filename compatible with Yocto versioning convention 
-find . -type f -name '*.bb' | while read file ; do
+ls $layer_dir/recipes | while read file ; do
     new_file="$(echo ${file} | sed -r 's/_/-/g ; s|-([^-]*)$|\_\1|')" ;
-    [ "${file}" != "${new_file}" ] && mv "${file}" "${new_file}" ;
+    [ "${file}" != "${new_file}" ] && mv "$layer_dir/recipes/${file}" "$layer_dir/recipes/${new_file}" ;
 done 
 
 # Fill the license field
-sed -r -i "s@Apache-2.0;md5=generateme@LICENSE.txt;md5=$md5_sum@" *.bb 
+sed -r -i "s@Apache-2.0;md5=generateme@LICENSE.txt;md5=$md5_sum@" $layer_dir/recipes/*.bb 
 
 # Get new version
-version=`ls *.bb | shuf -n 1| sed -n 's/.*_\(.*\)\..*/\1/p'` 
-
-cd - 
-
-# Replace version in .bbappend files
-for directory in recipes-tedge/*; do
-    find $directory -type f -name '*.bbappend' | while read file ; do 
-        new_file="$(echo ${file} | sed -e 's/[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}/'$version'/g')" 
-        [ "${file}" != "${new_file}" ] && mv "${file}" "${new_file}" 
-    done
-done
+version=`ls $layer_dir/recipes/*.bb | shuf -n 1| sed -n 's/.*_\(.*\)\..*/\1/p'` 
 
 # Replace old .bb files with the new ones.
 ls $layer_dir/recipes | while read file ; do 
-    for directory in recipes-tedge/*; do
+    for directory in $layer_dir/recipes-tedge/*; do
         
         current_recipe="$(echo $file | cut -f1 -d"_")" 
         current_folder="$(basename $directory)" 
 
         if [ "${current_recipe}" = "${current_folder}" ]; then
-            rm -f $layer_dir/$directory/*.bb 
+            rm -f $directory/*.bb 
             cp "$layer_dir/recipes/${file}" "${directory}" 
         fi
     done
@@ -71,6 +61,6 @@ done
 rm -f -r $layer_dir/recipes 
 
 # Update README
-sed -i -e "s/[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}/$version/" README.md
+sed -i -e "s/[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}/$version/" $layer_dir/README.md
 
 exit 
