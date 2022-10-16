@@ -7,8 +7,9 @@ if [ ! "$thin_edge_path" ]; then
     exit
 fi
 
+# absolute path
 layer_dir=${PWD%/*}
-echo "$layer_dir"
+
 # create directory for new recipes
 mkdir -p $layer_dir/recipes
 
