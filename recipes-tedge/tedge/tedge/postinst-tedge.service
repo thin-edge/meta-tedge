@@ -1,9 +1,12 @@
 [Unit]
 Description=start preinst and postinst tedge scripts upon first boot
+Requires=run-postinsts.service
+After=run-postinsts.service
+ConditionPathExists=!/etc/sudoers.d/tedge
 
 [Service]
 Type=oneshot
-RemainAfterExit=true
+RemainAfterExit=yes
 ExecStartPre=/bin/sh -c 'sleep 1 ; /usr/sbin/tedge/preinst'
 ExecStart=/bin/sh -c 'sleep 1 ; /usr/sbin/tedge/postinst'
 

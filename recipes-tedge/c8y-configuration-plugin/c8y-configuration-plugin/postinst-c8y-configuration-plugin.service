@@ -1,6 +1,6 @@
 [Unit]
 Description=start postinst c8y configuration plugin script upon first boot
-Requires=postinst-tedge-agent.service
+BindsTo=postinst-tedge-agent.service
 After=postinst-tedge-agent.service
 
 [Service]
