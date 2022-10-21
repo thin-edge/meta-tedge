@@ -5,13 +5,13 @@ inherit cargo
 # If this is git based prefer versioned ones if they exist
 # DEFAULT_PREFERENCE = "-1"
 
-# how to get tedge_apama_plugin could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/tedge_apama_plugin/0.7.4"
-SRC_URI += "git://github.com/thin-edge/thin-edge.io;protocol=https;nobranch=1;branch=main"
-SRCREV = "2673aa078759801a636da642afc991fe4d3af3fc"
+# how to get c8y_log_plugin could be as easy as but default to a git checkout:
+# SRC_URI += "crate://crates.io/c8y_log_plugin/0.7.5"
+SRC_URI += "git://github.com/thin-edge/thin-edge.io;protocol=https;nobranch=1"
+SRCREV = "d8db10380ec132cd65722a97876c4e301595df64"
 S = "${WORKDIR}/git"
-CARGO_SRC_DIR = "plugins/tedge_apama_plugin"
-PV:append = ".AUTOINC+2673aa0787"
+CARGO_SRC_DIR = "plugins/c8y_log_plugin"
+
 
 # please note if you have entries that do not begin with crate://
 # you must change them to how that package can be fetched
@@ -362,12 +362,12 @@ LIC_FILES_CHKSUM = " \
     file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
 "
 
-SUMMARY = "thin.edge.io plugin for installing apama projects"
+SUMMARY = "Thin-edge device log file retriever for Cumulocity"
 HOMEPAGE = "https://thin-edge.io"
 LICENSE = "Apache-2.0"
 
 # includes this file if it exists but does not fail
 # this is useful for anything you may want to override from
 # what cargo-bitbake generates.
-include tedge_apama_plugin-${PV}.inc
-include tedge_apama_plugin.inc
+include c8y_log_plugin-${PV}.inc
+include c8y_log_plugin.inc

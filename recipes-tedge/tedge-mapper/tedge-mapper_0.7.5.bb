@@ -6,12 +6,12 @@ inherit cargo
 # DEFAULT_PREFERENCE = "-1"
 
 # how to get tedge_mapper could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/tedge_mapper/0.7.4"
-SRC_URI += "git://github.com/thin-edge/thin-edge.io;protocol=https;nobranch=1;branch=main"
-SRCREV = "2673aa078759801a636da642afc991fe4d3af3fc"
+# SRC_URI += "crate://crates.io/tedge_mapper/0.7.5"
+SRC_URI += "git://github.com/thin-edge/thin-edge.io;protocol=https;nobranch=1"
+SRCREV = "d8db10380ec132cd65722a97876c4e301595df64"
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = "crates/core/tedge_mapper"
-PV:append = ".AUTOINC+2673aa0787"
+
 
 # please note if you have entries that do not begin with crate://
 # you must change them to how that package can be fetched
