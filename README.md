@@ -8,6 +8,7 @@ The `meta-tedge` is supported for Yocto version 3.4 **Honister** and 4.0 **Kirks
 ## Layer Dependencies
 
 It bases on `meta-networking`, `meta-python` and `meta-oe` layers which are part of `meta-openembedded` layer. 
+
 **Note:** Remember to fetch proper branch of `meta-openembedded` layer according to the Yocto version used by the project. 
 
 ## Installation
