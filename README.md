@@ -1,5 +1,5 @@
 ## Introduction
-This is Openembedded layer of [thin-edge.io](https://github.com/thin-edge/thin-edge.io) for version 0.7.5.  
+This is Openembedded layer of [thin-edge.io](https://github.com/thin-edge/thin-edge.io) for version 0.8.0.  
 
 ## Yocto releases support
 
