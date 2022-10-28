@@ -55,7 +55,6 @@ The `meta-tedge` layer is equipped with `update-layer.sh` script that is used to
 Additionaly, it can be used by users to set desired version that is not available in current releases. The script is
 still a "work in progress" concept, that is why some requirements must be met before the user can run it:
 
-- script must be started in script directory
 - it requires `cargo bitbake` to be installed in the system
 - user must provide the path to desired version of `thin-edge` repository as a script parameter
 - overall structure of `thin-edge` must be the same, i.e. number of independent binaries cannot change. All current
