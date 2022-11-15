@@ -10,5 +10,5 @@ IMAGE_INSTALL += " \
                 tedge-apt-plugin \
                 tedge-dummy-plugin \
                 tedge-watchdog \
-		mosquitto-clients \
+		mosquitto-clients
 "
