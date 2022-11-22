@@ -1,7 +1,6 @@
 inherit systemd
 
 SRC_URI += " \
-    file://0001-Cargo.toml-do-not-abort-on-panic.patch \
     file://postinst-tedge.service \
 "
 
@@ -16,12 +15,12 @@ do_install:append() {
     install -m 0644 "${WORKDIR}/postinst-tedge.service" "${D}${systemd_system_unitdir}"
 }
 
-pkg_postinst_ontarget:${PN}() {
+pkg_postinst_ontarget:tedge() {
     chmod -R 1777 /run/lock
 }
 
-FILES:${PN} += " ${systemd_system_unitdir}/postinst-tedge.service"
+FILES:tedge += " ${systemd_system_unitdir}/postinst-tedge.service"
 
-SYSTEMD_SERVICE:${PN} = "postinst-tedge.service"
+SYSTEMD_SERVICE:tedge = "postinst-tedge.service"
 
-RDEPENDS:${PN} = "mosquitto ca-certificates glibc-utils sudo"
+RDEPENDS:tedge = "mosquitto ca-certificates glibc-utils sudo"
