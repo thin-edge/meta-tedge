@@ -1,6 +1,7 @@
 inherit systemd
 
 SRC_URI += " \
+    file://0001-Cargo.toml-do-not-abort-on-panic.patch \
     file://postinst-tedge-agent.service \
 "
 
@@ -15,6 +16,6 @@ do_install:append(){
     install -m 0644 "${WORKDIR}/postinst-tedge-agent.service" "${D}${systemd_system_unitdir}"
 }
 
-FILES:tedge-agent += " ${systemd_system_unitdir}/tedge-agent.service ${systemd_system_unitdir}/postinst-tedge-agent.service"
+FILES:${PN} += " ${systemd_system_unitdir}/tedge-agent.service ${systemd_system_unitdir}/postinst-tedge-agent.service"
 
-SYSTEMD_SERVICE:tedge-agent = "postinst-tedge-agent.service"
+SYSTEMD_SERVICE:${PN} = "postinst-tedge-agent.service"

@@ -1,6 +1,7 @@
 inherit systemd
 
 SRC_URI += " \
+    file://0001-Cargo.toml-do-not-abort-on-panic.patch \
     file://postinst-tedge-mapper.service \
 "
 
@@ -20,6 +21,6 @@ do_install:append() {
     install -m 0644 "${WORKDIR}/postinst-tedge-mapper.service" "${D}${systemd_system_unitdir}"
 }
 
-FILES:tedge-mapper += " ${systemd_system_unitdir}/tedge-mapper-collectd.service ${systemd_system_unitdir}/tedge-mapper-az.service ${systemd_system_unitdir}/tedge-mapper-c8y.service ${systemd_system_unitdir}/postinst-tedge-mapper.service"
+FILES:${PN} += " ${systemd_system_unitdir}/tedge-mapper-collectd.service ${systemd_system_unitdir}/tedge-mapper-az.service ${systemd_system_unitdir}/tedge-mapper-c8y.service ${systemd_system_unitdir}/postinst-tedge-mapper.service"
 
-SYSTEMD_SERVICE:tedge-mapper = "postinst-tedge-mapper.service"
+SYSTEMD_SERVICE:${PN} = "postinst-tedge-mapper.service"
