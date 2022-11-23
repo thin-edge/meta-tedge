@@ -5,11 +5,12 @@ inherit cargo
 # If this is git based prefer versioned ones if they exist
 # DEFAULT_PREFERENCE = "-1"
 
-# how to get tedge could be as easy as but default to a git checkout:
-# SRC_URI += "crate://crates.io/tedge/0.8.0"
-SRC_URI += "git://git@github.com/thin-edge/thin-edge.io.git;protocol=https;nobranch=1;branch=${PV}"
-SRCREV = "a8afc3c583113220bf4462945b2c908c80ee1acd"
+# how to get tedge_dummy_plugin could be as easy as but default to a git checkout:
+# SRC_URI += "crate://crates.io/tedge_dummy_plugin/0.8.0"
+SRC_URI += "git://github.com/thin-edge/thin-edge.io.git;protocol=https;nobranch=1;branch=${PV}"
+SRCREV = "79e3bfa80f96e48546c26a1c9e78a0977632f6d9"
 S = "${WORKDIR}/git"
+CARGO_SRC_DIR = "plugins/tedge_dummy_plugin"
 
 # please note if you have entries that do not begin with crate://
 # you must change them to how that package can be fetched
@@ -360,7 +361,6 @@ SRC_URI += " \
     crate://crates.io/yasna/0.5.0 \
     crate://crates.io/zeroize/1.5.7 \
     crate://crates.io/zip/0.6.3 \
-    file://0001-Cargo.toml-do-not-abort-on-panic.patch \
 "
 
 
@@ -370,28 +370,12 @@ LIC_FILES_CHKSUM = " \
     file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
 "
 
-SUMMARY = "tedge is the cli tool for thin-edge.io"
+SUMMARY = "thin.edge.io dummy plugin for testing"
 HOMEPAGE = "https://thin-edge.io"
 LICENSE = "Apache-2.0"
 
-PACKAGES =+ "c8y-configuration-plugin c8y-log-plugin tedge tedge-agent tedge-apama-plugin tedge-apt-plugin tedge-dummy-plugin tedge-mapper tedge-watchdog"
-
-FILES:c8y-configuration-plugin = "${bindir}/c8y_configuration_plugin"
-FILES:c8y-log-plugin           = "${bindir}/c8y_log_plugin"
-FILES:tedge                    = "${bindir}/tedge"
-FILES:tedge-agent              = "${bindir}/tedge_agent"
-FILES:tedge-apama-plugin       = "${bindir}/tedge_apama_plugin"
-FILES:tedge-apt-plugin         = "${bindir}/tedge_apt_plugin"
-FILES:tedge-dummy-plugin       = "${bindir}/tedge_dummy_plugin"
-FILES:tedge-mapper             = "${bindir}/tedge_mapper"
-FILES:tedge-watchdog           = "${bindir}/tedge_watchdog"
-
-include c8y_configuration_plugin.inc
-include c8y_log_plugin.inc
-include tedge_agent.inc
-include tedge_apama_plugin.inc
-include tedge_apt_plugin.inc
+# includes this file if it exists but does not fail
+# this is useful for anything you may want to override from
+# what cargo-bitbake generates.
+include tedge_dummy_plugin-${PV}.inc
 include tedge_dummy_plugin.inc
-include tedge.inc
-include tedge_mapper.inc
-include tedge_watchdog.inc
