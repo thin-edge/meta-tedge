@@ -1,0 +1,14 @@
+[Unit]
+Description=Run pending thin-edge postinsts
+BindsTo=run-postinsts.service
+After=run-postinsts.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh /usr/sbin/run-tedge-postinsts
+ExecStartPost=/bin/systemctl --no-reload disable run-tedge-postinsts.service
+RemainAfterExit=yes
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target
