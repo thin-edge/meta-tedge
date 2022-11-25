@@ -13,3 +13,9 @@ IMAGE_INSTALL:append = " \
         tedge-dummy-plugin \
         tedge-watchdog \
 "
+
+# Additional features for developers
+
+IMAGE_INSTALL:append = " \
+        mosquitto-clients \
+"

@@ -1,0 +1,18 @@
+pi_dir="/etc/tedge-postinsts"
+
+exec_postinst_scriptlets() {
+	for i in `ls $pi_dir`; do
+		i=$pi_dir/$i
+		echo "Running tedge postinst $i..."
+		if [ -x $i ]; then
+			(sh -c $i)
+		else
+			echo "ERROR: postinst $i failed."
+		fi
+	done
+}
+
+if [ -d $pi_dir ] ; then
+    exec_postinst_scriptlets
+    rm -r $pi_dir
+fi
