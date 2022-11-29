@@ -11,3 +11,9 @@ IMAGE_INSTALL:append = " \
         tedge-dummy-plugin \
         tedge-watchdog \
 "
+
+# Additional packages
+
+IMAGE_INSTALL:append = " \
+        mosquitto-clients \
+"
