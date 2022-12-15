@@ -1,6 +1,7 @@
 require recipes-core/images/core-image-minimal.bb
 
 IMAGE_INSTALL:append = " \
+    thin-edge \
     tedge \
     tedge-mapper \
     tedge-agent \
@@ -10,4 +11,5 @@ IMAGE_INSTALL:append = " \
     tedge-apt-plugin \
     tedge-dummy-plugin \
     tedge-watchdog \
+    mosquitto-clients \
 "

@@ -1,9 +1,7 @@
-inherit systemd
-
-RDEPENDS:${PN} = "mosquitto ca-certificates glibc-utils sudo"
+RDEPENDS:tedge = "mosquitto ca-certificates glibc-utils sudo"
 
 SRC_URI += " \
-    file://run-tedge-postinsts.service \ 
+    file://run-tedge-postinsts.service \
     file://run-tedge-postinsts \
 "
 
@@ -13,7 +11,7 @@ do_install:append () {
 
     install -d "${D}${systemd_system_unitdir}"
     install -m 0644 "${WORKDIR}/run-tedge-postinsts.service" "${D}${systemd_system_unitdir}/"
-    
+
     install -d "${D}${sysconfdir}/tedge-postinsts"
     install -m 0755 "${S}/configuration/debian/tedge/preinst" "${D}${sysconfdir}/tedge-postinsts/"
     install -m 0755 "${S}/configuration/debian/tedge/postinst" "${D}${sysconfdir}/tedge-postinsts/"
@@ -41,3 +39,4 @@ FILES:tedge += " \
 "
 
 SYSTEMD_SERVICE:tedge = "run-tedge-postinsts.service"
+SYSTEMD_PACKAGES += "tedge"

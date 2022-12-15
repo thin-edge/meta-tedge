@@ -1,5 +1,3 @@
-inherit systemd
-
 do_install:append () {
     install -d "${D}${sysconfdir}/tedge/contrib/collectd"
     install -m 0644 "${S}/configuration/contrib/collectd/collectd.conf" "${D}${sysconfdir}/tedge/contrib/collectd"
