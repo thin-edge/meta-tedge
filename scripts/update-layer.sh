@@ -21,11 +21,15 @@ for package in "$layer_dir"/recipes-tedge/*; do
     package=$(basename "$package" | sed 's/-/_/g')
 
     package_dir=$(find "$thin_edge_path" -path "**/$package/Cargo.toml")
+    if [ -z "$package_dir" ]; then
+        echo "warning: $package was not found in the thin-edge.io directory."
+        continue
+    fi
     package_dir=$(dirname "$package_dir")
 
     cd "$package_dir" || exit
 
-    cargo bitbake >/dev/null 2>&1
+    cargo bitbake
 
     mv ./*.bb "$layer_dir/recipes" >/dev/null 2>&1
 
