@@ -1,9 +1,3 @@
-inherit systemd
-
-SRC_URI += " \
-    file://0001-Cargo.toml-do-not-abort-on-panic.patch \
-"
-
 do_install:append () {
     install -d "${D}${sysconfdir}/tedge/contrib/collectd"
     install -m 0644 "${S}/configuration/contrib/collectd/collectd.conf" "${D}${sysconfdir}/tedge/contrib/collectd"
@@ -32,7 +26,7 @@ do_package:prepend () {
         d.appendVar("pkg_postrm:%s"%(package_name), postrm.read())
 }
 
-FILES:${PN} += " \
+FILES:tedge-mapper += " \
     ${systemd_system_unitdir}/tedge-mapper-collectd.service \
     ${systemd_system_unitdir}/tedge-mapper-az.service \
     ${systemd_system_unitdir}/tedge-mapper-c8y.service \

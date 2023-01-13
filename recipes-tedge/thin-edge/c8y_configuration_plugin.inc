@@ -1,9 +1,3 @@
-inherit systemd
-
-SRC_URI += " \
-    file://0001-Cargo.toml-do-not-abort-on-panic.patch \
-"
-
 do_install:append () {
     install -d "${D}${systemd_system_unitdir}"
     install -m 0644 "${S}/configuration/init/systemd/c8y-configuration-plugin.service" "${D}${systemd_system_unitdir}"
@@ -23,4 +17,4 @@ do_package:prepend () {
         d.appendVar("pkg_prerm:%s"%(package_name), prerm.read())
 }
 
-FILES:${PN} += "${systemd_system_unitdir}/c8y-configuration-plugin.service"
+FILES:c8y-configuration-plugin += "${systemd_system_unitdir}/c8y-configuration-plugin.service"

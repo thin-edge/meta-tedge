@@ -1,10 +1,7 @@
-inherit systemd
-
-RDEPENDS:${PN} = "mosquitto ca-certificates glibc-utils sudo"
+RDEPENDS:tedge = "mosquitto ca-certificates glibc-utils sudo"
 
 SRC_URI += " \
-    file://0001-Cargo.toml-do-not-abort-on-panic.patch \
-    file://run-tedge-postinsts.service \ 
+    file://run-tedge-postinsts.service \
     file://run-tedge-postinsts \
 "
 
@@ -14,7 +11,7 @@ do_install:append () {
 
     install -d "${D}${systemd_system_unitdir}"
     install -m 0644 "${WORKDIR}/run-tedge-postinsts.service" "${D}${systemd_system_unitdir}/"
-    
+
     install -d "${D}${sysconfdir}/tedge-postinsts"
     install -m 0755 "${S}/configuration/debian/tedge/preinst" "${D}${sysconfdir}/tedge-postinsts/"
     install -m 0755 "${S}/configuration/debian/tedge/postinst" "${D}${sysconfdir}/tedge-postinsts/"
@@ -32,13 +29,14 @@ do_package:prepend () {
         d.appendVar("pkg_postrm:%s"%(package_name), postrm.read())
 }
 
-pkg_postinst_ontarget:${PN} () {
+pkg_postinst_ontarget:tedge () {
     chmod -R 1777 /run/lock
 }
 
-FILES:${PN} += " \
+FILES:tedge += " \
     ${systemd_system_unitdir}/run-tedge-postinsts.service \
     ${sbindir}/run-tedge-postinsts \
 "
 
-SYSTEMD_SERVICE:${PN} = "run-tedge-postinsts.service"
+SYSTEMD_SERVICE:tedge = "run-tedge-postinsts.service"
+SYSTEMD_PACKAGES += "tedge"

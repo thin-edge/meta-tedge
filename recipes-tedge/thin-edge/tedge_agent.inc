@@ -1,9 +1,3 @@
-inherit systemd
-
-SRC_URI += " \
-    file://0001-Cargo.toml-do-not-abort-on-panic.patch \
-"
-
 do_install:append () {
     install -d "${D}${systemd_system_unitdir}"
     install -m 0644 "${S}/configuration/init/systemd/tedge-agent.service" "${D}${systemd_system_unitdir}"
@@ -27,4 +21,4 @@ do_package:prepend () {
         d.appendVar("pkg_postrm:%s"%(package_name), postrm.read())
 }
 
-FILES:${PN} += "${systemd_system_unitdir}/tedge-agent.service"
+FILES:tedge-agent += "${systemd_system_unitdir}/tedge-agent.service"
