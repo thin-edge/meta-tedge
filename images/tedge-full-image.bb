@@ -7,9 +7,7 @@ IMAGE_INSTALL:append = " \
     tedge-agent \
     c8y-configuration-plugin \
     c8y-log-plugin \
-    tedge-apama-plugin \
     tedge-apt-plugin \
     tedge-dummy-plugin \
     tedge-watchdog \
-    mosquitto-clients \
 "
