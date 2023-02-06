@@ -78,7 +78,7 @@ Connect the device
 
 Sending your first telemetry data
     # Set the URL of your Cumulocity IoT tenant
-    ${rc}=    Execute Command    tedge mqtt pub c8y/s/us 211,20    return_stdout=False    return_rc=True
+    ${rc}=    Execute Command    tedge mqtt pub tedge/measurements '{"temperature": 21}'    return_stdout=False    return_rc=True
     Should Be Equal    ${rc}    ${0}
 
 *** Keywords ***
