@@ -1,7 +1,7 @@
 [Unit]
-Description=Run pending thin-edge postinsts
-BindsTo=run-postinsts.service
-After=run-postinsts.service
+Description=Run pending thin-edge postinsts 
+After=run-postinsts.service 
+Requires=systemd-tmpfiles-setup.service
 
 [Service]
 Type=oneshot
