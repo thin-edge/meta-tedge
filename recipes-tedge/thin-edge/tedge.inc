@@ -29,9 +29,10 @@ do_package:prepend () {
         d.appendVar("pkg_postrm:%s"%(package_name), postrm.read())
 }
 
-pkg_postinst_ontarget:tedge () {
-    chmod -R 1777 /run/lock 
-    sed -i 's/d \/run\/lock 0755 root root -/d \/run\/lock 1777 root root -/' /usr/lib/tmpfiles.d/legacy.conf
+pkg_postinst:tedge () {
+    if ${@bb.utils.contains('DISTRO_CODENAME','honister','true','false',d)}; then
+        sed -i 's/d \/run\/lock 0755 root root -/d \/run\/lock 1777 root root -/' $D/usr/lib/tmpfiles.d/legacy.conf
+    fi
 }
 
 FILES:tedge += " \
