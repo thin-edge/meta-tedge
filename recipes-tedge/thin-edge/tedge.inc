@@ -30,7 +30,8 @@ do_package:prepend () {
 }
 
 pkg_postinst_ontarget:tedge () {
-    chmod -R 1777 /run/lock
+    chmod -R 1777 /run/lock 
+    sed -i 's/d \/run\/lock 0755 root root -/d \/run\/lock 1777 root root -/' /usr/lib/tmpfiles.d/legacy.conf
 }
 
 FILES:tedge += " \
