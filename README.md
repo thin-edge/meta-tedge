@@ -8,7 +8,7 @@ The `meta-tedge` supports Yocto version 3.4 **Honister** and 4.0 **Kirkstone**. 
 
 ## Layer Dependencies
 
-It depends on `meta-networking`, `meta-python` and `meta-oe` layers which are part of `meta-openembedded` layer. Since version 0.9.0 the layers requires `meta-rust` to meet the requirements of the rust version in thin-edge. Before 0.9.0, the 'meta-rust' layer must be attached only to Honister distro.
+It depends on `meta-networking`, `meta-python` and `meta-oe` layers which are part of `meta-openembedded` layer. Since version 0.9.0 the layers requires `meta-rust` to meet the requirements of the rust version in thin-edge. Before 0.9.0, the `meta-rust` layer must be attached only to Honister distro.
 
 **Note:** Remember to fetch proper branch of `meta-openembedded` layer according to the Yocto version used by the
 project.
