@@ -4,13 +4,11 @@ This is Openembedded layer of [thin-edge.io](https://github.com/thin-edge/thin-e
 
 ## Yocto releases support
 
-The `meta-tedge` supports Yocto version 3.4 **Honister** and 4.0 **Kirkstone**. They operate under the same branch.
+The `meta-tedge` supports Yocto version 3.4 **Honister** and 4.0 **Kirkstone**. They operate under the same branch. 
 
 ## Layer Dependencies
 
-It depends on `meta-networking`, `meta-python` and `meta-oe` layers which are part of `meta-openembedded` layer. If on
-3.4 honister, `meta-rust` layer should be used, because Rust included with honister by default is too old (1.54, whereas
-thin-edge.io requires at least 1.58.1).
+It depends on `meta-networking`, `meta-python` and `meta-oe` layers which are part of `meta-openembedded` layer. Since version 0.9.0 the layers requires `meta-rust` to meet the requirements of the rust version in thin-edge. Before 0.9.0, the 'meta-rust' layer must be attached only to Honister distro.
 
 **Note:** Remember to fetch proper branch of `meta-openembedded` layer according to the Yocto version used by the
 project.
@@ -50,6 +48,8 @@ Alternatively, add all recipes from `recipes-tedge` to your image and run the bu
 `core-image-minimal` to operate correctly.
 
 ## Update Script
+
+> Note: Update script works only for version 0.8.1 and below.
 
 The `meta-tedge` layer is equipped with `update-layer.sh` script that is used to update the layer's version.
 Additionaly, it can be used by users to set desired version that is not available in current releases. The script is
