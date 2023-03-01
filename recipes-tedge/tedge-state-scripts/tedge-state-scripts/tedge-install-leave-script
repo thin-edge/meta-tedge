@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if [ -n  "$(ls -A /etc/tedge/)" ]; then
+    mkdir -p /data/etc_tedge && cp -fr /etc/tedge/* /data/etc_tedge
+fi
+
+if [ -n  "$(ls -A /var/tedge/)" ]; then
+    mkdir -p /data/var_tedge && cp -fr /var/tedge/* /data/var_tedge
+fi
+
+shutdown --reboot now 
