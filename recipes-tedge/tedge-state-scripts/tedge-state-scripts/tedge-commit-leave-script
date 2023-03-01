@@ -7,6 +7,3 @@ fi
 if [ -d /data/var_tedge ]; then
     cp -fr /data/var_tedge/* /var/tedge && rm -fr /data/var_tedge
 fi
-
-
-
