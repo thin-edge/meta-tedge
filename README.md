@@ -45,7 +45,29 @@ bitbake tedge-full-image
 ```
 
 Alternatively, add all recipes from `recipes-tedge` to your image and run the build. The `meta-tedge` requires at least
-`core-image-minimal` to operate correctly.
+`core-image-minimal` to operate correctly. 
+
+## Update tedge using mender client
+
+You can update `thin-edge` using mender client that is delivered to Yocto with [meta-mender](https://github.com/mendersoftware/meta-mender). 
+Download and configure mender using their [guide](https://docs.mender.io/operating-system-updates-yocto-project/build-for-demo). You can find information about supported devices in [meta-mender-raspberrypi](https://github.com/mendersoftware/meta-mender/tree/master/meta-mender-raspberrypi) and [meta-mender-community](https://github.com/mendersoftware/meta-mender-community)
+
+Turn off mender client deamon by adding following line to `conf/local.conf` if you are going to use standalone mode:
+
+```
+SYSTEMD_AUTO_ENABLE:pn-mender-client = "disable"
+```
+
+Add `tedge-state-scripts` to your `conf/local.conf` with following line:
+
+```
+IMAGE_INSTALL:append = " tedge-state-scripts" 
+```
+
+or by building image:
+```bash
+bitbake core-image-tedge-mender
+```
 
 ## Update Script
 
