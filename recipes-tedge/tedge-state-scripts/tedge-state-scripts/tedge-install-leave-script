@@ -7,5 +7,3 @@ fi
 if [ -n  "$(ls -A /var/tedge/)" ]; then
     mkdir -p /data/var_tedge && cp -fr /var/tedge/* /data/var_tedge
 fi
-
-shutdown --reboot now 
