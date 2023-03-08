@@ -20,23 +20,23 @@ LICENSE = "Apache-2.0"
 
 PACKAGES =+ "c8y-configuration-plugin c8y-log-plugin tedge tedge-agent tedge-apt-plugin tedge-dummy-plugin tedge-mapper tedge-watchdog"
 
-FILES:c8y-configuration-plugin = "${bindir}/c8y_configuration_plugin"
-FILES:c8y-log-plugin           = "${bindir}/c8y_log_plugin"
+FILES:c8y-configuration-plugin = "${bindir}/c8y-9configuration-plugin"
+FILES:c8y-log-plugin           = "${bindir}/c8y-log-plugin"
 FILES:tedge                    = "${bindir}/tedge"
-FILES:tedge-agent              = "${bindir}/tedge_agent"
+FILES:tedge-agent              = "${bindir}/tedge-agent"
 FILES:tedge-apt-plugin         = "${sysconfdir}/tedge/sm-plugins/apt"
 FILES:tedge-dummy-plugin       = "${sysconfdir}/tedge/sm-plugins/dummy"
-FILES:tedge-mapper             = "${bindir}/tedge_mapper"
-FILES:tedge-watchdog           = "${bindir}/tedge_watchdog"
+FILES:tedge-mapper             = "${bindir}/tedge-mapper"
+FILES:tedge-watchdog           = "${bindir}/tedge-watchdog"
 
-include c8y_configuration_plugin.inc
-include c8y_log_plugin.inc
-include tedge_agent.inc
-include tedge_apt_plugin.inc
-include tedge_dummy_plugin.inc
-include tedge.inc
-include tedge_mapper.inc
-include tedge_watchdog.inc
+require modules/c8y-configuration-plugin.inc
+require modules/c8y-log-plugin.inc
+require modules/tedge-agent.inc
+require modules/tedge-apt-plugin.inc
+require modules/tedge-dummy-plugin.inc
+require modules/tedge.inc
+require modules/tedge-mapper.inc
+require modules/tedge-watchdog.inc
 
 # This prevents disabling crates.io registry in cargo_do_configure task and
 # allows cargo to fetch dependencies during the do_compile step.
