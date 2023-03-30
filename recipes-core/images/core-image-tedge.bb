@@ -6,8 +6,9 @@ IMAGE_INSTALL:append = " \
     tedge-mapper \
     tedge-agent \
     c8y-configuration-plugin \
+    c8y-firmware-plugin \
     c8y-log-plugin \
+    c8y-remote-access-plugin \
     tedge-apt-plugin \
-    tedge-dummy-plugin \
     tedge-watchdog \
 "
