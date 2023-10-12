@@ -1,5 +1,3 @@
-inherit mender-state-scripts
-
 LICENSE = "CLOSED"
 
 SRC_URI += " \
