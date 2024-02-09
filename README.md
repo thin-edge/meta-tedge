@@ -2,6 +2,15 @@
 
 This is Openembedded layer of [thin-edge.io](https://github.com/thin-edge/thin-edge.io).
 
+## What is and isn't supported?
+
+- which init managers
+- what package format (deb, rpm, apk)
+- versions of thin-edge
+- versions of Yocto
+- what rust versions are required
+- which versions of optional components
+
 ## Yocto releases support
 
 The `meta-tedge` supports Yocto version 3.4 **Honister** and 4.0 **Kirkstone**. They operate under the same branch. 

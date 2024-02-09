@@ -1,0 +1,12 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index 4ced29ce06..e6fccb6e7e 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -189,7 +189,6 @@ codegen-units = 1
+ lto = true
+ opt-level = "z"
+ panic = "unwind"
+-strip = "symbols"
+ overflow-checks = true
+ 
+ [workspace.lints.clippy]
