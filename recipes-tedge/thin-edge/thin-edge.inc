@@ -28,3 +28,23 @@ LICENSE = "Apache-2.0"
 # going for this approach.
 do_compile[network] = "1"
 CARGO_DISABLE_BITBAKE_VENDORING = "1"
+
+# Install package scripts based on a type of package for all packages assigned to `PACKAGES` variable.
+# Because not every tool (e.g. getent) is available during do_rootfs step, all preinst scripts are delayed to first boot.
+# Same goes with postinst scripts as they require to be run after initial boot. 
+# Use debian script for ipk packages as we currently don't support ipk scripts
+python do_package:prepend () {
+    for pkg in d.getVar('PACKAGES').split():
+        pkg_type = d.getVar('PACKAGE_CLASSES').split()[0].replace("package_ipk", "deb") if "ipk" in d.getVar('PACKAGE_CLASSES') else d.getVar('PACKAGE_CLASSES').split()[0].replace("package_", "") 
+        scripts_dir = "%s/git/configuration/package_scripts/_generated/%s/%s" %(d.getVar('WORKDIR'), pkg, pkg_type)
+        
+        if os.path.exists(scripts_dir):
+            for script_name in os.listdir(scripts_dir):
+                with open(os.path.join(scripts_dir, script_name), 'r') as script_file:
+                    if script_name == "preinst":
+                        d.prependVar('pkg_postinst_ontarget:%s' % pkg, script_file.read())
+                    if script_name == "postinst":
+                        d.appendVar('pkg_postinst_ontarget:%s' % pkg, script_file.read())
+                    else:
+                        d.appendVar('pkg_%s:%s' % (script_name, pkg), script_file.read())
+}   
