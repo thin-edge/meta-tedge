@@ -1,0 +1,24 @@
+#!/bin/sh
+set -e
+echo "state-script version: 1" >&2
+#
+# Settings (used both in backup and restore)
+#
+
+EXIT_OK=0
+
+#
+# reconnect mappers (to enforce regeneration of bridge files (to add/remove values as required))
+#
+MAPPERS="c8y az aws"
+for name in $MAPPERS; do
+    if [ -n "$(tedge config get "${name}.url" 2>/dev/null)" ]; then
+        # Try reconnecting, but ignore any failures as it could be due to connectivity problems, and these are detected downstream
+        # using a proper retry mechanism
+        tedge reconnect "${name}" >&2 || true
+    else
+        echo "Skipping mapper as it is not configured. ${name}" >&2
+    fi
+done
+
+exit "$EXIT_OK"

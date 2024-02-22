@@ -1,0 +1,12 @@
+[Unit]
+Description=Set hostname on startup
+Wants=network-pre.target
+Before=network-pre.target
+ConditionPathExists=!/etc/tedge/.bootstrapped
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/tedge-bootstrap
+
+[Install]
+WantedBy=multi-user.target

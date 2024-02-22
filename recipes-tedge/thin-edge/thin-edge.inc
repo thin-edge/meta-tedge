@@ -37,8 +37,8 @@ do_install:append () {
     install -m 0644 ${S}/configuration/contrib/collectd/collectd.conf ${D}${sysconfdir}/tedge/contrib/collectd
 
     # Create symlink for tedge-apt-plugin in `/etc/tedge/sm-plugins`
-    install -d ${D}${sysconfdir}/tedge/sm-plugin
-    ln -s -r  ${D}${bindir}/tedge-apt-plugin ${D}${sysconfdir}/tedge/sm-plugin/apt
+    install -d ${D}${sysconfdir}/tedge/sm-plugins
+    ln -s -r  ${D}${bindir}/tedge-apt-plugin ${D}${sysconfdir}/tedge/sm-plugins/apt
 
     # Remove packages indicated in `TEDGE_EXCLUDE` (NOTE: they cannot be part of tedge-binary)
     for package in ${@d.getVar('TEDGE_EXCLUDE')}; do 
@@ -74,7 +74,7 @@ python do_package:prepend () {
 FILES:${PN} = "\ 
     ${bindir}/* \ 
     ${sysconfdir}/tedge/contrib/collectd \
-    ${sysconfdir}/tedge/sm-plugin/apt \
+    ${sysconfdir}/tedge/sm-plugins/apt \
 "
 
 require init-manager.inc

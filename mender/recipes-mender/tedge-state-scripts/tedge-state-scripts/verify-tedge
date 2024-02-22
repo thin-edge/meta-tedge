@@ -1,0 +1,58 @@
+#!/bin/sh
+set -e
+echo "state-script version: 1" >&2
+
+OK=0
+RETRY_LATER=21
+
+MAPPERS="c8y az aws"
+
+is_mapper_connected() {
+    CLOUD_MAPPER="$1"
+
+    if [ -n "$(tedge config get "$CLOUD_MAPPER.url" 2>/dev/null)" ]; then
+        tedge connect "$CLOUD_MAPPER" --test >&2
+    else
+        # If the configuration is not configured, then treat the device as healthy
+        echo "Mapper is not configured: $CLOUD_MAPPER" >&2
+        return 0
+    fi
+}
+
+all_healthy() {
+    # Check all mappers before returning, and fail if
+    # any of the configured mappers are not healthy
+    failed=0
+    for name in $MAPPERS; do
+        if ! is_mapper_connected "$name"; then
+            failed=1
+        fi
+    done
+
+    return "$failed"
+}
+
+# Try fixing any possible mosquitto permissions first
+# In case if the pervious image uses different uid/gid for the mosquitto user
+chown mosquitto:mosquitto /etc/tedge/device-certs/* ||:
+
+if ! all_healthy; then
+    exit "$RETRY_LATER"
+fi
+
+# FIXME: Trigger services to refresh their status to ensure the cloud will receive
+# the updated status.
+# Remove once https://github.com/thin-edge/thin-edge.io/issues/2498 is resolved
+TOPIC_ROOT=$(tedge config get mqtt.topic_root)
+TOPIC_ID=$(tedge config get mqtt.device_topic_id)
+tedge mqtt pub -q 1 -r "$TOPIC_ROOT/$TOPIC_ID/cmd/health/check" '{}'
+
+# FIXME: Trigger tedge-inventory scripts as the status updates
+# are lost when the mosquitto bridge is down
+# Don't fail if the service does not exist, as this is not critical!
+if command -V systemctl >/dev/null 2>&1; then
+    echo "Triggering tedge-inventory scripts" >&2
+    systemctl start tedge-inventory ||:
+fi
+
+exit "$OK"
