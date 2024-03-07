@@ -71,6 +71,39 @@ python do_package:prepend () {
                     d.appendVar('pkg_%s:%s' % (script_name, d.getVar('PN')), script_file.read())
 }   
 
+pkg_postinst_ontarget:${PN}:append () {
+   # FIXME: Add to recipe at build time rather than on first run
+    if [ -d /etc/sudoers.d/ ]; then
+        echo "tedge  ALL = (ALL) NOPASSWD: /usr/bin/mender, /usr/bin/tedgectl" > /etc/sudoers.d/tedge-firmware
+    fi
+
+    # Ensure persistence of operation state across partition swaps by storing
+    # information on a persisted mount
+    mkdir -p /data/tedge/agent
+    chown -R tedge:tedge /data/tedge/agent
+
+    # FIXME: Check if there is a better place to do this
+    if [ -d /var/lib/mosquitto ]; then
+        chown -R mosquitto:mosquitto /var/lib/mosquitto
+    fi
+
+    # FIXME: Currently some workflow state is reliant on the mosquitto db
+    # and there might be a race condition on startup after a partition swap
+    # where the existing mosquitto state is sometimes processed before the state
+    # stored under the /data/tedge/agent folder
+    # https://github.com/thin-edge/thin-edge.io/issues/2495
+    mkdir -p /data/mosquitto
+    chown mosquitto:mosquitto /data/mosquitto
+
+    # Change log dir
+    mkdir -p "/data/tedge/log"
+    chown -R tedge:tedge "/data/tedge/log"
+    tedge config set logs.path "/data/tedge/log"
+
+    # Enable firmware management
+    tedge config set c8y.enable.firmware_update true
+}
+
 FILES:${PN} = "\ 
     ${bindir}/* \ 
     ${sysconfdir}/tedge/contrib/collectd \
