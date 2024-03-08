@@ -45,34 +45,94 @@ do_install:append () {
         rm -f ${D}${bindir}/${package}
     done
 }
+ 
+pkg_postinst_ontarget:${PN} () {
+    command_exists() {
+	    command -v "$@" > /dev/null 2>&1
+    }
 
-# Add all package scrpits located in thin-edge repo.
-# Skip package if assigned to `TEDGE_EXCLUDE` variable.
-# Because not every tool (e.g. getent) is available during do_rootfs step, all preinst scripts are delayed to first boot.
-# Same goes with postinst scripts as they need to be executed after initial boot. 
-# Use debian script for ipk packages as we currently don't support ipk scripts.
-python do_package:prepend () {
-    package_type = d.getVar('PACKAGE_CLASSES').split()[0].replace("package_ipk", "deb") if "ipk" in d.getVar('PACKAGE_CLASSES') else d.getVar('PACKAGE_CLASSES').split()[0].replace("package_", "") 
-    package_dir = "%s/git/configuration/package_scripts/_generated" %(d.getVar('WORKDIR'))
-        
-    for package in os.listdir(package_dir):
-        if package in d.getVar('TEDGE_EXCLUDE').split():
-            continue
-        
-        scripts_dir = os.path.join(package_dir, package, package_type)
+    group_exists() {
+        name="$1"
+        if command_exists getent; then
+            getent group "$name" >/dev/null
+        else
+            # Fallback to plain grep, as busybox does not have getent
+            grep -q "^${name}:" /etc/group
+        fi
+    }
 
-        for script_name in os.listdir(scripts_dir):
-            with open(os.path.join(scripts_dir, script_name), 'r') as script_file:
-                if script_name == "preinst":
-                    d.prependVar('pkg_postinst_ontarget:%s' % d.getVar('PN'), script_file.read())
-                elif script_name == "postinst":
-                    d.appendVar('pkg_postinst_ontarget:%s' % d.getVar('PN'), script_file.read())
-                else:
-                    d.appendVar('pkg_%s:%s' % (script_name, d.getVar('PN')), script_file.read())
-}   
+    user_exists() {
+        name="$1"
+        if command_exists getent; then
+            getent passwd "$name" >/dev/null
+        else
+            # Fallback to plain grep, as busybox does not have getent
+            grep -q "^${name}:" /etc/passwd
+        fi
+    }
 
-pkg_postinst_ontarget:${PN}:append () {
-   # FIXME: Add to recipe at build time rather than on first run
+    ### Create groups
+    if ! group_exists tedge; then
+        if command_exists groupadd; then
+            groupadd --system tedge
+        elif command_exists addgroup; then
+            addgroup -S tedge
+        else
+            echo "WARNING: Could not create group: tedge" >&2
+        fi
+    fi
+
+    ### Create users
+    # Create user tedge with no home(--no-create-home), no login(--shell) and in group tedge(--gid)
+    if ! user_exists tedge; then
+        if command_exists useradd; then
+            useradd --system --no-create-home --shell /sbin/nologin --gid tedge tedge
+        elif command_exists adduser; then
+            adduser -g "" -H -D tedge -G tedge
+        else
+            echo "WARNING: Could not create user: tedge" >&2
+        fi
+    fi
+
+    ### Create file in /etc/sudoers.d directory. With this configuration, the tedge user have the right to call the tedge command with sudo rights, which is required for system-wide configuration in "/etc/tedge"
+    if [ -d /etc/sudoers.d ]; then
+        echo "tedge  ALL = (ALL) NOPASSWD: /usr/bin/tedge, /etc/tedge/sm-plugins/[a-zA-Z0-9]*, /bin/sync, /sbin/init" >/etc/sudoers.d/tedge
+
+        if [ -f "/etc/sudoers.d/010_pi-nopasswd" ]; then
+            echo "tedge   ALL = (ALL) NOPASSWD: /usr/bin/tedge, /etc/tedge/sm-plugins/[a-zA-Z0-9]*, /bin/sync, /sbin/init" >/etc/sudoers.d/tedge-nopasswd
+        fi
+    fi
+
+    ### Add include to mosquitto.conf so tedge specific conf will be loaded
+    if [ -f /etc/mosquitto/mosquitto.conf ]; then
+        if ! grep -q "include_dir /etc/tedge/mosquitto-conf" "/etc/mosquitto/mosquitto.conf"; then
+            # Insert `include_dir /etc/tedge/mosquitto-conf` before any `include_dir`
+            # directive so that all other partial conf files inherit the
+            # `per_listener_settings` defined in /etc/tedge/mosquitto-conf.
+            # `per_listener_settings` has to be defined once, before other listener
+            # settings or else it causes the following error:
+            #
+            # Error: per_listener_settings must be set before any other security
+            # settings.
+            # Match any included_dir directive as different distributions have different default settings:
+            #  On Fedora: `#include_dir`. mosquitto does not use a /etc/mosquitto/conf.d folder
+            #  On Debian: `include_dir /etc/mosquitto/conf.d`. Uses a conf.d folder, so the tedge setting must be before this
+
+            # Check if `include_dir` or `#include_dir` (as the latter could be a future problem if the user uncomments it)
+            if grep -qE '^#?include_dir' /etc/mosquitto/mosquitto.conf; then
+                # insert tedge include_dir before the first `included_dir` (but only the first!)
+                mosquitto_conf=$(awk '!found && /^#?include_dir/ \
+                { print "include_dir /etc/tedge/mosquitto-conf"; found=1 }1' \
+                /etc/mosquitto/mosquitto.conf)
+                echo "$mosquitto_conf" > /etc/mosquitto/mosquitto.conf
+            else
+                # config does not contain any include_dir directive, so we can safely append it
+                echo "include_dir /etc/tedge/mosquitto-conf" >> /etc/mosquitto/mosquitto.conf
+            fi
+        fi
+    fi
+
+    # FIXME: Add to recipe at build time rather than on first run
     if [ -d /etc/sudoers.d/ ]; then
         echo "tedge  ALL = (ALL) NOPASSWD: /usr/bin/mender, /usr/bin/tedgectl" > /etc/sudoers.d/tedge-firmware
     fi
@@ -102,6 +162,13 @@ pkg_postinst_ontarget:${PN}:append () {
 
     # Enable firmware management
     tedge config set c8y.enable.firmware_update true
+
+    # Initialize the tedge
+    tedge init 
+
+    if command_exists c8y-remote-access-plugin; then
+        c8y-remote-access-plugin --init
+    fi
 }
 
 FILES:${PN} = "\ 
