@@ -3,7 +3,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7ca
 
 RDEPENDS:${PN} += " avahi-daemon"
 
-inherit systemd features_check
+inherit systemd allarch features_check
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
