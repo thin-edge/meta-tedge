@@ -29,6 +29,8 @@ project.
 > as the installation process will now skip all information that were mentioned there! For workspace organization or
 > raspberry pi distribution, we also recommend this [guide](https://github.com/jynik/ready-set-yocto)
 
+**Note** Currently [git-lfs](https://github.com/git-lfs/git-lfs) is required to build the layer, however this dependency will be removed in the near future. Until then, please install git-lfs following the [official git-lfs instructions for linux](https://github.com/git-lfs/git-lfs/blob/main/INSTALLING.md).
+
 Clone current version of `meta-tedge` using:
 
 ```bash
