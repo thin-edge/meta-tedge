@@ -1,0 +1,101 @@
+#!/bin/sh
+set -eu
+
+IDENTITY_PREFIX=
+
+get_mac_address() {
+    SCN=/sys/class/net
+    min=65535
+    arphrd_ether=1
+    ifdev=
+
+    # find iface with lowest ifindex, skip non ARPHRD_ETHER types (lo, sit ...)
+    for dev in "$SCN"/*; do
+        if [ ! -f "$dev/type" ]; then
+            continue
+        fi
+
+        iftype=$(cat "$dev/type")
+        if [ "$iftype" -ne $arphrd_ether ]; then
+            continue
+        fi
+
+        # Skip dummy interfaces
+        if echo "$dev" | grep -q "$SCN/dummy" 2>/dev/null; then
+            continue
+        fi
+
+        idx=$(cat "$dev/ifindex")
+        if [ "$idx" -lt "$min" ]; then
+            min=$idx
+            ifdev=$dev
+        fi
+    done
+
+    if [ -z "$ifdev" ]; then
+        echo "no suitable interfaces found" >&2
+        exit 1
+    else
+        echo "using interface $ifdev" >&2
+        # grab MAC address
+        cat "$ifdev/address"
+    fi
+}
+
+get_model_type() {
+    MODEL=$(grep Model /proc/cpuinfo | cut -d: -f2 | xargs)
+    SERIAL_NO=$(grep Serial /proc/cpuinfo | cut -d: -f2 | xargs)
+
+    echo "Detected model: $MODEL" >&2
+    echo "Detected serial no.: $SERIAL_NO" >&2
+
+    MODEL_PREFIX=
+
+    case "$MODEL" in
+        Raspberry\ Pi\ 5*)
+            MODEL_PREFIX=rpi5
+            ;;
+        Raspberry\ Pi\ 4*)
+            MODEL_PREFIX=rpi4
+            ;;
+        Raspberry\ Pi\ 3*)
+            MODEL_PREFIX=rpi3
+            ;;
+        Raspberry\ Pi\ 2*)
+            MODEL_PREFIX=rpi2
+            ;;
+        Raspberry\ Pi\ Model*)
+            MODEL_PREFIX=rpi1
+            ;;
+        Raspberry\ Pi\ Zero\ 2\ W\ Rev*)
+            MODEL_PREFIX=rpizero2
+            ;;
+        Raspberry\ Pi\ Zero\ W\ Rev*)
+            MODEL_PREFIX=rpizero
+            ;;
+        Raspberry\ Pi\ Compute\ Module\ 3*)
+            MODEL_PREFIX=rpicm3
+            ;;
+        Raspberry\ Pi\ Compute\ Module\ 4*)
+            MODEL_PREFIX=rpicm4
+            ;;
+        *)
+            MODEL_PREFIX=unknown
+            ;;
+    esac
+    echo  "$MODEL_PREFIX"
+}
+
+MAC_ADDR=$(get_mac_address)
+MODEL=$(get_model_type)
+
+IDENTITY=
+
+if [ -n "$IDENTITY_PREFIX" ]; then
+    echo "Using identity prefix: $IDENTITY_PREFIX" >&2
+    IDENTITY=$(echo "${IDENTITY_PREFIX}-${MODEL}-${MAC_ADDR}" | tr -d ":")
+else
+    IDENTITY=$(echo "${MODEL}-${MAC_ADDR}" | tr -d ":")
+fi
+
+echo "$IDENTITY"

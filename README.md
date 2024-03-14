@@ -2,6 +2,15 @@
 
 This is Openembedded layer of [thin-edge.io](https://github.com/thin-edge/thin-edge.io).
 
+## What is and isn't supported?
+
+- which init managers
+- what package format (deb, rpm, apk)
+- versions of thin-edge
+- versions of Yocto
+- what rust versions are required
+- which versions of optional components
+
 ## Yocto releases support
 
 The `meta-tedge` supports Yocto version 3.4 **Honister** and 4.0 **Kirkstone**. They operate under the same branch. 
@@ -19,6 +28,8 @@ project.
 > recommend to look into [official yocto documentation](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html)
 > as the installation process will now skip all information that were mentioned there! For workspace organization or
 > raspberry pi distribution, we also recommend this [guide](https://github.com/jynik/ready-set-yocto)
+
+**Note** Currently [git-lfs](https://github.com/git-lfs/git-lfs) is required to build the layer, however this dependency will be removed in the near future. Until then, please install git-lfs following the [official git-lfs instructions for linux](https://github.com/git-lfs/git-lfs/blob/main/INSTALLING.md).
 
 Clone current version of `meta-tedge` using:
 

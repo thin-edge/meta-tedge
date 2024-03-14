@@ -1,0 +1,28 @@
+#!/bin/sh
+##################################################
+# Parse mender artifact to name and version
+#
+# Example file contents:
+# ```
+# core-image-tedge-mender-raspberrypi4-64_20231203.1232
+# ```
+##################################################
+set -e
+
+CURRENT_ARTIFACT=$(sudo mender show-artifact 2>/dev/null ||:)
+
+if [ -z "$CURRENT_ARTIFACT" ]; then
+    echo "mender show-artifact did not return a value" >&2
+    exit 0
+fi
+
+NAME=$(echo "$CURRENT_ARTIFACT" | rev | cut -d_ -f2- | rev)
+VERSION=$(echo "$CURRENT_ARTIFACT" | rev | cut -d_ -f1 | rev)
+
+echo "name=\"$NAME\""
+echo "version=\"$VERSION\""
+
+# FIXME: Workaround since thin-edge.io does deduplication detection.
+# However this is only needed because the firmware/name is cleared on tedge-agent startup.
+# Remove once https://github.com/thin-edge/thin-edge.io/issues/2497 is resolved
+echo "updated=\"$(date)\""

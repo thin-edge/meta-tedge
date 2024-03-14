@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-if [ -d /data/etc_tedge ]; then
-    cp -fr /data/etc_tedge/* /etc/tedge && rm -fr /data/etc_tedge  
-fi
-
-if [ -d /data/var_tedge ]; then
-    cp -fr /data/var_tedge/* /var/tedge && rm -fr /data/var_tedge
-fi

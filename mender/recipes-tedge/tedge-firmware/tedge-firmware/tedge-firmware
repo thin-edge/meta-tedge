@@ -1,0 +1,1 @@
+tedge  ALL = (ALL) NOPASSWD: /usr/bin/mender, /etc/tedge/operations/mender_workflow.sh, /usr/bin/tedgectl

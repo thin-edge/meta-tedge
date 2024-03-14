@@ -1,0 +1,58 @@
+#:schema https://gist.githubusercontent.com/reubenmiller/4e28e8403fe0c54b7461ac7d1d6838c2/raw/b8599ccf81120bb22bdaa164655e2cc0b8fcb902/tedge.workflow.json
+operation = "firmware_update"
+on_error = "failed"
+
+[init]
+action = "proceed"
+on_success = "scheduled"
+
+[scheduled]
+action = "proceed"
+on_success = "executing"
+
+[executing]
+script = "/usr/bin/mender_workflow.sh ${.payload.status}"
+on_success = "download"
+
+[download]
+script = "/usr/bin/mender_workflow.sh ${.payload.status} --url ${.payload.remoteUrl}"
+on_success = "install"
+
+[install]
+script = "/usr/bin/mender_workflow.sh ${.payload.status} --url ${.payload.url}"
+on_exit.0 = { status = "commit" }
+on_exit.4 = { status = "restart", reason = "Install was successful, rebooting device into spare partition" }
+on_exit._ = { status = "failed", reason = "Verification failed, no rollback necessary" }
+
+[restart]
+action = "restart"
+on_exec = "restarting"  # Internal state used by the "restart" action
+on_success = "restarted"
+on_error = { status = "failed", reason = "Failed to restart device" }
+
+[restarted]
+script = "/usr/bin/mender_workflow.sh ${.payload.status}"
+on_success = "commit"
+# Always go to the commit state as the commit will do the verification...otherwise the rollback could be skipped
+on_error = "commit" 
+
+[commit]
+script = "/usr/bin/mender_workflow.sh ${.payload.status} --firmware-name ${.payload.name} --firmware-version ${.payload.version} --url ${.payload.remoteUrl}"
+on_exit.0 = { status = "successful" }
+on_exit.2 = { status = "failed", reason = "Nothing to commit. Either the boot loader triggered the rollback, the device was rebooted after switching to new partition, or someone did a manual commit or rollback!"}
+on_exit._ = { status = "rollback_restart", reason = "Mender commit failed. Rolling back to previous partition" }
+
+[rollback_restart]
+action = "restart"
+on_exec = "restarting"  # Internal state used by the "restart" action
+on_success = "rollback_successful"
+
+[rollback_successful]
+script = "/usr/bin/mender_workflow.sh ${.payload.status}"
+on_success = {status = "failed", reason = "Update failed but rollback was successful"}
+
+[successful]
+action = "cleanup"
+
+[failed]
+action = "cleanup"

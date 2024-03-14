@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+    <name replace-wildcards="yes">thin-edge.io (%h)</name>
+    <service>
+        <type>_thin-edge_mqtt._tcp</type>
+        <port>1883</port>
+        <txt-record>topics=te/</txt-record>
+    </service>
+    <service>
+        <type>_thin-edge_http._tcp</type>
+        <port>8000</port>
+    </service>
+    <service>
+        <type>_thin-edge_c8y._tcp</type>
+        <port>8001</port>
+        <txt-record>topics=/c8y</txt-record>
+    </service>
+</service-group>
