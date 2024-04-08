@@ -1,101 +1,31 @@
 # meta-tedge
 
-This is Openembedded layer of [thin-edge.io](https://github.com/thin-edge/thin-edge.io).
+This meta layer contains all the recipes needed to build [thin-edge.io](https://thin-edge.io) into [Yocto](https://www.yoctoproject.org) image.
 
-## What is and isn't supported?
+## How to start
 
-- which init managers
-- what package format (deb, rpm, apk)
-- versions of thin-edge
-- versions of Yocto
-- what rust versions are required
-- which versions of optional components
+For a quick guide on how to use `meta-tedge`, check our docs, where you can learn how to [build your first image](docs/build-yocto.md) or [integrate thin-edge with Mender](docs/install-mender.md). If you want to learn how to perform Over-the-Air (OTA) updates using Yocto, check [official thin-edge.io documentation](https://thin-edge.github.io/thin-edge.io/extend/firmware-management/building-image/yocto/).
 
-## Yocto releases support
+Also, you can check [meta-tedge-project](https://github.com/thin-edge/meta-tedge-project), based on [kas project](https://github.com/siemens/kas), to set up and build a Yocto image with thin-edge installed using only one command!
 
-The `meta-tedge` supports Yocto version 3.4 **Honister** and 4.0 **Kirkstone**. They operate under the same branch. 
+## Maintenance strategy
 
-## Layer Dependencies
+The repository follows the release-named branch strategy. Only LTS releases are supported by the thin-edge team. If you want to maintain other Yocto releases, feel free to create a ticket or read [contributing](#contributing) and prepare a pull request! 
 
-It depends on `meta-networking`, `meta-python` and `meta-oe` layers which are part of `meta-openembedded` layer. Since version 0.9.0 the layers requires `meta-rust` to meet the requirements of the rust version in thin-edge. Before 0.9.0, the `meta-rust` layer must be attached only to Honister distro.
+| Yocto Release | thin-edge version | Branch Name | Branch Status |
+| :- | :- | :- | :- |
+| Scarthgap | 1.0.1 | scarthgap | Active and maintained |
+| Kirkstone | 1.0.1 | kirkstone | Active and maintained |
 
-**Note:** Remember to fetch proper branch of `meta-openembedded` layer according to the Yocto version used by the
-project.
+## Dependencies
 
-## Installation
-
-> If you are not familiar with building Yocto distribution or you have not configured your build host yet, we strongly
-> recommend to look into [official yocto documentation](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html)
-> as the installation process will now skip all information that were mentioned there! For workspace organization or
-> raspberry pi distribution, we also recommend this [guide](https://github.com/jynik/ready-set-yocto)
+`Meta-tedge` depends on `meta-networking`, `meta-python` and `meta-oe` layers that are part of the `meta-openembedded` layer. Up to the Kirkstone release, the layer requires `meta-rust` to meet the requirements of the rust version in thin-edge.
 
 **Note** Currently [git-lfs](https://github.com/git-lfs/git-lfs) is required to build the layer, however this dependency will be removed in the near future. Until then, please install git-lfs following the [official git-lfs instructions for linux](https://github.com/git-lfs/git-lfs/blob/main/INSTALLING.md).
 
-Clone current version of `meta-tedge` using:
+## Contributing
 
-```bash
-git clone https://github.com/thin-edge/meta-tedge.git
-```
-
-Add `meta-tedge` layer to your current build using subcommand `add-layer`:
-
-```bash
-bitbake-layers add-layer /path/to/your/directory/meta-tedge
-```
-
-Activate systemd as default init manager by adding following lines to `conf/local.conf`:
-
-```
-INIT_MANAGER="systemd"
-```
-
-Build `tedge` by running following command:
-
-```bash
-bitbake tedge-full-image
-```
-
-Alternatively, add all recipes from `recipes-tedge` to your image and run the build. The `meta-tedge` requires at least
-`core-image-minimal` to operate correctly. 
-
-## Update tedge using mender client
-
-You can update `thin-edge` using mender client that is delivered to Yocto with [meta-mender](https://github.com/mendersoftware/meta-mender). 
-Download and configure mender using their [guide](https://docs.mender.io/operating-system-updates-yocto-project/build-for-demo). You can find information about supported devices in [meta-mender-raspberrypi](https://github.com/mendersoftware/meta-mender/tree/master/meta-mender-raspberrypi) and [meta-mender-community](https://github.com/mendersoftware/meta-mender-community)
-
-Turn off mender client deamon by adding following line to `conf/local.conf` if you are going to use standalone mode:
-
-```
-SYSTEMD_AUTO_ENABLE:pn-mender-client = "disable"
-```
-
-Add `tedge-state-scripts` to your `conf/local.conf` with following line:
-
-```
-IMAGE_INSTALL:append = " tedge-state-scripts" 
-```
-
-or by building image:
-```bash
-bitbake core-image-tedge-mender
-```
-
-## Update Script
-
-> Note: Update script works only for version 0.8.1 and below.
-
-The `meta-tedge` layer is equipped with `update-layer.sh` script that is used to update the layer's version.
-Additionaly, it can be used by users to set desired version that is not available in current releases. The script is
-still a "work in progress" concept, that is why some requirements must be met before the user can run it:
-
-- it requires `cargo bitbake` to be installed in the system
-- user must provide the path to desired version of `thin-edge` repository as a script parameter
-- overall structure of `thin-edge` must be the same, i.e. number of independent binaries cannot change. All current
-  packages of the layer are the one located in `meta-tedge/recipes-tedge` directory. You can check if structure of
-  `thin-edge` has changed by building it locally: `cargo` will print all available binaries
-
-**Warning:** script does not inform if layer was updated successfuly or not. If script "froze", it could be caused by
-building the project by `cargo bitbake`: do not interrupt that process.
+This project welcomes contributions and suggestions. If you would like to contribute to `meta-tedge`, please read our guide on how to best get started [contributing code or documentation](https://github.com/thin-edge/thin-edge.io/blob/main/CONTRIBUTING.md).
 
 ## License
 
