@@ -1,22 +1,18 @@
 # How to use meta-tedge with Mender
 
-Since version 0.9.0 meta-tedge allows updating the system using Mender. You can swap the image partition with the mender artifact generated during the Yocto build by [meta-mender](https://github.com/mendersoftware/meta-mender/tree/master) layer.
+You can swap the image partition with the mender artifact generated during the Yocto build with [meta-mender](https://github.com/mendersoftware/meta-mender/tree/master) layer.
 
 ## Installation
 
-If you are not familiar with building Yocto distribution or you have not built `meta-tedge` yet, we strongly recommend our tutorial [Build Thin Edge for a Yocto Linux distribution](https://thin-edge.github.io/thin-edge.io/html/tutorials/yocto-linux.html#build-thin-edge-for-a-yocto-linux-distribution). You can also check [demo build](https://docs.mender.io/operating-system-updates-yocto-project/build-for-demo) prepared by Mender team.
+If you are not familiar with building Yocto distribution or you have not built `meta-tedge` yet, we strongly recommend our[Installation Guide](build-yocto.md). You can also check [demo build](https://docs.mender.io/operating-system-updates-yocto-project/build-for-demo) prepared by Mender team.
 
+> Note: Following guide is based on raspberry pi chapter from [Installation Guide](build-yocto.md).
 #### I. Clone Mender repository
 
-Clone Mender repository. We will use `kirkstone` version. 
+Clone Mender repository. We will use `kirkstone` release. 
 
 ```bash
-git clone -b kirkstone https://github.com/mendersoftware/meta-mender
-```
-
-Additionally, if you plan to use a raspberry pi device, you need to add a `meta-raspberrypi` layer:
-```bash
-git clone -b kirkstone https://github.com/agherzan/meta-raspberrypi.git
+git clone --branch=kirkstone https://github.com/mendersoftware/meta-mender
 ```
 #### II. Initialize the build environment
 
@@ -42,7 +38,7 @@ bitbake-layers add-layer ../meta-raspberrypi
 bitbake-layers add-layer ../meta-mender/meta-mender-raspberrypi
 ```
 
-This tutorial's next part will be based on the raspberry pi 3 device. You can also build a Yocto system for QEMU using `meta-mender-qemu`:
+You can also build a Yocto system for QEMU using `meta-mender-qemu`:
 
  ```bash
  bitbake-layers add-layer ../meta-mender/meta-mender-qemu
@@ -57,16 +53,21 @@ Now we will edit the `layer.conf` file in your build's `conf` directory. Add Men
 ```
 INHERIT += "mender-full"
 MENDER_ARTIFACT_NAME = "release-1"
-ARTIFACTIMG_FSTYPE = "ext4"
 ```
 
-As we plan to use [standalone deployment ](https://docs.mender.io/artifact-creation/standalone-deployment) you have to turn off `mender-client` deamon: 
+As we plan to use [standalone deployment ](https://docs.mender.io/artifact-creation/standalone-deployment) you have to disable `mender-client` deamon: 
 
 ```
 SYSTEMD_AUTO_ENABLE:pn-mender-client = "disable"
 ```
 
-Next, choose the target machine for your build. In our case it will be raspberry pi 3 in 64-bit version:
+If you don't want to use `systemd` as init manager you need to also disable mender systemd feature:
+
+```
+MENDER_FEATURES_DISABLE:append = " mender-systemd"
+```
+
+Next, choose the target machine for your build. In our case it will be raspberry pi 3 64-bit version:
 
 ```
 MACHINE = "raspberrypi3-64"
@@ -77,14 +78,14 @@ Additionally, we need to set variables for raspberry pi:
 ```
 RPI_USE_U_BOOT = "1"
 
-# Having the serial terminal enabled is useful.
+# Users report that raspberry pi cannot boot if UART is not enabled with u-boot.
 ENABLE_UART = "1"
 
 # rpi-base.inc removes these as they are normally installed on to the
 # vfat boot partition. To be able to update the Linux kernel Mender
 # uses an image that resides on the root file system and below line
 # ensures that they are installed to /boot
-IMAGE_INSTALL:append = " kernel-image kernel-device tree"
+IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
 
 # Mender will build an image called `sdimg` which shall be used instead
 # of the `rpi-sdimg`.
@@ -122,22 +123,47 @@ This method requires appending `local.conf` with necessary recipes by using the 
 
 ```
 IMAGE_INSTALL:append = " \ 
-    thin-edge \
     tedge \ 
-    tedge-mapper \
-    tedge-agent \
-    c8y-configuration-plugin \
-    c8y-log-plugin \
-    tedge-apt-plugin \
-    tedge-dummy-plugin \
-    tedge-watchdog \
+    tedge-bootstrap \
+    tedge-inventory \
     tedge-state-scripts \
+    tedge-firmware
 "
 ```
-Then you can use any image delivered by the Yocto team. Thin-edge requires at least `core-image-minimal` to function correctly:
+
+You must set fixed uid/gid to avoid permissions problems on the `/data` partition. You can do that by inheriting the `extrausers` class in your image recipe or the `local.conf` file:
+
+```
+inherit extrausers
+EXTRA_USERS_PARAMS = "\
+    groupmod -g 960 mosquitto; \
+    usermod -u 961 mosquitto; \
+"
+```
+
+We recommend switching to `Network Manager`. Append your `local.conf` with the following recipes:
+
+```
+IMAGE_INSTALL:append = " \ 
+    networkmanager \
+    networkmanager-bash-completion \
+    networkmanager-nmtui \
+"
+```
+
+Alternatively, if you are using `Scarthgap` release:
+
+```
+IMAGE_INSTALL:append = " \ 
+    networkmanager \
+    networkmanager-nmtui \
+"
+```
+
+Then you can use any image delivered by the Yocto team. Thin-edge requires at least `core-image-base` to function correctly:
 
 ```bash
-bitbake core-image-minimal
+bitbake core-image-base
 ```
 
 #### VI. Flash the device
@@ -162,7 +188,7 @@ To deploy the new Artifact to your device, run the following command in the devi
 mender install <URI>
 ```
 
-Where `<URI>` can be any file-based storage or an HTTP/HTTPS URL. You can also deliver `.mender` file via ssh. To do that, remember to add `dropbear` to your build in the `conf/local.conf` file:
+Where `<URI>` can be any file-based storage or an HTTP/HTTPS URL. You can also deliver `.mender` file via ssh. To do that, remember to add ssh service to your build in the `conf/local.conf` file e.g `dropbear`:
 
 ```bash
 IMAGE_FEATURES:append = " ssh-server-dropbear"

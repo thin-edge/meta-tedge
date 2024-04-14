@@ -5,16 +5,14 @@ and add layers, containing software that you need on your image. In this tutoria
 `meta-tedge` layer. For more information, see the [getting started document on Yocto Project
 website](https://www.yoctoproject.org/software-overview/).
 
-The `meta-tedge` is supported for **Yocto version 3.4 "Honister" and 4.0 "Kirkstone"**. 
+The `meta-tedge` is supported for **Yocto version 3.4 "Honister", 4.0 "Kirkstone" and 5.0 "Scarthgap"**. 
 It depends on meta-networking, meta-python and meta-oe layers which are part of meta-openembedded layer. 
-Since version 0.9.0 the layer requires meta-rust to meet the requirements of the rust version of thin-edge.
+For Honister and Kirkstone release, the layer requires meta-rust to meet the requirements of the rust version of thin-edge.
 
 ## Installation
 
 If you are not familiar with building Yocto distribution or you have not configured your build host yet, we strongly
-recommend to look into [official yocto documentation](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html)
-as the installation process will now skip all information that were mentioned there! For workspace organization or
-raspberry pi distribution, we also recommend this [guide](https://github.com/jynik/ready-set-yocto)
+recommend to look into [official yocto documentation](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html). For workspace organization or raspberry pi distribution, we also recommend this [guide](https://github.com/jynik/ready-set-yocto)
 
 > Most of the installation process is based on [Yocto Project Quick Build
 guide](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html).
@@ -51,7 +49,7 @@ process. If using these options, to see previous commits or other branches see
 [here](https://stackoverflow.com/questions/29270058/how-to-fetch-all-git-history-after-i-clone-the-repo-with-depth-1)
 and [here](https://stackoverflow.com/questions/17714159/how-do-i-undo-a-single-branch-clone).
 
-> Alternatively, you could use `--branch=honister` for Yocto version 3.4 Honister. If doing so, remember to also use
+> Alternatively, if you want to build different yocto release, use e.g. `--branch=honister` for Yocto version 3.4 Honister. If doing so, remember to also use
 > `--branch=honister` for all additional layers that require it.
 
 ```bash
@@ -135,6 +133,7 @@ git clone --branch=kirkstone git://git.openembedded.org/meta-openembedded
 > manually `git switch kirkstone` in `meta-openembedded` repository after cloning. Some Yocto layers support different
 > Yocto versions on different branches, in which case be sure to select correct branch. `meta-tedge` however supports 2
 > versions, Honister and Kirkstone on the main branch, so there's no need to change the default branch.
+> If you are going to build a Scarthgap release, you don't need to clone the `meta-rust` repository as this version of `meta-tedge` use rust recipes that come with `poky`.
 
 Resulting in the following directory structure:
 
@@ -188,22 +187,23 @@ BBLAYERS ?= " \
   "
 ```
 
-### Use systemd init manager
+### Change init manager
 
 For thin-edge to work, it has to run some setup scripts upon the first boot and interact with system services via the
-init system. Right now, `meta-tedge` only supports systemd init manager. The default in yocto is initrd, thus we have to
-change it.
+init system. Right now, `meta-tedge` supports two init managers: `sysvinit` and `systemd`.
 
 > This, and any successive changes to the build configuration should happen only in your local configuration, ie.
 > `poky/build/conf/local.conf` or in configuration files of layers you create yourself. Changing any files in layers you
 > do not control - in our example `meta-tedge` or any of the layers in `meta-openembedded` - is discouraged, because any
 > changes you make to them may be lost when you update the layer.
 
-Activate `systemd` as default init manager by adding following line to `poky/build/conf/local.conf`:
+Change init manager by adding following line to `poky/build/conf/local.conf`:
 
 ```
 INIT_MANAGER="systemd"
 ```
+
+> If you don't set `INIT_MANAGER`, yocto will use `sysvinit` by default.
 
 ### Use apt package manager (optional)
 
@@ -236,6 +236,23 @@ In `poky/build/conf/local.conf` find the following section and change `PACKAGE_C
 # E.g.: PACKAGE_CLASSES ?= "package_rpm package_deb package_ipk"
 # We default to rpm:
 PACKAGE_CLASSES ?= "package_deb"
+```
+
+### Add ssh to the build (optional)
+
+By default, the Yocto build comes without the ssh feature, making communication with the device more difficult or even impossible.
+
+To add ssh feature append `poky/build/conf/local.conf` with following lines:
+
+```
+IMAGE_FEATURES:append = " ssh-server-dropbear"
+IMAGE_INSTALL:append = " dropbear"
+```
+
+or you can use `openssh` by adding line:
+
+```
+CORE_IMAGE_EXTRA_INSTALL += "openssh"
 ```
 
 ### Build and run
