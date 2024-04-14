@@ -276,25 +276,39 @@ PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
 CONF_VERSION = "2"
 
 INHERIT += "rm_work"
-
-MENDER_ARTIFACT_NAME = "release-1"
-INHERIT += "mender-full"
-
-MACHINE = "qemux86-64"
-
-ARTIFACTIMG_FSTYPE = "ext4"
-
-MENDER_SERVER_URL = "https://eu.hosted.mender.io"
-MENDER_TENANT_TOKEN = ""
-
-SYSTEMD_AUTO_ENABLE:pn-mender-client = "disable"
-
+PACKAGE_CLASSES = "package_deb"
 INIT_MANAGER= "systemd"
+EXTRA_IMAGE_FEATURES += "ssh-server-openssh"
 
-IMAGE_FEATURES:append = " ssh-server-dropbear"
-IMAGE_INSTALL:append = " dropbear"
+MACHINE = "raspberrypi3-64"
+ENABLE_UART = "1"
+RPI_USE_U_BOOT = "1"
+IMAGE_INSTALL:append = " kernel-image kernel-devicetree"
+
+INHERIT += "mender-full"
+MENDER_ARTIFACT_NAME = "release-1"
+SYSTEMD_AUTO_ENABLE:pn-mender-client = "disable"
+MENDER_BOOT_PART_SIZE_MB = "64"
+IMAGE_FSTYPES:remove = " rpi-sdimg"
+SDIMG_ROOTFS_TYPE = "ext4"
 
 IMAGE_INSTALL:append = " \ 
-    thin-edge \
+    tedge \
+    tedge-bootstrap \
+    tedge-inventory \
     tedge-state-scripts \
+    tedge-firmware \
+"
+
+IMAGE_INSTALL:append = " \ 
+    networkmanager \
+    networkmanager-bash-completion \
+    networkmanager-nmtui \
+"
+
+inherit extrausers
+# Used fix uid/gid to avoid permission problems on /data
+EXTRA_USERS_PARAMS = "\
+    groupmod -g 960 mosquitto; \
+    usermod -u 961 mosquitto; \
 "
