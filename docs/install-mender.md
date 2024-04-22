@@ -131,16 +131,6 @@ IMAGE_INSTALL:append = " \
 "
 ```
 
-You must set fixed uid/gid to avoid permissions problems on the `/data` partition. You can do that by inheriting the `extrausers` class in your image recipe or the `local.conf` file:
-
-```
-inherit extrausers
-EXTRA_USERS_PARAMS = "\
-    groupmod -g 960 mosquitto; \
-    usermod -u 961 mosquitto; \
-"
-```
-
 We recommend switching to `Network Manager`. Append your `local.conf` with the following recipes:
 
 ```
