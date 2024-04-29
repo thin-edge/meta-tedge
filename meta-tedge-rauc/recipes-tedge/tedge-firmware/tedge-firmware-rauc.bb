@@ -28,6 +28,9 @@ do_install () {
     install -d "${D}/var/lib/mosquitto"
     install -d "${D}${sysconfdir}/tedge/mosquitto-conf/"
     install -m 0644 "${WORKDIR}/persist.conf" "${D}${sysconfdir}/tedge/mosquitto-conf/"
+
+    # Enable firmware management
+    tedge config set c8y.enable.firmware_update true
 }
 
 FILES:${PN} += " \

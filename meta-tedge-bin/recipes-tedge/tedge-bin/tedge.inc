@@ -126,9 +126,6 @@ pkg_postinst_ontarget:${PN} () {
     chown -R tedge:tedge "/data/tedge/log"
     tedge config set logs.path "/data/tedge/log"
 
-    # Enable firmware management
-    tedge config set c8y.enable.firmware_update true
-
     # Initialize the tedge
     tedge init 
 
