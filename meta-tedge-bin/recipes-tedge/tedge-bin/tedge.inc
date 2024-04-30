@@ -3,7 +3,7 @@ HOMEPAGE = "https://thin-edge.io"
 LICENSE = "CLOSED"
 RDEPENDS:${PN} += " mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo"
 
-inherit bin_package
+inherit bin_package useradd
 
 INSANE_SKIP:${PN} = "already-stripped"
 
