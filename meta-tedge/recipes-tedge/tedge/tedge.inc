@@ -91,9 +91,9 @@ pkg_postinst_ontarget:${PN} () {
     fi
 
     # Initialize the tedge
-    tedge init 
+    tedge init
 
-    if command_exists c8y-remote-access-plugin; then
+    if command -v c8y-remote-access-plugin >/dev/null 2>&1; then
         c8y-remote-access-plugin --init
     fi
 }
