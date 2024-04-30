@@ -7,59 +7,22 @@ inherit bin_package
 
 INSANE_SKIP:${PN} = "already-stripped"
 
-do_install:${PN} () {
-    install -d ${D}/opt/log
-    chmod -R 1777 ${D}/opt/log
+USERADD_PACKAGES = "${PN}"
+GROUPADD_PARAM:${PN} = "--system --gid 950 tedge"
+USERADD_PARAM:${PN} = "--system --no-create-home --shell /sbin/nologin --uid 951 --gid 950 tedge"
+
+do_install:append () {
+    # Create symlink for tedge-apt-plugin in `/etc/tedge/sm-plugins`
+    install -d ${D}${sysconfdir}/tedge/sm-plugins
+    ln -s -r  ${D}${bindir}/tedge-apt-plugin ${D}${sysconfdir}/tedge/sm-plugins/apt
+
+    # Remove packages indicated in `TEDGE_EXCLUDE` (NOTE: they cannot be part of tedge-binary)
+    for package in ${@d.getVar('TEDGE_EXCLUDE')}; do 
+        rm -f ${D}${bindir}/${package}
+    done
 }
 
 pkg_postinst_ontarget:${PN} () {
-    command_exists() {
-	    command -v "$@" > /dev/null 2>&1
-    }
-
-    group_exists() {
-        name="$1"
-        if command_exists getent; then
-            getent group "$name" >/dev/null
-        else
-            # Fallback to plain grep, as busybox does not have getent
-            grep -q "^${name}:" /etc/group
-        fi
-    }
-
-    user_exists() {
-        name="$1"
-        if command_exists getent; then
-            getent passwd "$name" >/dev/null
-        else
-            # Fallback to plain grep, as busybox does not have getent
-            grep -q "^${name}:" /etc/passwd
-        fi
-    }
-
-    ### Create groups
-    if ! group_exists tedge; then
-        if command_exists groupadd; then
-            groupadd --system tedge
-        elif command_exists addgroup; then
-            addgroup -S tedge
-        else
-            echo "WARNING: Could not create group: tedge" >&2
-        fi
-    fi
-
-    ### Create users
-    # Create user tedge with no home(--no-create-home), no login(--shell) and in group tedge(--gid)
-    if ! user_exists tedge; then
-        if command_exists useradd; then
-            useradd --system --no-create-home --shell /sbin/nologin --gid tedge tedge
-        elif command_exists adduser; then
-            adduser -g "" -H -D tedge -G tedge
-        else
-            echo "WARNING: Could not create user: tedge" >&2
-        fi
-    fi
-
     ### Create file in /etc/sudoers.d directory. With this configuration, the tedge user have the right to call the tedge command with sudo rights, which is required for system-wide configuration in "/etc/tedge"
     if [ -d /etc/sudoers.d ]; then
         echo "tedge  ALL = (ALL) NOPASSWD: /usr/bin/tedge, /etc/tedge/sm-plugins/[a-zA-Z0-9]*, /bin/sync, /sbin/init" >/etc/sudoers.d/tedge
@@ -98,38 +61,10 @@ pkg_postinst_ontarget:${PN} () {
         fi
     fi
 
-    # FIXME: Add to recipe at build time rather than on first run
-    if [ -d /etc/sudoers.d/ ]; then
-        echo "tedge  ALL = (ALL) NOPASSWD: /usr/bin/mender, /usr/bin/tedgectl" > /etc/sudoers.d/tedge-firmware
-    fi
-
-    # Ensure persistence of operation state across partition swaps by storing
-    # information on a persisted mount
-    mkdir -p /data/tedge/agent
-    chown -R tedge:tedge /data/tedge/agent
-
-    # FIXME: Check if there is a better place to do this
-    if [ -d /var/lib/mosquitto ]; then
-        chown -R mosquitto:mosquitto /var/lib/mosquitto
-    fi
-
-    # FIXME: Currently some workflow state is reliant on the mosquitto db
-    # and there might be a race condition on startup after a partition swap
-    # where the existing mosquitto state is sometimes processed before the state
-    # stored under the /data/tedge/agent folder
-    # https://github.com/thin-edge/thin-edge.io/issues/2495
-    mkdir -p /data/mosquitto
-    chown mosquitto:mosquitto /data/mosquitto
-
-    # Change log dir
-    mkdir -p "/data/tedge/log"
-    chown -R tedge:tedge "/data/tedge/log"
-    tedge config set logs.path "/data/tedge/log"
-
     # Initialize the tedge
-    tedge init 
+    tedge init
 
-    if command_exists c8y-remote-access-plugin; then
+    if command -v c8y-remote-access-plugin >/dev/null 2>&1; then
         c8y-remote-access-plugin --init
     fi
 }
