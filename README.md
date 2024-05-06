@@ -4,9 +4,9 @@ This meta layer contains all the recipes needed to build [thin-edge.io](https://
 
 ## How to start
 
-For a quick guide on how to use `meta-tedge`, check our docs, where you can learn how to [build your first image](docs/build-yocto.md) or [integrate thin-edge with Mender](docs/install-mender.md). If you want to learn how to perform Over-the-Air (OTA) updates using Yocto, check [official thin-edge.io documentation](https://thin-edge.github.io/thin-edge.io/extend/firmware-management/building-image/yocto/).
+Check out the [meta-tedge-project](https://github.com/thin-edge/meta-tedge-project) for some example projects which make use of the thin-edge.io layer to create an image which includes Over-the-Air update support. The projects use [kas](https://github.com/siemens/kas) to make it easy to setup your yocto environment (e.g. checkout all of the required layers) and build your image in a single commands.
 
-Also, you can check [meta-tedge-project](https://github.com/thin-edge/meta-tedge-project), based on [kas project](https://github.com/siemens/kas), to set up and build a Yocto image with thin-edge installed using only one command!
+For more user-friendly documentation, check out the [official thin-edge.io documentation](https://thin-edge.github.io/thin-edge.io/extend/firmware-management/building-image/yocto/).
 
 ## Maintenance strategy
 
@@ -19,9 +19,7 @@ The repository follows the release-named branch strategy. Only LTS releases are 
 
 ## Dependencies
 
-`Meta-tedge` depends on `meta-networking`, `meta-python` and `meta-oe` layers that are part of the `meta-openembedded` layer. Up to the Kirkstone release, the layer requires `meta-rust` to meet the requirements of the rust version in thin-edge.
-
-**Note** Currently [git-lfs](https://github.com/git-lfs/git-lfs) is required to build the layer, however this dependency will be removed in the near future. Until then, please install git-lfs following the [official git-lfs instructions for linux](https://github.com/git-lfs/git-lfs/blob/main/INSTALLING.md).
+Currently [git-lfs](https://github.com/git-lfs/git-lfs) is required to build the layer, however this dependency will be removed in the near future. Until then, please install git-lfs following the [official git-lfs instructions for linux](https://github.com/git-lfs/git-lfs/blob/main/INSTALLING.md).
 
 ## Contributing
 

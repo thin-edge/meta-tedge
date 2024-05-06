@@ -1,0 +1,2 @@
+SRC_URI += "https://dl.cloudsmith.io/public/thinedge/tedge-${ARCH_REPO_CHANNEL}/raw/names/tedge-arm64/versions/${ARCH_VERSION}/tedge.tar.gz;name=aarch64;subdir=${BP}/usr/bin"
+COMPATIBLE_HOST = "(aarch64.*-linux)"

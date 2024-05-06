@@ -1,0 +1,1 @@
+tedge  ALL = (ALL) NOPASSWD: /usr/bin/rauc, /etc/tedge/operations/rauc_workflow.sh, /usr/bin/tedgectl
