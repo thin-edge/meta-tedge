@@ -246,8 +246,27 @@ verify() {
     # In case if the pervious image uses different uid/gid for the mosquitto user
     chown mosquitto:mosquitto /etc/tedge/device-certs/* ||:
 
-    if ! all_healthy; then
-        # TODO: Add retry-later support in the thin-edge.io workflows
+    # Check mapper health with retries
+    ATTEMPT=1
+    MAX_ATTEMPTS=10
+    IS_HEALTHY=false
+    while :; do
+        if all_healthy; then
+            IS_HEALTHY=true
+            break
+        fi
+        echo "At least 1 mapper was unhealthy. Checking health again in 60 seconds. Attempt ${ATTEMPT} from ${MAX_ATTEMPTS}" >&2
+        ATTEMPT=$((ATTEMPT + 1))
+
+        # Don't sleep if the max attempts is already exceeded
+        if [ "$ATTEMPT" -gt "$MAX_ATTEMPTS" ]; then
+            break
+        fi
+        sleep 60
+    done
+
+    if [ "$IS_HEALTHY" = "false" ]; then
+        echo "Mappers are not healthy after ${MAX_ATTEMPTS} attempts" >&2
         exit "$FAILED"
     fi
 
