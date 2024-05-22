@@ -96,6 +96,9 @@ pkg_postinst_ontarget:${PN} () {
     if command -v c8y-remote-access-plugin >/dev/null 2>&1; then
         c8y-remote-access-plugin --init
     fi
+
+    # reduce number of packages shown (supported only from >= 1.1.0)
+    tedge config set software.plugin.exclude "^(glibc|lib|kernel-|iptables-module).*" || true
 }
 
 FILES:${PN} = "\ 
