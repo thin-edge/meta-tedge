@@ -69,7 +69,7 @@ pkg_postinst_ontarget:${PN} () {
     fi
 
     # reduce number of packages shown (supported only from >= 1.1.0)
-    tedge config set software.plugin.exclude "^(glibc|lib|kernel-|iptables-module).*" ||:
+    tedge config set software.plugin.exclude "^(glibc|lib|kernel-|iptables-module).*" || true
 }
 
 # Automatically choose tedge package based on target architecture
