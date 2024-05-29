@@ -13,10 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check update
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./scripts/admin.sh update_version
       - name: Create PR on new version
         env:
-          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -x
           git add -A . ||:
