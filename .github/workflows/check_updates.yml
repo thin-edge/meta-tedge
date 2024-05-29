@@ -16,7 +16,7 @@ jobs:
         run: ./scripts/admin.sh update_version
       - name: Create PR on new version
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -x
           git add -A . ||:
