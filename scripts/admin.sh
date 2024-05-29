@@ -123,7 +123,7 @@ EOT
     echo "Found tag: tag=$TAG, commit=$COMMIT_HASH" >&2
 
     # Generate BB file
-    tedge_bb_file="meta-tedge/recipes-tedge/tedge//tedge_${tedge_version}.bb"
+    tedge_bb_file="meta-tedge/recipes-tedge/tedge/tedge_${tedge_version}.bb"
     cat << EOT | tee "$tedge_bb_file" >&2
 SRCREV_tedge = "$COMMIT_HASH"
 SRCREV_tedge-services = "\${AUTOREV}"
