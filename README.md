@@ -15,7 +15,7 @@ The repository follows the release-named branch strategy. Only LTS releases are 
 | Yocto Release | thin-edge version | Branch Name | Branch Status |
 | :- | :- | :- | :- |
 | Scarthgap | 1.0.1 | scarthgap | Active and maintained |
-| Kirkstone | 1.1.0 | kirkstone | Active and maintained |
+| Kirkstone | 1.1.1 | kirkstone | Active and maintained |
 
 ## Dependencies
 
