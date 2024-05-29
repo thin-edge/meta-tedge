@@ -1,0 +1,36 @@
+name: check_updates
+on:
+  schedule:
+    # Check daily
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+jobs:
+  check_updates:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'thin-edge'
+    env:
+      PR_BRANCH: updater
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check update
+        run: ./scripts/admin.sh update_version
+      - name: Create PR on new version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -x
+          git add -A . ||:
+
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No changes detected"
+            exit 0
+          fi
+          echo "Changes detected. Raising PR"
+          git status
+          git config --global user.email "info@thin-edge.io"
+          git config --global user.name "Versioneer"
+          git checkout -b "$PR_BRANCH"
+          git commit -am "Update version"
+          git push --set-upstream origin "$PR_BRANCH"
+          gh repo set-default ${{github.repository}}
+          gh pr create --title "Update version" --body "Update version"
