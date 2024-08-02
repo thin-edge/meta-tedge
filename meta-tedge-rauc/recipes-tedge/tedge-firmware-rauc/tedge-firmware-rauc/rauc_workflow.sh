@@ -20,13 +20,17 @@ fi
 ACTION="$1"
 shift
 
+# Get tedge topic identifier
+TOPIC_ROOT=$(tedge config get mqtt.topic_root)
+TOPIC_ID=$(tedge config get mqtt.device_topic_id)
+
 log() {
     msg="$(date +%Y-%m-%dT%H:%M:%S) [current=$ACTION] $*"
     echo "$msg" >&2
 
     # publish to pub for better resolution
     current_partition=$(get_current_partition ||:)
-    if ! tedge mqtt pub -q 2 te/device/main///e/firmware_update "{\"text\":\"Firmware Workflow: [$ACTION] $*\",\"state\":\"$ACTION\",\"partition\":\"$current_partition\"}"; then
+    if ! tedge mqtt pub -q 2 "$TOPIC_ROOT/$TOPIC_ID/e/firmware_update" "{\"text\":\"Firmware Workflow: [$ACTION] $*\",\"state\":\"$ACTION\",\"partition\":\"$current_partition\"}"; then
         echo "$(date +%Y-%m-%dT%H:%M:%S) [current=$ACTION] WARNING: Failed to publish MQTT message" >&2
     fi
     sleep 1
@@ -273,8 +277,6 @@ verify() {
     # FIXME: Trigger services to refresh their status to ensure the cloud will receive
     # the updated status.
     # Remove once https://github.com/thin-edge/thin-edge.io/issues/2498 is resolved
-    TOPIC_ROOT=$(tedge config get mqtt.topic_root)
-    TOPIC_ID=$(tedge config get mqtt.device_topic_id)
     tedge mqtt pub -q 1 "$TOPIC_ROOT/$TOPIC_ID/cmd/health/check" '{}' || local_log "Failed to publish health/check request message"
 
     exit "$OK"
