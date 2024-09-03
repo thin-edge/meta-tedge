@@ -5,7 +5,7 @@ RDEPENDS:${PN} += " mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo"
 
 inherit bin_package useradd
 
-INSANE_SKIP:${PN} = "already-stripped"
+INSANE_SKIP:${PN} = "already-stripped usrmerge"
 
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM:${PN} = "--system --gid 950 tedge"
