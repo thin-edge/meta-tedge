@@ -14,9 +14,10 @@ The repository follows the release-named branch strategy. Only LTS releases are 
 
 | Yocto Release | thin-edge version | Branch Name | Branch Status |
 | :- | :- | :- | :- |
-| Scarthgap | 1.0.1 | scarthgap | Active and maintained |
-| Kirkstone | 1.1.1 | kirkstone | Active and maintained |
+| Scarthgap | 1.2.0* | scarthgap | Active and maintained |
+| Kirkstone | 1.2.0 | kirkstone | Active and maintained |
 
+> \* Version 1.2.0 and higher is supported only for precompiled binaries (`meta-tedge-bin`).    
 ## Dependencies
 
 Currently [git-lfs](https://github.com/git-lfs/git-lfs) is required to build the layer, however this dependency will be removed in the near future. Until then, please install git-lfs following the [official git-lfs instructions for linux](https://github.com/git-lfs/git-lfs/blob/main/INSTALLING.md).
