@@ -6,7 +6,10 @@ IMAGE_INSTALL:append = " \
 "
 
 # Add Network Manager
-IMAGE_INSTALL += "networkmanager networkmanager-bash-completion networkmanager-nmtui monit"
+IMAGE_INSTALL:append = " \ 
+    networkmanager \
+    monit \
+"
 
 # Optimizations for RAUC adaptive method 'block-hash-index'
 # rootfs image size must to be 4K-aligned
