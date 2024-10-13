@@ -64,4 +64,9 @@ FILES:${PN} += " \
     ${datadir}/tedge-workflows/firmware_update.mender.toml \
     ${sysconfdir}/sudoers.d/tedge-firmware \
     ${sysconfdir}/tedge/mosquitto-conf/persist.conf \
+    /data \
+    /data/tedge \
+    /data/tedge/log \
+    /data/tedge/agent \
+    /data/mosquitto \
 "
