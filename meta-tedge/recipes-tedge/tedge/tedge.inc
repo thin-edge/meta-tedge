@@ -15,7 +15,7 @@ LICENSE = "Apache-2.0"
 
 inherit cargo useradd
 
-DEPENDS = "sudo"
+DEPENDS = "mosquitto"
 RDEPENDS:${PN} = " mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo collectd"
 
 # This prevents disabling crates.io registry in cargo_do_configure task and
@@ -69,31 +69,29 @@ do_install:append () {
     install -m 0644 "${WORKDIR}/tedge.toml" ${D}${sysconfdir}/tedge/
 
     # Add include to mosquitto.conf so tedge specific conf will be loaded
-    if [ -f "${D}${sysconfdir}/mosquitto/mosquitto.conf" ]; then
-        if ! grep -q "include_dir /etc/tedge/mosquitto-conf" "${D}${sysconfdir}/mosquitto/mosquitto.conf"; then
-            # Insert `include_dir /etc/tedge/mosquitto-conf` before any `include_dir`
-            # directive so that all other partial conf files inherit the
-            # `per_listener_settings` defined in /etc/tedge/mosquitto-conf.
-            # `per_listener_settings` has to be defined once, before other listener
-            # settings or else it causes the following error:
-            #
-            # Error: per_listener_settings must be set before any other security
-            # settings.
-            # Match any included_dir directive as different distributions have different default settings:
-            #  On Fedora: `#include_dir`. mosquitto does not use a /etc/mosquitto/conf.d folder
-            #  On Debian: `include_dir /etc/mosquitto/conf.d`. Uses a conf.d folder, so the tedge setting must be before this
+    if ! grep -q "include_dir /etc/tedge/mosquitto-conf" "${D}${sysconfdir}/mosquitto/mosquitto.conf"; then
+        # Insert `include_dir /etc/tedge/mosquitto-conf` before any `include_dir`
+        # directive so that all other partial conf files inherit the
+        # `per_listener_settings` defined in /etc/tedge/mosquitto-conf.
+        # `per_listener_settings` has to be defined once, before other listener
+        # settings or else it causes the following error:
+        #
+        # Error: per_listener_settings must be set before any other security
+        # settings.
+        # Match any included_dir directive as different distributions have different default settings:
+        #  On Fedora: `#include_dir`. mosquitto does not use a /etc/mosquitto/conf.d folder
+        #  On Debian: `include_dir /etc/mosquitto/conf.d`. Uses a conf.d folder, so the tedge setting must be before this
 
-            # Check if `include_dir` or `#include_dir` (as the latter could be a future problem if the user uncomments it)
-            if grep -qE '^#?include_dir' ${D}${sysconfdir}/mosquitto/mosquitto.conf; then
-                # insert tedge include_dir before the first `included_dir` (but only the first!)
-                mosquitto_conf=$(awk '!found && /^#?include_dir/ \
-                { print "include_dir /etc/tedge/mosquitto-conf"; found=1 }1' \
-                "${D}${sysconfdir}/mosquitto/mosquitto.conf")
-                echo "$mosquitto_conf" > "${D}${sysconfdir}/mosquitto/mosquitto.conf"
-            else
-                # config does not contain any include_dir directive, so we can safely append it
-                echo "include_dir /etc/tedge/mosquitto-conf" >> "${D}${sysconfdir}/mosquitto/mosquitto.conf"
-            fi
+        # Check if `include_dir` or `#include_dir` (as the latter could be a future problem if the user uncomments it)
+        if grep -qE '^#?include_dir' ${D}${sysconfdir}/mosquitto/mosquitto.conf; then
+            # insert tedge include_dir before the first `included_dir` (but only the first!)
+            mosquitto_conf=$(awk '!found && /^#?include_dir/ \
+            { print "include_dir /etc/tedge/mosquitto-conf"; found=1 }1' \
+            "${D}${sysconfdir}/mosquitto/mosquitto.conf")
+            echo "$mosquitto_conf" > "${D}${sysconfdir}/mosquitto/mosquitto.conf"
+        else
+            # config does not contain any include_dir directive, so we can safely append it
+            echo "include_dir /etc/tedge/mosquitto-conf" >> "${D}${sysconfdir}/mosquitto/mosquitto.conf"
         fi
     fi
 }
