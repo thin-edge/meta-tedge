@@ -27,17 +27,16 @@ do_install () {
     install -d "${D}/var/lib/mosquitto"
     install -d "${D}${sysconfdir}/tedge/mosquitto-conf/"
     install -m 0644 "${WORKDIR}/persist.conf" "${D}${sysconfdir}/tedge/mosquitto-conf/"
-}
 
-pkg_postinst_ontarget:${PN} () {
+
     # Ensure persistence of operation state across partition swaps by storing
     # information on a persisted mount
-    mkdir -p /data/tedge/agent
-    chown -R tedge:tedge /data/tedge/agent
+    install -d "${D}/data/tedge/agent"
+    chown -R tedge:tedge "${D}/data/tedge/agent"
 
     # FIXME: Check if there is a better place to do this
-    if [ -d /var/lib/mosquitto ]; then
-        chown -R mosquitto:mosquitto /var/lib/mosquitto
+    if [ -d "${D}/var/lib/mosquitto" ]; then
+        chown -R mosquitto:mosquitto "${D}/var/lib/mosquitto"
     fi
 
     # FIXME: Currently some workflow state is reliant on the mosquitto db
@@ -45,16 +44,16 @@ pkg_postinst_ontarget:${PN} () {
     # where the existing mosquitto state is sometimes processed before the state
     # stored under the /data/tedge/agent folder
     # https://github.com/thin-edge/thin-edge.io/issues/2495
-    mkdir -p /data/mosquitto
-    chown mosquitto:mosquitto /data/mosquitto
+    mkdir -p "${D}/data/mosquitto"
+    chown mosquitto:mosquitto "${D}/data/mosquitto"
 
     # Change log dir
-    mkdir -p "/data/tedge/log"
-    chown -R tedge:tedge "/data/tedge/log"
-    tedge config set logs.path "/data/tedge/log"
+    mkdir -p "${D}/data/tedge/log"
+    chown -R tedge:tedge "${D}/data/tedge/log"
+    tedge config set --config-dir "${D}${sysconfdir}/tedge" logs.path "${D}/data/tedge/log"
 
     # Enable firmware management
-    tedge config set c8y.enable.firmware_update true
+    tedge config set --config-dir "${D}${sysconfdir}/tedge" c8y.enable.firmware_update true
 }
 
 FILES:${PN} += " \

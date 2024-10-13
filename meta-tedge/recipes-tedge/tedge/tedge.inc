@@ -1,5 +1,10 @@
 SRC_URI += "git://git@github.com/thin-edge/thin-edge.io.git;protocol=https;nobranch=1;branch=${PV};name=tedge"
 
+SRC_URI += " \
+    file://operations/c8y/c8y_RemoteAccessConnect \ 
+    file://tedge.toml \
+"
+
 LIC_FILES_CHKSUM = " \
     file://LICENSE.txt;md5=175792518e4ac015ab6696d16c4f607e \
 "
@@ -41,6 +46,14 @@ do_install:append () {
     install -d ${D}${sysconfdir}/tedge/contrib/collectd
     install -m 0644 ${S}/configuration/contrib/collectd/collectd.conf ${D}${sysconfdir}/tedge/contrib/collectd
 
+    # Create all folders
+    install -d ${D}${sysconfdir}/tedge
+    install -d ${D}${sysconfdir}/tedge/device-certs
+    install -d ${D}${sysconfdir}/tedge/mosquitto-conf
+    install -d ${D}${sysconfdir}/tedge/operations/c8y
+    install -d ${D}${sysconfdir}/tedge/plugins
+    install -d ${D}${sysconfdir}/tedge/sm-plugins
+
     # Create symlink for tedge-apt-plugin in `/etc/tedge/sm-plugins`
     install -d ${D}${sysconfdir}/tedge/sm-plugins
     ln -s -r  ${D}${bindir}/tedge-apt-plugin ${D}${sysconfdir}/tedge/sm-plugins/apt
@@ -49,21 +62,17 @@ do_install:append () {
     for package in ${@d.getVar('TEDGE_EXCLUDE')}; do 
         rm -f ${D}${bindir}/${package}
     done
-}
- 
-pkg_postinst_ontarget:${PN} () {
-    ### Create file in /etc/sudoers.d directory. With this configuration, the tedge user have the right to call the tedge command with sudo rights, which is required for system-wide configuration in "/etc/tedge"
-    if [ -d /etc/sudoers.d ]; then
-        echo "tedge  ALL = (ALL) NOPASSWD: /usr/bin/tedge, /etc/tedge/sm-plugins/[a-zA-Z0-9]*, /bin/sync, /sbin/init, /usr/bin/tedge-write /etc/*, /usr/bin/tedge-write /data/*" >/etc/sudoers.d/tedge
 
-        if [ -f "/etc/sudoers.d/010_pi-nopasswd" ]; then
-            echo "tedge   ALL = (ALL) NOPASSWD: /usr/bin/tedge, /etc/tedge/sm-plugins/[a-zA-Z0-9]*, /bin/sync, /sbin/init" >/etc/sudoers.d/tedge-nopasswd
-        fi
-    fi
+    # Create file in /etc/sudoers.d directory. With this configuration, the tedge user have the right to call the tedge command with sudo rights, which is required for system-wide configuration in "/etc/tedge"
+    install -m 0644 "${WORKDIR}/sudoers.d/tedge" "${D}${sysconfdir}/sudoers.d/"
 
-    ### Add include to mosquitto.conf so tedge specific conf will be loaded
-    if [ -f /etc/mosquitto/mosquitto.conf ]; then
-        if ! grep -q "include_dir /etc/tedge/mosquitto-conf" "/etc/mosquitto/mosquitto.conf"; then
+    # Initialize the tedge
+    install -m 0644 "${WORKDIR}/operations/c8y/"* ${D}${sysconfdir}/tedge/operations/c8y/
+    install -m 0644 "${WORKDIR}/tedge.toml" ${D}${sysconfdir}/tedge/
+
+    # Add include to mosquitto.conf so tedge specific conf will be loaded
+    if [ -f "${D}${sysconfdir}/mosquitto/mosquitto.conf" ]; then
+        if ! grep -q "include_dir /etc/tedge/mosquitto-conf" "${D}${sysconfdir}/mosquitto/mosquitto.conf"; then
             # Insert `include_dir /etc/tedge/mosquitto-conf` before any `include_dir`
             # directive so that all other partial conf files inherit the
             # `per_listener_settings` defined in /etc/tedge/mosquitto-conf.
@@ -77,33 +86,27 @@ pkg_postinst_ontarget:${PN} () {
             #  On Debian: `include_dir /etc/mosquitto/conf.d`. Uses a conf.d folder, so the tedge setting must be before this
 
             # Check if `include_dir` or `#include_dir` (as the latter could be a future problem if the user uncomments it)
-            if grep -qE '^#?include_dir' /etc/mosquitto/mosquitto.conf; then
+            if grep -qE '^#?include_dir' ${D}${sysconfdir}/mosquitto/mosquitto.conf; then
                 # insert tedge include_dir before the first `included_dir` (but only the first!)
                 mosquitto_conf=$(awk '!found && /^#?include_dir/ \
                 { print "include_dir /etc/tedge/mosquitto-conf"; found=1 }1' \
-                /etc/mosquitto/mosquitto.conf)
-                echo "$mosquitto_conf" > /etc/mosquitto/mosquitto.conf
+                "${D}${sysconfdir}/mosquitto/mosquitto.conf")
+                echo "$mosquitto_conf" > "${D}${sysconfdir}/mosquitto/mosquitto.conf"
             else
                 # config does not contain any include_dir directive, so we can safely append it
-                echo "include_dir /etc/tedge/mosquitto-conf" >> /etc/mosquitto/mosquitto.conf
+                echo "include_dir /etc/tedge/mosquitto-conf" >> "${D}${sysconfdir}/mosquitto/mosquitto.conf"
             fi
         fi
     fi
-
-    # Initialize the tedge
-    tedge init
-
-    if command -v c8y-remote-access-plugin >/dev/null 2>&1; then
-        c8y-remote-access-plugin --init
-    fi
-
-    # reduce number of packages shown (supported only from >= 1.1.0)
-    tedge config set software.plugin.exclude "^(glibc|lib|kernel-|iptables-module).*" || true
 }
 
 FILES:${PN} = "\ 
     ${bindir}/* \ 
+    ${sysconfdir}/tedge \
+    ${sysconfdir}/tedge/tedge.toml \
+    ${sysconfdir}/tedge/operations/c8y/c8y_RemoteAccessConnect \
     ${sysconfdir}/tedge/contrib/collectd \
+    ${sysconfdir}/tedge/sm-plugins/apt \
     ${sysconfdir}/tedge/sm-plugins/apt \
 "
 
