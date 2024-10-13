@@ -73,7 +73,7 @@ def get_tedge_service(d):
 TEDGE_PKG = "${@get_tedge_pkg(d)}"
 TEDGE_SERVICE = "${@get_tedge_service(d)}"
 
-FILES:${PN} = "\ 
+FILES:${PN} += "\ 
     ${bindir}/* \ 
     ${sysconfdir}/tedge \
     ${sysconfdir}/tedge/tedge.toml \
