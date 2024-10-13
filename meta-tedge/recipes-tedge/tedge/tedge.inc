@@ -76,7 +76,6 @@ FILES:${PN} = "\
     ${sysconfdir}/tedge/operations/c8y/c8y_RemoteAccessConnect \
     ${sysconfdir}/tedge/contrib/collectd \
     ${sysconfdir}/tedge/sm-plugins/apt \
-    ${sysconfdir}/tedge/sm-plugins/apt \
 "
 
 require tedge-services.inc

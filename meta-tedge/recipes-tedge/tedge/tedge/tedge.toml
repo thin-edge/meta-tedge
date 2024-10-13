@@ -1,7 +1,5 @@
 [config]
 version = "2"
 
-[mqtt]
-
 [software.plugin]
 exclude = "^(glibc|lib|kernel-|iptables-module).*"
