@@ -53,10 +53,7 @@ do_install () {
     # Change log dir
     mkdir -p "${D}/data/tedge/log"
     chown -R tedge:tedge "${D}/data/tedge/log"
-    tedge config set --config-dir "${D}${sysconfdir}/tedge" logs.path "${D}/data/tedge/log"
-
-    # Enable firmware management
-    tedge config set --config-dir "${D}${sysconfdir}/tedge" c8y.enable.firmware_update true
+    echo "logs.path = \"/data/tedge/log\"" >> "${D}${sysconfdir}/tedge/tedge.toml"
 }
 
 FILES:${PN} += " \
