@@ -15,7 +15,6 @@ LICENSE = "Apache-2.0"
 
 inherit cargo useradd
 
-DEPENDS = "mosquitto"
 RDEPENDS:${PN} = " mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo collectd"
 
 # This prevents disabling crates.io registry in cargo_do_configure task and
@@ -43,10 +42,6 @@ GROUPADD_PARAM:${PN} = "--system --gid 950 tedge"
 USERADD_PARAM:${PN} = "--system --no-create-home --shell /sbin/nologin --uid 951 --gid 950 tedge"
 
 do_install:append () {
-    # install collectd for tedge-mapper
-    install -d ${D}${sysconfdir}/tedge/contrib/collectd
-    install -m 0644 ${S}/configuration/contrib/collectd/collectd.conf ${D}${sysconfdir}/tedge/contrib/collectd
-
     # Create all folders
     install -d ${D}${sysconfdir}/tedge
     install -d ${D}${sysconfdir}/tedge/device-certs
@@ -54,6 +49,10 @@ do_install:append () {
     install -d ${D}${sysconfdir}/tedge/operations/c8y
     install -d ${D}${sysconfdir}/tedge/plugins
     install -d ${D}${sysconfdir}/tedge/sm-plugins
+
+    # install collectd for tedge-mapper
+    install -d ${D}${sysconfdir}/tedge/contrib/collectd
+    install -m 0644 ${S}/configuration/contrib/collectd/collectd.conf ${D}${sysconfdir}/tedge/contrib/collectd
 
     # Create symlink for tedge-apt-plugin in `/etc/tedge/sm-plugins`
     install -d ${D}${sysconfdir}/tedge/sm-plugins

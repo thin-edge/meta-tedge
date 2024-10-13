@@ -1,0 +1,5 @@
+[config]
+version = "2"
+
+[software.plugin]
+exclude = "^(glibc|lib|kernel-|iptables-module).*"

@@ -10,6 +10,9 @@ SRC_URI += " \
 
 inherit allarch
 
+DEPENDS = "tedge mosquitto"
+RDEPENDS:${PN} += " tedge"
+
 do_install () {
     # Add firmware worfklow and script
     install -d "${D}${bindir}"
@@ -26,23 +29,19 @@ do_install () {
     install -d "${D}/var/lib/mosquitto"
     install -d "${D}${sysconfdir}/tedge/mosquitto-conf/"
     install -m 0644 "${WORKDIR}/persist.conf" "${D}${sysconfdir}/tedge/mosquitto-conf/"
-}
 
-pkg_postinst:${PN} () {
-        if [ -d $D${sysconfdir}/sudoers.d/ ]; then
-        echo "tedge  ALL = (ALL) NOPASSWD: /usr/bin/mender, /usr/bin/tedgectl" > $D${sysconfdir}/sudoers.d/tedge-firmware
-    fi
-}
+    # Allow sudo access
+    install -d -m 0750 "${D}/etc/sudoers.d"
+    echo "tedge  ALL = (ALL) NOPASSWD: /usr/bin/mender, /usr/bin/tedgectl" > ${D}${sysconfdir}/sudoers.d/tedge-firmware
 
-pkg_postinst_ontarget:${PN} () {
     # Ensure persistence of operation state across partition swaps by storing
     # information on a persisted mount
-    mkdir -p /data/tedge/agent
-    chown -R tedge:tedge /data/tedge/agent
+    install -d "${D}/data/tedge/agent"
+    chown -R tedge:tedge "${D}/data/tedge/agent"
 
     # FIXME: Check if there is a better place to do this
-    if [ -d /var/lib/mosquitto ]; then
-        chown -R mosquitto:mosquitto /var/lib/mosquitto
+    if [ -d "${D}/var/lib/mosquitto" ]; then
+        chown -R mosquitto:mosquitto "${D}/var/lib/mosquitto"
     fi
 
     # FIXME: Currently some workflow state is reliant on the mosquitto db
@@ -50,16 +49,13 @@ pkg_postinst_ontarget:${PN} () {
     # where the existing mosquitto state is sometimes processed before the state
     # stored under the /data/tedge/agent folder
     # https://github.com/thin-edge/thin-edge.io/issues/2495
-    mkdir -p /data/mosquitto
-    chown mosquitto:mosquitto /data/mosquitto
+    mkdir -p "${D}/data/mosquitto"
+    chown mosquitto:mosquitto "${D}/data/mosquitto"
 
     # Change log dir
-    mkdir -p "/data/tedge/log"
-    chown -R tedge:tedge "/data/tedge/log"
-    tedge config set logs.path "/data/tedge/log"
-
-    # Enable firmware management
-    tedge config set c8y.enable.firmware_update true
+    mkdir -p "${D}/data/tedge/log"
+    chown -R tedge:tedge "${D}/data/tedge/log"
+    echo "logs.path = \"/data/tedge/log\"" >> "${D}${sysconfdir}/tedge/tedge.toml"
 }
 
 FILES:${PN} += " \
