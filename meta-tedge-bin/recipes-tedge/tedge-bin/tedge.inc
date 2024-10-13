@@ -2,6 +2,8 @@ SUMMARY = "tedge is the cli tool for thin-edge.io"
 HOMEPAGE = "https://thin-edge.io"
 LICENSE = "CLOSED"
 
+SRCREV_FORMAT = "tedge-bin"
+
 SRC_URI += " \
     file://operations/c8y/c8y_RemoteAccessConnect \ 
     file://tedge.toml \
