@@ -64,9 +64,6 @@ do_install:append () {
         rm -f ${D}${bindir}/${package}
     done
 
-    # Create file in /etc/sudoers.d directory. With this configuration, the tedge user have the right to call the tedge command with sudo rights, which is required for system-wide configuration in "/etc/tedge"
-    install -m 0644 "${WORKDIR}/sudoers.d/tedge" "${D}${sysconfdir}/sudoers.d/"
-
     # Initialize the tedge
     install -m 0644 "${WORKDIR}/operations/c8y/"* ${D}${sysconfdir}/tedge/operations/c8y/
     install -m 0644 "${WORKDIR}/tedge.toml" ${D}${sysconfdir}/tedge/
