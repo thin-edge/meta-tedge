@@ -66,6 +66,13 @@ do_install:append () {
     # Initialize the tedge
     install -m 0644 "${WORKDIR}/operations/c8y/"* ${D}${sysconfdir}/tedge/operations/c8y/
     install -m 0644 "${WORKDIR}/tedge.toml" ${D}${sysconfdir}/tedge/
+
+    # Create symlinks
+    ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-agent
+    ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-mapper
+    ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-apt-plugin
+    ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/c8y-remote-access-plugin
+    ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-watchdog
 }
 
 FILES:${PN} = "\ 
