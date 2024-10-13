@@ -53,7 +53,6 @@ do_install () {
     # Change log dir
     mkdir -p "${D}/data/tedge/log"
     chown -R tedge:tedge "${D}/data/tedge/log"
-    echo "logs.path = \"/data/tedge/log\"" >> "${D}${sysconfdir}/tedge/tedge.toml"
 }
 
 FILES:${PN} += " \
