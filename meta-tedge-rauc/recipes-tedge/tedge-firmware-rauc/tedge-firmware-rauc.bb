@@ -62,4 +62,9 @@ FILES:${PN} += " \
     ${datadir}/tedge-workflows/firmware_update.rauc.toml \
     ${sysconfdir}/sudoers.d/tedge-firmware-rauc \
     ${sysconfdir}/image_version \
+    /data \
+    /data/tedge \
+    /data/tedge/log \
+    /data/tedge/agent \
+    /data/mosquitto \
 "
