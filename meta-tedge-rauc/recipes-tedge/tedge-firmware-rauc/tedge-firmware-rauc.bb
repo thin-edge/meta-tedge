@@ -7,7 +7,7 @@ SRC_URI += " \
     file://persist.conf \
 "
 
-DEPENDS = "tedge"
+DEPENDS = "tedge mosquitto"
 RDEPENDS:${PN} += " tedge"
 
 do_install () {
