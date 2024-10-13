@@ -7,6 +7,9 @@ SRC_URI += " \
     file://persist.conf \
 "
 
+DEPENDS = "tedge"
+RDEPENDS:${PN} += " tedge"
+
 do_install () {
     # Add firmware worfklow and script
     install -d "${D}${bindir}"
