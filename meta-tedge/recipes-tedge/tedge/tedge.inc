@@ -15,6 +15,7 @@ LICENSE = "Apache-2.0"
 
 inherit cargo useradd
 
+DEPENDS = "sudo"
 RDEPENDS:${PN} = " mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo collectd"
 
 # This prevents disabling crates.io registry in cargo_do_configure task and
