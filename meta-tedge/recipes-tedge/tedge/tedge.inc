@@ -94,7 +94,7 @@ prepare_tedge_for_readonly_rootfs() {
 }
 
 # Run after all packages have been installed
-IMAGE_POSTPROCESS_COMMAND += " ${@bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', 'prepare_tedge_for_readonly_rootfs; ', '', d)}"
+ROOTFS_POSTPROCESS_COMMAND += "${@bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', 'prepare_tedge_for_readonly_rootfs', '', d)}"
 
 FILES:${PN} = "\ 
     ${bindir}/* \ 

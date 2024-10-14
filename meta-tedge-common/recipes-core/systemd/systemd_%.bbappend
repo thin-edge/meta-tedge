@@ -6,4 +6,4 @@ remove_privatetmp_usage() {
 }
 
 # Run after all packages have been installed
-IMAGE_POSTPROCESS_COMMAND += " ${@bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', 'remove_privatetmp_usage;', '', d)}"
+ROOTFS_POSTPROCESS_COMMAND += "${@bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', 'remove_privatetmp_usage', '', d)}"
