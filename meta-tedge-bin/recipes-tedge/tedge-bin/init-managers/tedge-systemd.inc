@@ -3,7 +3,7 @@ SRC_URI += "https://dl.cloudsmith.io/public/thinedge/${INIT_REPO_CHANNEL}/raw/na
 FILES:${PN} += "\
     ${systemd_system_unitdir}/* \
     ${sysconfdir}/init.d/* \
-    ${sysconfdir}/tedge/system.toml \
+    ${TEDGE_CONFIG_DIR}/system.toml \
     ${sysconfdir}/tedgectl/env \
     ${bindir}/tedgectl \
 "
