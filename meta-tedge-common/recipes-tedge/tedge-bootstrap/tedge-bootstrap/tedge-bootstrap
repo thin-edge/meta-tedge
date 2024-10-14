@@ -37,9 +37,24 @@ set_hostname() {
         echo "Host name is already set"
         return
     fi
-    echo "$host_name" | tee /etc/hostname
-    sed -i -E 's/^127.0.1.1.*/127.0.1.1\t'"$host_name"'/' /etc/hosts
-    hostnamectl set-hostname "$host_name"
+
+    if [ -w /etc/hostname ]; then
+        echo "$host_name" | tee /etc/hostname
+    else
+        echo "Skipping setting hostname as /etc/hostname is not writable"
+    fi
+
+    if [ -w /etc/hosts ]; then
+        sed -i -E 's/^127.0.1.1.*/127.0.1.1\t'"$host_name"'/' /etc/hosts
+    else
+        echo "Skipping setting hosts as /etc/hosts is not writable"
+    fi
+
+    if [ -w /etc/hostname ]; then
+        hostnamectl set-hostname "$host_name" || log "Failed to set using hostnamectl"
+    else
+        echo "Skipping setting hostname via hostnamectl set-hostname as /etc/hostname is not writable"
+    fi
 
     if command -V systemctl >/dev/null 2>&1; then
         systemctl restart avahi-daemon --no-block 2>/dev/null ||:
