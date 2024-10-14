@@ -10,6 +10,7 @@ do_install:append () {
     patch_service systemd-timedated.service
     patch_service systemd-timesyncd.service
     patch_service systemd-networkd.service
+    patch_service systemd-resolved.service
     patch_service systemd-hostnamed.service
     patch_service systemd-logind.service
 }
