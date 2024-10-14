@@ -7,6 +7,30 @@ log() {
     echo "$@" >&2
 }
 
+init_tedge_data() {
+    # Create data persistence folders
+    # Ensure persistence of operation state across partition swaps by storing
+    # information on a persisted mount
+    DATA_DIR="${DATA_DIR:-/data}"
+    if [ -d "$DATA_DIR" ]; then
+        log "Creating tedge persistence folder under $DATA_DIR/tedge"
+
+        if [ -d /etc/tedge-default ]; then
+            log "Copying files from /etc/tedge-default to /data/tedge"
+            cp -rp /etc/tedge-default /data/tedge
+        fi
+
+        mkdir -p "$DATA_DIR/tedge"
+        mkdir -p "$DATA_DIR/data/tedge/log"
+        mkdir -p "$DATA_DIR/data/tedge/agent"
+        chown -R tedge:tedge /data/tedge
+
+        log "Creating tedge persistence folder under $DATA_DIR/mosquitto"
+        mkdir -p "$DATA_DIR/mosquitto"
+        chown -R mosquitto:mosquitto "$DATA_DIR/mosquitto"
+    fi
+}
+
 set_hostname() {
     host_name="$1"
     if [ "$(cat /etc/hostname)" = "$host_name" ]; then
@@ -36,23 +60,8 @@ while [ "$attempt" -lt 30 ]; do
     sleep 5
 done
 
+init_tedge_data
+
 set_hostname "$DEVICE_ID"
-
-# Create data persistence folders
-# Ensure persistence of operation state across partition swaps by storing
-# information on a persisted mount
-DATA_DIR="${DATA_DIR:-/data}"
-if [ -d "$DATA_DIR" ]; then
-    log "Creating tedge persistence folder under $DATA_DIR/tedge"
-    
-    mkdir -p "$DATA_DIR/tedge"
-    mkdir -p "$DATA_DIR/data/tedge/log"
-    mkdir -p "$DATA_DIR/data/tedge/agent"
-    chown -R tedge:tedge /data/tedge
-
-    log "Creating tedge persistence folder under $DATA_DIR/mosquitto"
-    mkdir -p "$DATA_DIR/mosquitto"
-    chown -R mosquitto:mosquitto "$DATA_DIR/mosquitto"
-fi
 
 touch "$RAN_MARKER"
