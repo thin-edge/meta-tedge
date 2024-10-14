@@ -31,28 +31,10 @@ do_install () {
     install -d "${D}${sysconfdir}/tedge/mosquitto-conf/"
     install -m 0644 "${WORKDIR}/persist.conf" "${D}${sysconfdir}/tedge/mosquitto-conf/"
 
-
-    # Ensure persistence of operation state across partition swaps by storing
-    # information on a persisted mount
-    install -d "${D}/data/tedge/agent"
-    chown -R tedge:tedge "${D}/data/tedge/agent"
-
     # FIXME: Check if there is a better place to do this
     if [ -d "${D}/var/lib/mosquitto" ]; then
         chown -R mosquitto:mosquitto "${D}/var/lib/mosquitto"
     fi
-
-    # FIXME: Currently some workflow state is reliant on the mosquitto db
-    # and there might be a race condition on startup after a partition swap
-    # where the existing mosquitto state is sometimes processed before the state
-    # stored under the /data/tedge/agent folder
-    # https://github.com/thin-edge/thin-edge.io/issues/2495
-    mkdir -p "${D}/data/mosquitto"
-    chown mosquitto:mosquitto "${D}/data/mosquitto"
-
-    # Change log dir
-    mkdir -p "${D}/data/tedge/log"
-    chown -R tedge:tedge "${D}/data/tedge"
 }
 
 FILES:${PN} += " \
@@ -61,9 +43,4 @@ FILES:${PN} += " \
     ${datadir}/tedge-workflows/firmware_update.rauc.toml \
     ${sysconfdir}/sudoers.d/tedge-firmware-rauc \
     ${sysconfdir}/image_version \
-    /data \
-    /data/tedge \
-    /data/tedge/log \
-    /data/tedge/agent \
-    /data/mosquitto \
 "
