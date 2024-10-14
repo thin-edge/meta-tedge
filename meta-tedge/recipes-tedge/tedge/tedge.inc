@@ -76,25 +76,22 @@ do_install:append () {
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-watchdog
 
     chown -R tedge:tedge "${D}${sysconfdir}/tedge"
-}
 
-prepare_tedge_for_readonly_rootfs() {
     #
     # If using a pure read-only rootfs without the overlayfs-etc feature, then
     # make a copy of the /etc/tedge data included in the image (so it can be copied later)
     # and create a symlink from /etc/tedge to /data/tedge
     #
-    if ${@bb.utils.contains('IMAGE_FEATURES', 'overlayfs-etc', 'false', 'true', d)}; then
-        # Create a copy of packaged files
-        # and use a symlink from /etc/tedge => /data/tedge
-        # But don't create the symlink
-        mv "${IMAGE_ROOTFS}/etc/tedge" "${IMAGE_ROOTFS}/etc/tedge-default"
-        ln -s "${IMAGE_ROOTFS}/etc/tedge" /data/tedge
+    if ${@bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', 'true', 'false', d)}; then
+        if ${@bb.utils.contains('IMAGE_FEATURES', 'overlayfs-etc', 'false', 'true', d)}; then
+            # Create a copy of packaged files
+            # and use a symlink from /etc/tedge => /data/tedge
+            # But don't create the symlink
+            mv "${D}${sysconfdir}/tedge" "${D}${sysconfdir}/tedge-default"
+            ln --relative --symbolic ${D}${sysconfdir}/tedge ${D}/data/tedge
+        fi
     fi
 }
-
-# Run after all packages have been installed
-ROOTFS_POSTPROCESS_COMMAND += "${@bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', 'prepare_tedge_for_readonly_rootfs', '', d)}"
 
 FILES:${PN} = "\ 
     ${bindir}/* \ 
