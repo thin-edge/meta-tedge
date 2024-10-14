@@ -44,6 +44,7 @@ USERADD_PARAM:${PN} = "--system --no-create-home --shell /sbin/nologin --uid 951
 do_install:append () {
     # Create all folders
     install -d ${D}${sysconfdir}/tedge
+    install -d ${D}${sysconfdir}/tedge/device
     install -d ${D}${sysconfdir}/tedge/device-certs
     install -d ${D}${sysconfdir}/tedge/mosquitto-conf
     install -d ${D}${sysconfdir}/tedge/operations/c8y
@@ -73,6 +74,8 @@ do_install:append () {
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-apt-plugin
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/c8y-remote-access-plugin
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-watchdog
+
+    chown -R tedge:tedge "${D}${sysconfdir}/tedge"
 }
 
 FILES:${PN} = "\ 

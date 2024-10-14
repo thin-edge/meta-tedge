@@ -52,7 +52,7 @@ do_install () {
 
     # Change log dir
     mkdir -p "${D}/data/tedge/log"
-    chown -R tedge:tedge "${D}/data/tedge/log"
+    chown -R tedge:tedge "${D}/data/tedge"
 }
 
 FILES:${PN} += " \
