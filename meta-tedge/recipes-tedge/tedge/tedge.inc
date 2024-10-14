@@ -78,6 +78,13 @@ do_install:append () {
     chown -R tedge:tedge "${D}${sysconfdir}/tedge"
 }
 
+pkg_postinst_ontarget:${PN} () {
+    if [ -d /data ]; then
+        mkdir -p "/data/tedge"
+        chown -R tedge:tedge "/data/tedge"
+    fi
+}
+
 FILES:${PN} = "\ 
     ${bindir}/* \ 
     ${sysconfdir}/tedge \

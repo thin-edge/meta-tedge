@@ -50,6 +50,13 @@ do_install:append () {
     chown -R tedge:tedge "${D}${sysconfdir}/tedge"
 }
 
+pkg_postinst_ontarget:${PN} () {
+    if [ -d /data ]; then
+        mkdir -p "/data/tedge"
+        chown -R tedge:tedge "/data/tedge"
+    fi
+}
+
 # Automatically choose tedge package based on target architecture
 def get_tedge_pkg(d):
     target = d.getVar('TARGET_ARCH', True)
