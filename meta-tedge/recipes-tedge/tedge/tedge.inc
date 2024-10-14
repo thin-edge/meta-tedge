@@ -41,23 +41,36 @@ USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM:${PN} = "--system --gid 950 tedge"
 USERADD_PARAM:${PN} = "--system --no-create-home --shell /sbin/nologin --uid 951 --gid 950 tedge"
 
+python __anonymous () {
+    install_dir = "${sysconfdir}/tedge"
+    tedge_config_symlink = ""
+
+    if bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', True, False, d):
+        if not bb.utils.contains('IMAGE_FEATURES', 'overlayfs-etc', True, False, d):
+            tedge_config_symlink = install_dir
+            install_dir = "${sysconfdir}/tedge-default"
+
+    d.setVar("TEDGE_CONFIG_DIR", d.expand(install_dir))
+    d.setVar("TEDGE_CONFIG_SYMLINK", d.expand(tedge_config_symlink))
+}
+
 do_install:append () {
     # Create all folders
-    install -d ${D}${sysconfdir}/tedge
-    install -d ${D}${sysconfdir}/tedge/device
-    install -d ${D}${sysconfdir}/tedge/device-certs
-    install -d ${D}${sysconfdir}/tedge/mosquitto-conf
-    install -d ${D}${sysconfdir}/tedge/operations/c8y
-    install -d ${D}${sysconfdir}/tedge/plugins
-    install -d ${D}${sysconfdir}/tedge/sm-plugins
+    install -d ${D}${TEDGE_CONFIG_DIR}
+    install -d ${D}${TEDGE_CONFIG_DIR}/device
+    install -d ${D}${TEDGE_CONFIG_DIR}/device-certs
+    install -d ${D}${TEDGE_CONFIG_DIR}/mosquitto-conf
+    install -d ${D}${TEDGE_CONFIG_DIR}/operations/c8y
+    install -d ${D}${TEDGE_CONFIG_DIR}/plugins
+    install -d ${D}${TEDGE_CONFIG_DIR}/sm-plugins
 
     # install collectd for tedge-mapper
-    install -d ${D}${sysconfdir}/tedge/contrib/collectd
-    install -m 0644 ${S}/configuration/contrib/collectd/collectd.conf ${D}${sysconfdir}/tedge/contrib/collectd
+    install -d ${D}${TEDGE_CONFIG_DIR}/contrib/collectd
+    install -m 0644 ${S}/configuration/contrib/collectd/collectd.conf ${D}${TEDGE_CONFIG_DIR}/contrib/collectd
 
     # Create symlink for tedge-apt-plugin in `/etc/tedge/sm-plugins`
-    install -d ${D}${sysconfdir}/tedge/sm-plugins
-    ln -s -r  ${D}${bindir}/tedge-apt-plugin ${D}${sysconfdir}/tedge/sm-plugins/apt
+    install -d ${D}${TEDGE_CONFIG_DIR}/sm-plugins
+    ln -s -r  ${D}${bindir}/tedge-apt-plugin ${D}${TEDGE_CONFIG_DIR}/sm-plugins/apt
 
     # Remove packages indicated in `TEDGE_EXCLUDE` (NOTE: they cannot be part of tedge-binary)
     for package in ${@d.getVar('TEDGE_EXCLUDE')}; do 
@@ -65,8 +78,8 @@ do_install:append () {
     done
 
     # Initialize the tedge
-    install -m 0644 "${WORKDIR}/operations/c8y/"* ${D}${sysconfdir}/tedge/operations/c8y/
-    install -m 0644 "${WORKDIR}/tedge.toml" ${D}${sysconfdir}/tedge/
+    install -m 0644 "${WORKDIR}/operations/c8y/"* ${D}${TEDGE_CONFIG_DIR}/operations/c8y/
+    install -m 0644 "${WORKDIR}/tedge.toml" ${D}${TEDGE_CONFIG_DIR}/
 
     # Create symlinks
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-agent
@@ -75,31 +88,26 @@ do_install:append () {
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/c8y-remote-access-plugin
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-watchdog
 
-    chown -R tedge:tedge "${D}${sysconfdir}/tedge"
+    chown -R tedge:tedge "${D}${TEDGE_CONFIG_DIR}"
 
     #
     # If using a pure read-only rootfs without the overlayfs-etc feature, then
     # make a copy of the /etc/tedge data included in the image (so it can be copied later)
     # and create a symlink from /etc/tedge to /data/tedge
     #
-    if ${@bb.utils.contains('IMAGE_FEATURES', 'read-only-rootfs', 'true', 'false', d)}; then
-        if ${@bb.utils.contains('IMAGE_FEATURES', 'overlayfs-etc', 'false', 'true', d)}; then
-            # Create a copy of packaged files
-            # and use a symlink from /etc/tedge => /data/tedge
-            # But don't create the symlink
-            mv "${D}${sysconfdir}/tedge" "${D}${sysconfdir}/tedge-default"
-            ln --relative --symbolic ${D}/data/tedge ${D}${sysconfdir}/tedge
-        fi
+    if [ -n "${TEDGE_CONFIG_SYMLINK}" ]; then
+        ln --relative --symbolic ${D}/data/tedge ${D}${TEDGE_CONFIG_SYMLINK}
     fi
 }
 
 FILES:${PN} = "\ 
-    ${bindir}/* \ 
-    ${sysconfdir}/tedge \
-    ${sysconfdir}/tedge/tedge.toml \
-    ${sysconfdir}/tedge/operations/c8y/c8y_RemoteAccessConnect \
-    ${sysconfdir}/tedge/contrib/collectd \
-    ${sysconfdir}/tedge/sm-plugins/apt \
+    ${bindir}/* \
+    ${TEDGE_CONFIG_SYMLINK} \
+    ${TEDGE_CONFIG_DIR} \
+    ${TEDGE_CONFIG_DIR}/tedge.toml \
+    ${TEDGE_CONFIG_DIR}/operations/c8y/c8y_RemoteAccessConnect \
+    ${TEDGE_CONFIG_DIR}/contrib/collectd \
+    ${TEDGE_CONFIG_DIR}/sm-plugins/apt \
 "
 
 require tedge-services.inc

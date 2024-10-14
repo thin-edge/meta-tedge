@@ -24,8 +24,7 @@ do_install:append () {
 
     # Install for every init manager but systemd as it is natively supported by thin-edge
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'false', 'true', d)}; then
-        install -d ${D}${sysconfdir}/tedge
-        install -m 0644 ${WORKDIR}/tedge-services/services/system.toml ${D}${sysconfdir}/tedge
+        install -m 0644 ${WORKDIR}/tedge-services/services/system.toml ${D}${TEDGE_CONFIG_DIR}
 
         install -d ${D}${sysconfdir}/tedgectl
         install -m 0644 ${WORKDIR}/tedge-services/services/tedgectl_env ${D}${sysconfdir}/tedgectl/env
@@ -38,7 +37,7 @@ do_install:append () {
 FILES:${PN} += "\
     ${systemd_system_unitdir}/* \
     ${sysconfdir}/init.d/* \
-    ${sysconfdir}/tedge/system.toml \
+    ${TEDGE_CONFIG_DIR}/system.toml \
     ${sysconfdir}/tedgectl/env \
     ${bindir}/tedgectl \
 "
