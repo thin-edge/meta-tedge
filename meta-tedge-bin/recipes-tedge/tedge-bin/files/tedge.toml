@@ -1,5 +1,11 @@
 [config]
 version = "2"
 
+[data]
+path = "/data/tedge/data"
+
+[logs]
+path = "/data/tedge/log"
+
 [software.plugin]
 exclude = "^(glibc|lib|kernel-|iptables-module).*"
