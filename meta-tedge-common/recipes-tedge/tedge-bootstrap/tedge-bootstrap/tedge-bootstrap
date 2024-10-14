@@ -16,18 +16,18 @@ init_tedge_data() {
         log "Creating tedge persistence folder under $DATA_DIR/tedge"
 
         if [ -d /etc/tedge-default ]; then
-            log "Copying files from /etc/tedge-default to /data/tedge"
-            cp -rp /etc/tedge-default /data/tedge
+            log "Copying files from /etc/tedge-default to $DATA_DIR/tedge"
+            cp -rp /etc/tedge-default "$DATA_DIR/tedge"
         fi
 
         mkdir -p "$DATA_DIR/tedge"
-        mkdir -p "$DATA_DIR/data/tedge/log"
-        mkdir -p "$DATA_DIR/data/tedge/agent"
-        chown -R tedge:tedge /data/tedge
+        mkdir -p "$DATA_DIR/tedge/log"
+        mkdir -p "$DATA_DIR/tedge/agent"
+        chown -Rh tedge:tedge "$DATA_DIR/tedge"
 
         log "Creating tedge persistence folder under $DATA_DIR/mosquitto"
         mkdir -p "$DATA_DIR/mosquitto"
-        chown -R mosquitto:mosquitto "$DATA_DIR/mosquitto"
+        chown -Rh mosquitto:mosquitto "$DATA_DIR/mosquitto"
     fi
 }
 
