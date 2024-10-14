@@ -88,7 +88,7 @@ do_install:append () {
             # and use a symlink from /etc/tedge => /data/tedge
             # But don't create the symlink
             mv "${D}${sysconfdir}/tedge" "${D}${sysconfdir}/tedge-default"
-            ln --relative --symbolic ${D}${sysconfdir}/tedge ${D}/data/tedge
+            ln --relative --symbolic ${D}/data/tedge ${D}${sysconfdir}/tedge
         fi
     fi
 }
