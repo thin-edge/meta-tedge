@@ -87,6 +87,7 @@ SRC_URI[aarch64.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_chan
 SRC_URI[armv6.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}-armv6" "armv6" "$tedge_version")"
 SRC_URI[armv7.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "armv7" "$tedge_version")"
 SRC_URI[x86_64.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "amd64" "$tedge_version")"
+SRC_URI[riscv64.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "riscv64" "$tedge_version")"
 
 # Init manager variables
 INIT_REPO_CHANNEL = "$(basename "$community_repo")"
