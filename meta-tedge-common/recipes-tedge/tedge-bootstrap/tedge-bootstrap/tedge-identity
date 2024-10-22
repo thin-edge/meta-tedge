@@ -42,7 +42,28 @@ get_mac_address() {
     fi
 }
 
+read_from_build_file() {
+    PROPERTY="$1"
+    if [ ! -f /etc/build ]; then
+        return 1
+    fi
+    value=$(grep "^$PROPERTY =" /etc/build | cut -d= -f2- | xargs)
+    if [ -z "$value" ]; then
+        return 1
+    fi
+    echo "$value"
+
+    echo "Reading the model prefix from the $PROPERTY property of /etc/build" >&2
+}
+
 get_model_type() {
+    # Use explicit value if one is defined in the build file
+    MODEL_PREFIX=$(read_from_build_file DEVICE_MODEL ||:)
+    if [ -n "$MODEL_PREFIX" ]; then
+        echo "$MODEL_PREFIX"
+        return 0
+    fi
+
     MODEL=$(grep Model /proc/cpuinfo | cut -d: -f2 | xargs)
     SERIAL_NO=$(grep Serial /proc/cpuinfo | cut -d: -f2 | xargs)
 
@@ -80,10 +101,11 @@ get_model_type() {
             MODEL_PREFIX=rpicm4
             ;;
         *)
-            MODEL_PREFIX=unknown
+            # Use the first non empty value from the build file with a fallback if it is not found
+            MODEL_PREFIX=$(read_from_build_file MACHINE || echo "tedge")
             ;;
     esac
-    echo  "$MODEL_PREFIX"
+    echo "$MODEL_PREFIX"
 }
 
 MAC_ADDR=$(get_mac_address)
