@@ -3,6 +3,7 @@ HOMEPAGE = "https://thin-edge.io"
 LICENSE = "CLOSED"
 RDEPENDS:${PN} += " mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo"
 
+inherit logging
 inherit bin_package useradd
 
 INSANE_SKIP:${PN} = "already-stripped"
@@ -85,8 +86,11 @@ def get_tedge_pkg(d):
         tedgePkg = "tedge-aarch64"
     elif target == "x86_64":
         tedgePkg = "tedge-x86-64"
+    elif target == "riscv64" or target == "riscv64gc":
+        tedgePkg = "tedge-riscv64"
     else:
-        raise bb.parse.SkipPackage("Target architecture '%s' is not supported by the meta-tedge-bin layer" %target)
+        bb.warn("Target architecture '%s' is not supported by the meta-tedge-bin layer" % target)
+        raise bb.parse.SkipPackage("Target architecture '%s' is not supported by the meta-tedge-bin layer" % target)
     return tedgePkg
 
 # Automatically setup service system based on init manager
@@ -99,7 +103,8 @@ def get_tedge_service(d):
     elif "systemd" in initManager:
         tedgeService = "tedge-systemd"
     else:
-        raise bb.parse.SkipPackage("Init manager '%s' is not supported by the meta-tedge-bin layer" %initManager)
+        bb.warn("Init manager '%s' is not supported by the meta-tedge-bin layer" % initManager)
+        raise bb.parse.SkipPackage("Init manager '%s' is not supported by the meta-tedge-bin layer" % initManager)
     return tedgeService
 
 TEDGE_PKG = "${@get_tedge_pkg(d)}"
