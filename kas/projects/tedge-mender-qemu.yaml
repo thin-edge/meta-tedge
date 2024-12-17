@@ -20,7 +20,7 @@ env:
 
 defaults:
   repos:
-    branch: kirkstone
+    branch: scarthgap
 
 repos:
   poky:
@@ -45,10 +45,6 @@ repos:
       meta-mender-core:
       meta-mender-qemu:
 
-  meta-lts-mixins-rust:
-    url: "https://git.yoctoproject.org/meta-lts-mixins"
-    branch: kirkstone/rust
-
   meta-tedge:
     path: ../../
     layers:
@@ -57,9 +53,13 @@ repos:
       meta-tedge-mender:
       meta-tedge-extras:
 
-  meta-lts-mixins-go:
+  meta-lts-mixins-rust:
     url: "https://git.yoctoproject.org/meta-lts-mixins"
-    branch: kirkstone/go
+    branch: scarthgap/rust
+
+  meta-lts-mixins-u-boot:
+    url: "https://git.yoctoproject.org/meta-lts-mixins"
+    branch: scarthgap/u-boot
 
   meta-virtualization:
     url: "https://git.yoctoproject.org/meta-virtualization"

@@ -21,7 +21,7 @@ env:
 
 defaults:
   repos:
-    branch: kirkstone
+    branch: scarthgap
 
 repos:
   poky:
@@ -47,11 +47,11 @@ repos:
     url: "https://github.com/mendersoftware/meta-mender"
     layers:
       meta-mender-core:
-      meta-mender-raspberrypi:
 
-  meta-lts-mixins-rust:
-    url: "https://git.yoctoproject.org/meta-lts-mixins"
-    branch: kirkstone/rust
+  meta-mender-community:
+    url: "https://github.com/mendersoftware/meta-mender-community"
+    layers:
+      meta-mender-raspberrypi:
 
   meta-tedge:
     path: ../../
@@ -62,9 +62,13 @@ repos:
       meta-tedge-extras:
       meta-raspberrypi:
 
-  meta-lts-mixins-go:
+  meta-lts-mixins-rust:
     url: "https://git.yoctoproject.org/meta-lts-mixins"
-    branch: kirkstone/go
+    branch: scarthgap/rust
+
+  meta-lts-mixins-u-boot:
+    url: "https://git.yoctoproject.org/meta-lts-mixins"
+    branch: scarthgap/u-boot
   
   meta-virtualization:
     url: "https://git.yoctoproject.org/meta-virtualization"
