@@ -303,8 +303,6 @@ IMAGE_INSTALL:append = " \
 
 IMAGE_INSTALL:append = " \ 
     networkmanager \
-    networkmanager-bash-completion \
-    networkmanager-nmtui \
 "
 
 inherit extrausers
