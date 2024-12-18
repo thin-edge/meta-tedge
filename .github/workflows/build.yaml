@@ -67,11 +67,17 @@ jobs:
         working-directory: kas
         env:
           KAS_MACHINE: ${{ matrix.machine }}
+
+      # Delete any symlinks as this affects the artifact upload pattern
+      - name: Delete image symlinks
+        run: |
+          find "kas/build/tmp/deploy/images/${{ matrix.machine }}/" -type l -name "${{ matrix.image_name }}*" -delete
+
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-            name: ${{ matrix.image_name }}_${{ matrix.machine }}
-            path: |
-              kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}_*.${{ matrix.image_ext }}
-              kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}_*.${{ matrix.update_ext }}
-              kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}_*.${{ matrix.manifest_ext }}
+          name: ${{ matrix.image_name }}_${{ matrix.machine }}
+          path: |
+            kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.${{ matrix.image_ext }}
+            kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.${{ matrix.update_ext }}
+            kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.${{ matrix.manifest_ext }}
