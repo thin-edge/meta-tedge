@@ -3,7 +3,7 @@ header:
 overrides:
   repos:
     meta-lts-mixins-go:
-      commit: 7b4c22b4114c5789a6cb7d8b0b7c7078cd9f0dc9
+      commit: b8a6349ec476c0a38436be7503ef963f49c2c461
     meta-mender:
       commit: 9efa9409684e303472ed9dae749ab663909eb689
     meta-openembedded:

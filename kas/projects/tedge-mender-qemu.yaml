@@ -58,7 +58,7 @@ repos:
       meta-tedge-extras:
 
   meta-lts-mixins-go:
-    url: "https://github.com/moto-timo/meta-lts-mixins.git"
+    url: "https://git.yoctoproject.org/meta-lts-mixins"
     branch: kirkstone/go
 
   meta-virtualization:
