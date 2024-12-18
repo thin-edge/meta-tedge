@@ -8,7 +8,6 @@ SRC_URI += " \
     file://persist.conf \
 "
 
-inherit logging
 inherit allarch
 
 DEPENDS = "tedge mosquitto"

@@ -9,7 +9,6 @@ SRC_URI += " \
 
 RDEPENDS:${PN} += " mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo collectd"
 
-inherit logging
 inherit bin_package useradd
 
 INSANE_SKIP:${PN} = "already-stripped"

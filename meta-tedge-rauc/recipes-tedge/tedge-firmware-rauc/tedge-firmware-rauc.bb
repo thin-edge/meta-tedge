@@ -7,8 +7,6 @@ SRC_URI += " \
     file://persist.conf \
 "
 
-inherit logging
-
 DEPENDS = "tedge mosquitto"
 RDEPENDS:${PN} += " tedge"
 

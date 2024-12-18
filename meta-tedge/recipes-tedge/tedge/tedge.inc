@@ -13,7 +13,6 @@ SUMMARY = "tedge is the cli tool for thin-edge.io"
 HOMEPAGE = "https://thin-edge.io"
 LICENSE = "Apache-2.0"
 
-inherit logging
 inherit cargo useradd
 
 RDEPENDS:${PN} = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo collectd"
