@@ -4,14 +4,14 @@ overrides:
   repos:
     meta-lts-mixins-go:
       commit: b8a6349ec476c0a38436be7503ef963f49c2c461
+    meta-lts-mixins-rust:
+      commit: 9bc06b6a761f28cf82aae8a99afe27ed5e2ce4c9
     meta-mender:
       commit: 9efa9409684e303472ed9dae749ab663909eb689
     meta-openembedded:
       commit: 4ad41baed6236d499804cbfc4f174042d84fce97
     meta-raspberrypi:
       commit: d7544f35756d87834e8b4bf3e3e733c771d380ae
-    meta-rust:
-      commit: a5136be2ba408af1cc8afcde1c8e3d787dadd934
     meta-virtualization:
       commit: c996df33763f292da5e7513c574272d7de23eafc
     poky:

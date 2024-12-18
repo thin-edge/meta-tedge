@@ -4,6 +4,8 @@ overrides:
   repos:
     meta-lts-mixins-go:
       commit: b8a6349ec476c0a38436be7503ef963f49c2c461
+    meta-lts-mixins-rust:
+      commit: 9bc06b6a761f28cf82aae8a99afe27ed5e2ce4c9
     meta-openembedded:
       commit: 4ad41baed6236d499804cbfc4f174042d84fce97
     meta-raspberrypi:
@@ -12,8 +14,6 @@ overrides:
       commit: b27b59e2f9a3a7446f740b10560462076ef07009
     meta-rauc-community:
       commit: fdaccecf6f950ccc21628aa2d8a5d7f9557eaabc
-    meta-rust:
-      commit: a5136be2ba408af1cc8afcde1c8e3d787dadd934
     meta-virtualization:
       commit: c996df33763f292da5e7513c574272d7de23eafc
     poky:
