@@ -5,6 +5,8 @@ header:
 local_conf_header:
   meta-tedge-container-plugin: |
     DISTRO_FEATURES:append = " virtualization"
-    IMAGE_INSTALL:append = " docker-ce"
+    IMAGE_INSTALL:append = " docker"
+    # Control whether docker-ce or docker-moby is used
+    # PREFERRED_PROVIDER_virtual/docker ?= "docker-ce"
     IMAGE_INSTALL:append = " docker-compose"
     IMAGE_INSTALL:append = " tedge-container-plugin"
