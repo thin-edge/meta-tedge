@@ -5,3 +5,5 @@ header:
 local_conf_header:
   meta-network: |
     IMAGE_INSTALL:append = " networkmanager networkmanager-bash-completion networkmanager-nmtui"
+    # Enable systemd-networkd and systemd-resolved
+    PACKAGECONFIG:append:pn-systemd = " networkd resolved"
