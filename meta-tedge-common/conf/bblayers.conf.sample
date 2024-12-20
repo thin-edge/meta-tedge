@@ -13,7 +13,7 @@ BBLAYERS ?= " \
   /dir/to/layers/meta-openembedded/meta-python \
   /dir/to/layers/meta-openembedded/meta-networking \
   /dir/to/layers/meta-openembedded/meta-multimedia \
-  /dir/to/layers/meta-rust \
+  /dir/to/layers/meta-lts-mixins-rust \
   /dir/to/layers/meta-raspberrypi \
   /dir/to/layers/meta-tedge \
   /dir/to/layers/meta-mender/meta-mender-core \

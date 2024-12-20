@@ -49,9 +49,9 @@ repos:
       meta-mender-core:
       meta-mender-raspberrypi:
 
-  meta-rust:
-    url: "https://github.com/meta-rust/meta-rust"
-    branch: master
+  meta-lts-mixins-rust:
+    url: "https://git.yoctoproject.org/meta-lts-mixins"
+    branch: kirkstone/rust
 
   meta-tedge:
     path: ../../
@@ -63,7 +63,7 @@ repos:
       meta-raspberrypi:
 
   meta-lts-mixins-go:
-    url: "https://github.com/moto-timo/meta-lts-mixins.git"
+    url: "https://git.yoctoproject.org/meta-lts-mixins"
     branch: kirkstone/go
   
   meta-virtualization:
