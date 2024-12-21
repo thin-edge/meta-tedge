@@ -7,3 +7,4 @@ local_conf_header:
     DISTRO_FEATURES:append = " bluez5 bluetooth wifi "
     IMAGE_INSTALL:append = " linux-firmware-rpidistro-bcm43430 bluez5 i2c-tools"
     ENABLE_UART = "1"
+    LICENSE_FLAGS_ACCEPTED = "synaptics-killswitch"
