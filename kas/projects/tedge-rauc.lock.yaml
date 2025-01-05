@@ -17,4 +17,4 @@ overrides:
     meta-virtualization:
       commit: a055d7dcafc58855081a5eac9a46b93b9b51012b
     poky:
-      commit: ce1fa3eec036c866e1c0fb091057349f203ea6a2
+      commit: db0505b9ba33015038eaecce835fd991db32ed20
