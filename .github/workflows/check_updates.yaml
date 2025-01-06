@@ -8,6 +8,8 @@ jobs:
   check_updates:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'thin-edge'
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       fail-fast: false
       matrix:
