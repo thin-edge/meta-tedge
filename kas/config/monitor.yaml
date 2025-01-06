@@ -5,3 +5,8 @@ header:
 local_conf_header:
   meta-monitor: |
     IMAGE_INSTALL:append = " monit"
+
+    # collectd
+    IMAGE_INSTALL:append = " libmosquitto1 libmosquittopp1"
+    PACKAGECONFIG:append:pn-collectd = " mqtt"
+    SYSTEMD_AUTO_ENABLE:tedge-mapper-collectd = "enable"
