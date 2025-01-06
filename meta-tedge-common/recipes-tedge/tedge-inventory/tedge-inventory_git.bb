@@ -25,7 +25,7 @@ do_install () {
         install -m 0755 "$file" "${D}${datadir}/tedge-inventory/scripts.d"
     done
 
-    install -m 0755 "${WORKDIR}/firmware-version" "${D}${datadir}/tedge-inventory/scripts.d/80_c8y_Firmware"
+    install -m 0755 "${WORKDIR}/firmware-version" "${D}${datadir}/tedge-inventory/scripts.d/80_firmware"
 
     install -d "${D}${systemd_system_unitdir}"
     for file in ${S}/src/services/systemd/tedge-inventory*; do

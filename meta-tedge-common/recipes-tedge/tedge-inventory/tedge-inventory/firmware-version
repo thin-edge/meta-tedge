@@ -46,8 +46,3 @@ fi
 
 echo "name=\"$NAME\""
 echo "version=\"$VERSION\""
-
-# FIXME: Workaround since thin-edge.io does deduplication detection.
-# However this is only needed because the firmware/name is cleared on tedge-agent startup.
-# Remove once https://github.com/thin-edge/thin-edge.io/issues/2497 is resolved
-echo "updated=\"$(date)\""
