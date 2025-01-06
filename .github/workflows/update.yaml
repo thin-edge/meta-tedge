@@ -1,21 +1,36 @@
-name: check_updates
+name: update
 on:
-  schedule:
-    # Check daily
-    - cron: '0 3 * * *'
   workflow_dispatch:
 jobs:
-  check_updates:
+  update:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'thin-edge'
     env:
-      PR_BRANCH: updater
+      PR_BRANCH: updater-${{github.ref_name}}
     steps:
       - uses: actions/checkout@v4
-      - name: Check update
+
+      # Only install tooling if not running on a self-hosted runner as the tools are already pre-installed
+      - uses: taiki-e/install-action@just
+        if: ${{ !startsWith(runner.name, 'tedge') }}
+      - uses: actions/setup-python@v5
+        if: ${{ !startsWith(runner.name, 'tedge') }}
+        with:
+          python-version: '3.11'
+      - run: pip3 install kas
+        if: ${{ !startsWith(runner.name, 'tedge') }}
+
+      - name: Update lock files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: just update-all-locks
+        working-directory: kas
+
+      - name: Check thin-edge.io version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./scripts/admin.sh update_version
+
       - name: Create PR on new version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -32,7 +47,7 @@ jobs:
           git config --global user.email "info@thin-edge.io"
           git config --global user.name "Versioneer"
           git checkout -b "$PR_BRANCH"
-          git commit -am "Update version"
+          git commit -am "Update ${{github.ref_name}} branch"
           git push --set-upstream origin "$PR_BRANCH"
           gh repo set-default ${{github.repository}}
-          gh pr create --title "Update version" --body "Update version"
+          gh pr create --title "Update version" --body "Update version" --label ci

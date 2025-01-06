@@ -1,0 +1,20 @@
+name: check_updates
+on:
+  schedule:
+    # Check daily
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+jobs:
+  check_updates:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'thin-edge'
+    strategy:
+      fail-fast: false
+      matrix:
+        branch:
+          - kirkstone
+          - scarthgap
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update ${{ matrix.branch }}
+        run: gh workflow run update --ref ${{ matrix.branch }}
