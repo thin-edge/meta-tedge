@@ -11,6 +11,7 @@ set -e
 
 NAME=
 VERSION=
+BUILD_INFO_FILE=/etc/buildinfo
 
 read_from_mender() {
     # Parse mender artifact to name and version
@@ -27,16 +28,14 @@ read_from_mender() {
 }
 
 read_from_yocto_build() {
-    NAME=$(grep "IMAGE_BASENAME = " /etc/build | cut -d = -f2- | xargs)
-    VERSION=$(grep "IMAGE_NAME = " /etc/build | cut -d = -f2- | rev | cut -d_ -f1 | rev | xargs)
-    # Alternative version (using DATETIME)
-    # VERSION=$(grep "DATETIME = " /etc/build | cut -d = -f2- | xargs)
+    NAME=$(grep "IMAGE_BASENAME = " "$1" | cut -d = -f2- | xargs)
+    VERSION=$(grep "IMAGE_NAME = " "$1" | cut -d = -f2- | rev | cut -d_ -f1 | rev | xargs)
 }
 
 if command -v mender >/dev/null 2>&1; then
     read_from_mender
-elif [ -f /etc/build ]; then
-    read_from_yocto_build
+elif [ -f "$BUILD_INFO_FILE" ]; then
+    read_from_yocto_build "$BUILD_INFO_FILE"
 fi
 
 if [ -z "$NAME" ] || [ -z "$VERSION" ]; then
