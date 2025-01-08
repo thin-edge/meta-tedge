@@ -1,12 +1,9 @@
 name: build
 
 on:
-  push:
-    branches:
-      - kirkstone
   workflow_dispatch:
   pull_request:
-    types: [ labeled ]
+    types: [ labeled, closed ]
 
 env:
   SSTATE_DIR: /data/yocto/sstate-cache
@@ -14,7 +11,9 @@ env:
 
 jobs:
   build:
-    if: github.event_name != 'pull_request' || github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'ci')
+    if: |
+      (github.event.pull_request.merged && !contains(github.event.pull_request.labels.*.name, 'ci-skip')) || 
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'ci'))
     name: Build ${{ matrix.project }} ${{ matrix.machine }}
     runs-on:
       - self-hosted
