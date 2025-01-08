@@ -15,8 +15,9 @@ local_conf_header:
     INIT_MANAGER="systemd"
     TEDGE_CONFIG_DIR = "/etc/tedge"
 
-    # Add /etc/build file with information about build
+    # Add /etc/buildinfo file with information about build
     INHERIT += "image-buildinfo"
+    IMAGE_BUILDINFO_FILE = "${sysconfdir}/buildinfo"
     IMAGE_BUILDINFO_VARS:append = " DATETIME DISTRO_NAME IMAGE_BASENAME IMAGE_NAME IMAGE_NAME_SUFFIX MACHINE TUNE_PKGARCH" 
     IMAGE_BUILDINFO_VARS:append = " MACHINE_FEATURES DISTRO_FEATURES COMMON_FEATURES IMAGE_FEATURES"
     IMAGE_BUILDINFO_VARS:append = " TUNE_FEATURES TARGET_FPU"
