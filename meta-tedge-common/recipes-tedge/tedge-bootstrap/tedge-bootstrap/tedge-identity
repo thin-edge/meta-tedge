@@ -44,16 +44,17 @@ get_mac_address() {
 
 read_from_build_file() {
     PROPERTY="$1"
-    if [ ! -f /etc/build ]; then
+    BUILD_INFO_FILE=/etc/buildinfo
+    if [ ! -f "$BUILD_INFO_FILE" ]; then
         return 1
     fi
-    value=$(grep "^$PROPERTY =" /etc/build | cut -d= -f2- | xargs)
+    value=$(grep "^$PROPERTY =" "$BUILD_INFO_FILE" | cut -d= -f2- | xargs)
     if [ -z "$value" ]; then
         return 1
     fi
     echo "$value"
 
-    echo "Reading the model prefix from the $PROPERTY property of /etc/build" >&2
+    echo "Reading the model prefix from the $PROPERTY property of '$BUILD_INFO_FILE'" >&2
 }
 
 get_model_type() {
