@@ -50,4 +50,4 @@ jobs:
           git commit -am "Update ${{github.ref_name}} branch"
           git push --set-upstream origin "$PR_BRANCH"
           gh repo set-default ${{github.repository}}
-          gh pr create --title "Update version" --body "Update version" --label ci
+          gh pr create --base "${{github.ref_name}}" --title "Update version" --body "Update version" --label ci
