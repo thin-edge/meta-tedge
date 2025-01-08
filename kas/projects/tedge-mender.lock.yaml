@@ -7,7 +7,7 @@ overrides:
     meta-lts-mixins-u-boot:
       commit: 66ceeebd047d7fdfc8668b300319a76da8ae257d
     meta-mender:
-      commit: b109dbaa3f8219c6726f78edf95a42b01c6f5a5d
+      commit: 694ac37314167a2b5445f503c1baaeb3b1b15a4e
     meta-mender-community:
       commit: cb5dd30c043efcd4fab501d0cf9a8670031ab8df
     meta-openembedded:
@@ -15,6 +15,6 @@ overrides:
     meta-raspberrypi:
       commit: 6df7e028a2b7b2d8cab0745dc0ed2eebc3742a17
     meta-virtualization:
-      commit: 450941a1b6df96285691e8c23d4f332d3c88a994
+      commit: 2ec66285d050ef3cd29a5ea57c71341e6b17b36f
     poky:
       commit: 60b5842348f50ad44b6a64fc6201952bbbc46849
