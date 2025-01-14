@@ -5,7 +5,7 @@ overrides:
     meta-lts-mixins-go:
       commit: b8a6349ec476c0a38436be7503ef963f49c2c461
     meta-openembedded:
-      commit: 7b3fdcdfaab2fc964bbf9eec2cce4e03001fa8cf
+      commit: 66ec16850573a7ec69248b81f9904cdfba79b930
     meta-raspberrypi:
       commit: d7544f35756d87834e8b4bf3e3e733c771d380ae
     meta-rauc:
@@ -15,4 +15,4 @@ overrides:
     meta-virtualization:
       commit: a055d7dcafc58855081a5eac9a46b93b9b51012b
     poky:
-      commit: db0505b9ba33015038eaecce835fd991db32ed20
+      commit: f50532593651dff82bc952288d786c55038c2c86
