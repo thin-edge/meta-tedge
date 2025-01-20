@@ -9,8 +9,8 @@ overrides:
     meta-mender:
       commit: 05e4f995ea3461c16b2ca9aa012b12d01d9a91e6
     meta-openembedded:
-      commit: 3c293e14492f01e22a64004e2330fb620c27578a
+      commit: 5f9f741193f55bb4bb3c974e913d169dd23e40d3
     meta-virtualization:
       commit: 2ec66285d050ef3cd29a5ea57c71341e6b17b36f
     poky:
-      commit: 7117d115eab7351ecf21388ec720a3bb5f4a9b30
+      commit: 2240b92d62618d6125bd825647392d3bb5a2d038
