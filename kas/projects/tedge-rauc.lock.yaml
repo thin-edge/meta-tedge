@@ -3,9 +3,9 @@ header:
 overrides:
   repos:
     meta-lts-mixins-rust:
-      commit: a5fc9344ebd80d36326bde082aea33f0c7873291
+      commit: 7e6b83c16f743d12ad4c10cf44d2a84760c8206b
     meta-openembedded:
-      commit: 5f9f741193f55bb4bb3c974e913d169dd23e40d3
+      commit: dda0d53326017d6758ec6bdfdaf2f484c089d13f
     meta-raspberrypi:
       commit: 6df7e028a2b7b2d8cab0745dc0ed2eebc3742a17
     meta-rauc:
