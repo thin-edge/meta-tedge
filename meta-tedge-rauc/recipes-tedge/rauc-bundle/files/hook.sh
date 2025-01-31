@@ -83,6 +83,10 @@ transfer_files() {
 
             cp -RfaH /etc/tedge/* "${target}/etc/tedge"
 
+            # Delete the c8y_Command definition from the legacy c8y-command-plugin
+            # tedge-command-plugin uses a c8y_Command.template file instead
+            rm -f "${target}/etc/tedge/operations/c8y/c8y_Command"
+
             if [ "$RESTORE_FIRMARE_WORKFLOW" = 1 ]; then
                 progress "Restoring firmware_update.toml from new image"
                 cp /tmp/firmware_update.toml.orig "${target}/etc/tedge/operations/firmware_update.toml"

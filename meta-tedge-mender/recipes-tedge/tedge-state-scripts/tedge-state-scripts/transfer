@@ -119,6 +119,10 @@ if [ -d /etc/tedge ]; then
     if ls /etc/tedge/* >/dev/null 2>&1; then
         progress "Copying /etc/tedge configuration"
         cp -RfaH /etc/tedge/* "${target}/etc/tedge"
+
+        # Delete the c8y_Command definition from the legacy c8y-command-plugin
+        # tedge-command-plugin uses a c8y_Command.template file instead
+        rm -f "${target}/etc/tedge/operations/c8y/c8y_Command"
     fi
 
     # data files
