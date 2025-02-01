@@ -63,9 +63,5 @@ repos:
       meta-tedge-extras:
       meta-raspberrypi:
 
-  meta-lts-mixins-rust:
-    url: "https://git.yoctoproject.org/meta-lts-mixins"
-    branch: scarthgap/rust
-
   meta-virtualization:
     url: "https://git.yoctoproject.org/meta-virtualization"

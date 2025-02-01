@@ -12,7 +12,5 @@ overrides:
       commit: 76b97796be1d0303436835e56d85d7316a1029d9
     meta-rauc-community:
       commit: 935ea34c32fcdc70b5f48a7f6a6a32b1af65081d
-    meta-lts-mixins-rust:
-      commit: 1793a1b8fc92cf8688c72b7fd4181e3a2f5ade55
     meta-virtualization:
       commit: 79673f5c67b022e7aadeb231872470295e5b9188
