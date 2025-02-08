@@ -9,7 +9,7 @@ overrides:
     meta-openembedded:
       commit: de8681b4a2a101b99dd2c48d89a7de2ccd9a961f
     meta-mender:
-      commit: ed0b3f7ffbd651a5ace81388d2de38dd5f7f6b7a
+      commit: a52f158b033c709df824c7e66a577c41f432ae7f
     meta-lts-mixins-rust:
       commit: 9bc06b6a761f28cf82aae8a99afe27ed5e2ce4c9
     meta-lts-mixins-go:
