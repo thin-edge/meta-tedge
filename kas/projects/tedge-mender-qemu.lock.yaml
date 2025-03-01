@@ -3,11 +3,11 @@ header:
 overrides:
   repos:
     poky:
-      commit: ce9f4eaaae324ef4182a39293f3a6b2aa7207680
+      commit: f93188cb87bebd6bf8b6cf0f18ba4e078feaf12b
     meta-openembedded:
       commit: 4f11a12b2352bbdfafb6b7d956bf424af4992977
     meta-mender:
-      commit: 1e93f227d16c74791db2ed1688875c1e28e566ce
+      commit: a3813b868d8b4cc058d7d63d6b24d31ea91927c3
     meta-lts-mixins-rust:
       commit: 1793a1b8fc92cf8688c72b7fd4181e3a2f5ade55
     meta-lts-mixins-u-boot:
