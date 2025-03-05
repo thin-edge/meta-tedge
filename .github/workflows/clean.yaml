@@ -1,0 +1,69 @@
+name: clean
+on:
+  schedule:
+    # Check daily
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+    inputs:
+      usage_threshold:
+        description: Only run when disk usage is above this percentage
+        type: number
+        required: false
+        default: "50"
+      older_than:
+        description: Delete items older than (in days)
+        type: number
+        required: false
+        default: "30"
+
+env:
+  SSTATE_DIR: /data/yocto/sstate-cache
+  DL_DIR: /data/yocto/downloads
+  DAYS: ${{ inputs.older_than || '30' }}
+  USAGE_THRESHOLD: ${{ inputs.usage_threshold || '50' }}
+
+jobs:
+
+  check:
+    name: Check Disk Usage
+    if: github.repository_owner == 'thin-edge'
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+      - offsite_yocto
+    steps:
+      - name: Check Disk Usage
+        id: check
+        run: |
+          set -x
+          DISK_USED_PERC=$(df -h / | tail -n1 | awk '{print $5}' | tr -d '%')
+
+          if [ "$DISK_USED_PERC" -ge "$USAGE_THRESHOLD" ]; then
+            echo "should_run=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=0" >> "$GITHUB_OUTPUT"
+          fi          
+
+  clean_cache:
+    if: ${{ github.repository_owner == 'thin-edge' && needs.check.outputs.should_run == '1' }}
+    needs: check
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+      - offsite_yocto
+    steps:
+      - uses: actions/checkout@v4
+      - name: Disk space (before)
+        run: df -h /
+      - name: Remove old SSTATE files
+        env:
+          DAYS: ${{ inputs.older_than || '30' }}
+        run: |
+          find "$SSTATE_DIR" -type f -mtime +$DAYS -delete
+      - name: Remove old DL_DIR files
+        run: |
+          find "$DL_DIR" -type f -mtime +$DAYS -delete
+      - name: Disk space (after)
+        run: df -h /
