@@ -32,6 +32,8 @@ jobs:
       - Linux
       - X64
       - offsite_yocto
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
     steps:
       - name: Check Disk Usage
         id: check
