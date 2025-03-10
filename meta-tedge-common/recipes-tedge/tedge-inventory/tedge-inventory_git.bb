@@ -8,7 +8,7 @@ inherit systemd allarch features_check
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
-PV = "0.1.0+git${SRCPV}"
+PV = "0.3.1+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 
