@@ -6,9 +6,9 @@ GO_IMPORT = "github.com/thin-edge/tedge-container-plugin"
 GO_INSTALL = "${GO_IMPORT}"
 
 HOMEPAGE = "https://${GO_IMPORT}"
-SRC_URI = "git://${GO_IMPORT};branch=next;protocol=https"
-SRCREV = "fc393f94086e03732ca08a5c81e8e9f83d9f48c5"
-PV = "2.0.0~rc24"
+SRC_URI = "git://${GO_IMPORT};branch=main;protocol=https"
+SRCREV = "86d7d6416101b6a373acc2abe177e10e9ad93e58"
+PV = "2.2.0"
 
 RDEPENDS:${PN}-dev += " bash"
 
@@ -30,7 +30,7 @@ do_compile[network] = "1"
 # build executable instead of shared object
 GO_LINKSHARED = ""
 GOBUILDFLAGS:remove = "-buildmode=pie"
-GO_EXTRA_LDFLAGS:append = "-X ${GO_IMPORT}/cmd.buildVersion=${PV} -X ${GO_IMPORT}/cmd.buildBranch=next"
+GO_EXTRA_LDFLAGS:append = "-X ${GO_IMPORT}/cmd.buildVersion=${PV} -X ${GO_IMPORT}/cmd.buildBranch=main"
 
 inherit go-mod
 require common.inc

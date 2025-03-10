@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = " \
 
 inherit allarch
 
-PV = "1.0.0~rc2+git${SRCPV}"
+PV = "1.0.0"
 
 S = "${WORKDIR}/git"
 
