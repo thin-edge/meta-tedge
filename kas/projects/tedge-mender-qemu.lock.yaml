@@ -11,6 +11,6 @@ overrides:
     meta-lts-mixins-rust:
       commit: 77856a90b67834e5acd56eacc5964c0587353aec
     meta-lts-mixins-go:
-      commit: 8be7e59128372bb1c8c4a89f66922d44a6346148
+      commit: 06990829c0bc8e9fc1fbf8e0800928594cf131a0
     meta-virtualization:
       commit: cf982c9fad8fe654058d80f53c558fa6f23a5193
