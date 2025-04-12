@@ -2,8 +2,6 @@ require recipes-core/images/core-image-tedge.bb
 
 IMAGE_INSTALL:append = " \
     tedge-firmware-rauc \
-    ${@bb.utils.contains('INIT_MANAGER','systemd','tedge-bootstrap','',d)} \
-    ${@bb.utils.contains('INIT_MANAGER','systemd','tedge-sethostname','',d)} \
 "
 
 # Optimizations for RAUC adaptive method 'block-hash-index'
