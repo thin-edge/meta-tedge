@@ -3,14 +3,14 @@ header:
 overrides:
   repos:
     poky:
-      commit: dc4827b3660bc1a03a2bc3b0672615b50e9137ff
+      commit: 78626a6f1861361bbd78a411cb27b093e34b466b
     meta-raspberrypi:
-      commit: 6df7e028a2b7b2d8cab0745dc0ed2eebc3742a17
+      commit: 3b27c95c163a042f8056066ec3d27edfcc42da7f
     meta-openembedded:
-      commit: 6c9f1f8d4538119803bf793747b65e4d23c33544
+      commit: 67ad83dd7c2485dae0c90eac345007af6195b84d
     meta-rauc:
       commit: 76b97796be1d0303436835e56d85d7316a1029d9
     meta-rauc-community:
       commit: 935ea34c32fcdc70b5f48a7f6a6a32b1af65081d
     meta-virtualization:
-      commit: 94ee980814d7c5824449b2745a934664adbf3007
+      commit: 9287a355b338361e42027ce371444111a791d64f
