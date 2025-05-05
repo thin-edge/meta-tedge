@@ -15,7 +15,7 @@ LICENSE = "Apache-2.0"
 
 inherit cargo-tedge useradd
 
-RDEPENDS:${PN} = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo collectd"
+RDEPENDS:${PN} = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd ${PN}-p11-server mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo collectd"
 
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM:${PN} = "--system --gid 950 tedge"
