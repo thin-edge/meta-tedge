@@ -2,19 +2,19 @@ header:
   version: 14
 overrides:
   repos:
-    meta-lts-mixins-rust:
-      commit: 39e6082deb5d982f18ccdba5ef4124b1aaa54e85
-    meta-lts-mixins-u-boot:
-      commit: 66ceeebd047d7fdfc8668b300319a76da8ae257d
+    poky:
+      commit: 9c63e0c9646c61663e8cfc6b4c75865cd0cd3b34
+    meta-raspberrypi:
+      commit: 3b27c95c163a042f8056066ec3d27edfcc42da7f
+    meta-openembedded:
+      commit: e92d0173a80ea7592c866618ef5293203c50544c
     meta-mender:
       commit: 0d393c2267a92091f975eb932338c07109f5f5fd
     meta-mender-community:
       commit: f4b23faf474241d9030c6fca08d5b58440b48c6d
-    meta-openembedded:
-      commit: e92d0173a80ea7592c866618ef5293203c50544c
-    meta-raspberrypi:
-      commit: 3b27c95c163a042f8056066ec3d27edfcc42da7f
+    meta-lts-mixins-rust:
+      commit: 39e6082deb5d982f18ccdba5ef4124b1aaa54e85
+    meta-lts-mixins-u-boot:
+      commit: 66ceeebd047d7fdfc8668b300319a76da8ae257d
     meta-virtualization:
       commit: 9e040ee8dd6025558ea60ac9db60c41bfeddf221
-    poky:
-      commit: 9c63e0c9646c61663e8cfc6b4c75865cd0cd3b34

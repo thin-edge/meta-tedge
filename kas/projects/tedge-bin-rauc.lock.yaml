@@ -2,15 +2,15 @@ header:
   version: 14
 overrides:
   repos:
-    meta-openembedded:
-      commit: e92d0173a80ea7592c866618ef5293203c50544c
+    poky:
+      commit: 9c63e0c9646c61663e8cfc6b4c75865cd0cd3b34
     meta-raspberrypi:
       commit: 3b27c95c163a042f8056066ec3d27edfcc42da7f
+    meta-openembedded:
+      commit: e92d0173a80ea7592c866618ef5293203c50544c
     meta-rauc:
       commit: a0f4a8b9986954239850b9d4256c003c91e6b931
     meta-rauc-community:
       commit: 935ea34c32fcdc70b5f48a7f6a6a32b1af65081d
     meta-virtualization:
       commit: 9e040ee8dd6025558ea60ac9db60c41bfeddf221
-    poky:
-      commit: 9c63e0c9646c61663e8cfc6b4c75865cd0cd3b34
