@@ -15,6 +15,10 @@ local_conf_header:
     INIT_MANAGER="systemd"
     TEDGE_CONFIG_DIR = "/etc/tedge"
 
+    # preferred thin-edge.io version
+    # Use "1.5%" if you want to use the latest from the main branch
+    PREFERRED_VERSION_tedge ?= "1.4.2"
+
     # Add /etc/buildinfo file with information about build
     INHERIT += "image-buildinfo"
     IMAGE_BUILDINFO_FILE = "${sysconfdir}/buildinfo"
@@ -31,3 +35,4 @@ local_conf_header:
     SYSTEMD_AUTO_ENABLE:tedge-mapper-aws = "disable"
     SYSTEMD_AUTO_ENABLE:tedge-mapper-az = "disable"
     SYSTEMD_AUTO_ENABLE:tedge-mapper-collectd = "disable"
+    SYSTEMD_AUTO_ENABLE:tedge-p11-server = "enable"

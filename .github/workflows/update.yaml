@@ -7,6 +7,7 @@ jobs:
     if: github.repository_owner == 'thin-edge'
     env:
       PR_BRANCH: updater-${{github.ref_name}}
+      TARGET_BRANCH: ${{github.ref_name}}
     steps:
       - uses: actions/checkout@v4
 
@@ -47,7 +48,7 @@ jobs:
           git config --global user.email "info@thin-edge.io"
           git config --global user.name "Versioneer"
           git checkout -b "$PR_BRANCH"
-          git commit -am "Update ${{github.ref_name}} branch"
+          git commit -am "Update $TARGET_BRANCH branch"
           git push --set-upstream origin "$PR_BRANCH"
           gh repo set-default ${{github.repository}}
-          gh pr create --base "${{github.ref_name}}" --title "chore($PR_BRANCH): Update version/s" --body "Update version/s for the $PR_BRANCH branch"
+          gh pr create --base "$TARGET_BRANCH" --title "chore($TARGET_BRANCH): Update version/s" --body "Update version/s for the $TARGET_BRANCH branch"

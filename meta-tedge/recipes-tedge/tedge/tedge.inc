@@ -3,6 +3,7 @@ SRC_URI += "git://git@github.com/thin-edge/thin-edge.io.git;protocol=https;branc
 SRC_URI += " \
     file://operations/c8y/c8y_RemoteAccessConnect \ 
     file://tedge.toml \
+    file://mosquitto-conf/tedge-mosquitto.conf \
 "
 
 LIC_FILES_CHKSUM = " \
@@ -15,7 +16,7 @@ LICENSE = "Apache-2.0"
 
 inherit cargo-tedge useradd
 
-RDEPENDS:${PN} = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo collectd"
+RDEPENDS:${PN} = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd ${PN}-p11-server mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo collectd"
 
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM:${PN} = "--system --gid 950 tedge"
@@ -54,6 +55,7 @@ do_install:append () {
     # Initialize the tedge
     install -m 0644 "${WORKDIR}/operations/c8y/"* ${D}${TEDGE_CONFIG_DIR}/operations/c8y/
     install -m 0644 "${WORKDIR}/tedge.toml" ${D}${TEDGE_CONFIG_DIR}/
+    install -m 0644 "${WORKDIR}/mosquitto-conf/tedge-mosquitto.conf" ${D}${TEDGE_CONFIG_DIR}/mosquitto-conf/
 
     # Create symlinks
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-agent
@@ -81,6 +83,7 @@ FILES:${PN} = "\
     ${TEDGE_CONFIG_DIR} \
     ${TEDGE_CONFIG_DIR}/tedge.toml \
     ${TEDGE_CONFIG_DIR}/operations/c8y/c8y_RemoteAccessConnect \
+    ${TEDGE_CONFIG_DIR}/mosquitto-conf/tedge-mosquitto.conf \
     ${TEDGE_CONFIG_DIR}/contrib/collectd \
     ${TEDGE_CONFIG_DIR}/sm-plugins/apt \
 "

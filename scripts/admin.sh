@@ -42,6 +42,15 @@ get_services_checksum() {
     | jq -r '.data[] | .files[0].checksum_md5'
 }
 
+get_next_minor_version() {
+    # Get the next minor version
+    # e.g. 1.4.2 => 1.5, 1.5.0 => 1.6
+    current_version="$1"
+    major=$(echo "$current_version" | cut -d. -f1)
+    minor=$(echo "$current_version" | cut -d. -f2)
+    next_minor=$((minor + 1))
+    echo "${major}.${next_minor}"
+}
 
 update_version() {
     # Install tooling if missing
@@ -130,6 +139,26 @@ SRCREV_tedge = "$COMMIT_HASH"
 SRCREV_tedge-services = "\${AUTOREV}"
 SRCREV_FORMAT = "tedge"
 S = "\${WORKDIR}/git"
+
+TEDGE_EXCLUDE = "c8y-firmware-plugin"
+
+require tedge.inc
+EOT
+
+    # Set preferred version to the latest official version
+    sed -i 's/PREFERRED_VERSION_tedge ?=.*/PREFERRED_VERSION_tedge ?= "'"$tedge_version"'"/g' kas/config/common.yaml
+
+    # Update the tedge_git.bb to use a fixed version which is the next official version (with git suffix)
+    next_minor_version=$(get_next_minor_version "$tedge_version")
+    tedge_git_bb_file="meta-tedge/recipes-tedge/tedge/tedge_git.bb"
+    echo "Writing bb file for tedge main branch: $tedge_git_bb_file" >&2
+
+    cat <<EOT | tee "$tedge_git_bb_file"
+SRCREV_tedge = "\${AUTOREV}"
+SRCREV_tedge-services = "\${AUTOREV}"
+SRCREV_FORMAT = "tedge"
+S = "\${WORKDIR}/git"
+PV = "${next_minor_version}+git\${SRCPV}"
 
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
