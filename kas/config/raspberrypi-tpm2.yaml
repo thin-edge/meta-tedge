@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/siemens/kas/66261547b75885786777a0b9c8a4400ab81d432e/kas/schema-kas.json
+# Note: This configuration requires the following layer to be added
+# meta-security:
+#     url: "git://git.yoctoproject.org/meta-security"
+#     layers:
+#       .:
+#       meta-tpm:
+
+header:
+  version: 14
+
+local_conf_header:
+  meta-tpm2: |
+    DISTRO_FEATURES:append = " security tpm2"
+    IMAGE_INSTALL:append = " tpm2-tools libtss2 libtss2-tcti-device libtss2-tcti-mssim tpm2-abrmd tpm2-pkcs11 tpm2-tss"
+
+    KERNEL_DEVICETREE:append = " overlays/letstrust-tpm.dtbo"
+    ENABLE_SPI_BUS = "1"
+    RPI_EXTRA_CONFIG += "\ndtoverlay=letstrust-tpm"
