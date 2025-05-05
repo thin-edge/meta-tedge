@@ -35,7 +35,7 @@ do_install:append () {
     fi
 }
 
-PACKAGES += "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd"
+PACKAGES += "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd ${PN}-p11-server"
 
 FILES:${PN} += "\
     ${sysconfdir}/init.d/* \
@@ -51,6 +51,9 @@ FILES:${PN}-mapper-c8y += "\
     ${systemd_system_unitdir}/tedge-mapper-c8y.service \
     ${systemd_system_unitdir}/c8y-remote-access-plugin@.service \
     ${systemd_system_unitdir}/c8y-remote-access-plugin.socket \
+    ${systemd_system_unitdir}/tedge-cert-renewer@.service \
+    ${systemd_system_unitdir}/tedge-cert-renewer@.timer \
+    ${systemd_system_unitdir}/tedge-cert-renewer.target \
 "
 FILES:${PN}-mapper-aws += "\
     ${systemd_system_unitdir}/tedge-mapper-aws.service \
@@ -61,10 +64,15 @@ FILES:${PN}-mapper-az += "\
 FILES:${PN}-mapper-collectd += "\
     ${systemd_system_unitdir}/tedge-mapper-collectd.service \
 "
+FILES:${PN}-p11-server += "\
+    ${systemd_system_unitdir}/tedge-p11-server.service \
+    ${systemd_system_unitdir}/tedge-p11-server.socket \
+"
 
-SYSTEMD_PACKAGES = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd"
+SYSTEMD_PACKAGES = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd ${PN}-p11-server"
 SYSTEMD_SERVICE:${PN}-agent = "tedge-agent.service"
 SYSTEMD_SERVICE:${PN}-mapper-c8y = "tedge-mapper-c8y.service c8y-remote-access-plugin@.service c8y-remote-access-plugin.socket"
 SYSTEMD_SERVICE:${PN}-mapper-aws = "tedge-mapper-aws.service"
 SYSTEMD_SERVICE:${PN}-mapper-az = "tedge-mapper-az.service"
 SYSTEMD_SERVICE:${PN}-mapper-collectd = "tedge-mapper-collectd.service"
+SYSTEMD_SERVICE:${PN}-p11-server = "tedge-p11-server.socket"
