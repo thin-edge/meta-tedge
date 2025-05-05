@@ -22,7 +22,7 @@ env:
 
 defaults:
   repos:
-    branch: scarthgap
+    branch: kirkstone
 
 repos:
   poky:
