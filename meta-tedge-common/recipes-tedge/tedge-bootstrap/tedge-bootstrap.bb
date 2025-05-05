@@ -12,6 +12,7 @@ SRC_URI += " \
     file://tedge-bootstrap \
     file://tedge-bootstrap.service \
     file://tedge-avahi.service \
+    file://init-pkcs11.sh \
 "
 
 do_install () {
@@ -30,6 +31,10 @@ do_install () {
     # Enable service discovery
     install -d "${D}${sysconfdir}/avahi/services"
     install -m 0644 "${WORKDIR}/tedge-avahi.service" "${D}${sysconfdir}/avahi/services/"
+
+    # pkcs11 helper script to init a module and on-board to Cumulocity
+    install -d "${D}${bindir}"
+    install -m 0755 "${WORKDIR}/init-pkcs11.sh" "${D}${bindir}"
 }
 
 FILES:${PN} += " \
