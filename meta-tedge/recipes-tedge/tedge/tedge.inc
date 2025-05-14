@@ -39,9 +39,8 @@ do_install:append () {
     install -d ${D}${TEDGE_CONFIG_DIR}/sm-plugins
 
     # install collectd for tedge-mapper
-    install -d ${D}${TEDGE_CONFIG_DIR}/contrib/collectd
-    install -m 0644 ${S}/configuration/contrib/collectd/collectd.conf ${D}${TEDGE_CONFIG_DIR}/contrib/collectd
-    ln -sf -r  ${D}${TEDGE_CONFIG_DIR}/contrib/collectd/collectd.conf ${D}${sysconfdir}/collectd.conf
+    install -d ${D}${datadir}/contrib/collectd
+    install -m 0644 ${S}/configuration/contrib/collectd/collectd.conf ${D}${datadir}/contrib/collectd/collectd.conf
 
     # Create symlink for tedge-apt-plugin in `/etc/tedge/sm-plugins`
     install -d ${D}${TEDGE_CONFIG_DIR}/sm-plugins
@@ -78,7 +77,7 @@ do_install:append () {
 
 FILES:${PN} = "\ 
     ${bindir}/* \
-    ${sysconfdir}/collectd.conf \
+    ${datadir}/contrib/collectd/collectd.conf \
     ${TEDGE_CONFIG_SYMLINK} \
     ${TEDGE_CONFIG_DIR} \
     ${TEDGE_CONFIG_DIR}/tedge.toml \
