@@ -7,6 +7,6 @@ local_conf_header:
     IMAGE_INSTALL:append = " monit"
 
     # collectd
-    IMAGE_INSTALL:append = " libmosquitto1 libmosquittopp1"
+    IMAGE_INSTALL:append = " libmosquitto1 libmosquittopp1 collectd"
     PACKAGECONFIG:append:pn-collectd = " mqtt"
     SYSTEMD_AUTO_ENABLE:tedge-mapper-collectd = "enable"

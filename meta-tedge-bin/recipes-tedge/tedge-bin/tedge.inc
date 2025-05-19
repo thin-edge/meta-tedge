@@ -8,7 +8,7 @@ SRC_URI += " \
     file://mosquitto-conf/tedge-mosquitto.conf \
 "
 
-RDEPENDS:${PN} += " mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo collectd"
+RDEPENDS:${PN} += " mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo"
 
 inherit bin_package useradd
 
