@@ -1,0 +1,10 @@
+header:
+  version: 14
+overrides:
+  repos:
+    poky:
+      commit: ab9a994a8cd8e06b519a693db444030999d273b7
+    meta-openembedded:
+      commit: e42549cef364ae09b3b7c8b64bbeab32e50f1bb0
+    meta-lts-mixins-rust:
+      commit: dcc60f3115a8133c4013ce36cb6fe0969c07d6f5
