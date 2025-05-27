@@ -14,7 +14,7 @@ local_conf_header:
     EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-dropbear"
 
     # systemd is recommended
-    DISTRO_FEATURES:append = " systemd"
+    INIT_MANAGER ?= "systemd"
 
     # install all tedge components
     IMAGE_INSTALL:append = " sudo tedge"
