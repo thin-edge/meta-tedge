@@ -147,6 +147,7 @@ EOT
 
     # Set preferred version to the latest official version
     sed -i 's/PREFERRED_VERSION_tedge ?=.*/PREFERRED_VERSION_tedge ?= "'"$tedge_version"'"/g' kas/config/common.yaml
+    sed -i 's/PREFERRED_VERSION_tedge ?=.*/PREFERRED_VERSION_tedge ?= "'"$tedge_version"'"/g' kas/config/minimal.yaml
 
     # Update the tedge_git.bb to use a fixed version which is the next official version (with git suffix)
     next_minor_version=$(get_next_minor_version "$tedge_version")
