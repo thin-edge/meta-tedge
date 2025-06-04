@@ -9,9 +9,9 @@ SRC_URI[riscv64.md5sum] = "7bff0395f7c527be5c06f1f31ab38778"
 
 # Init manager variables
 INIT_REPO_CHANNEL = "community"
-INIT_VERSION = "0.7.3"
-SRC_URI[openrc.md5sum] = "3d6ab19a12e1d3d2b963b2bb709e3bf2"
-SRC_URI[systemd.md5sum] = "73d4070f339e96369b9e7b4f3c3c3b72"
-SRC_URI[sysvinit.md5sum] = "fd35bc27226c235ca5c1d8081480f357"
+INIT_VERSION = "0.7.4"
+SRC_URI[openrc.md5sum] = "eda14cc61d3c1be5d7fd8ff9543fad07"
+SRC_URI[systemd.md5sum] = "2220a0eecd01da450176e60db2fef895"
+SRC_URI[sysvinit.md5sum] = "fc7a3913b556afd503717e4d457e65a8"
 
 require tedge.inc
