@@ -7,8 +7,8 @@ GO_INSTALL = "${GO_IMPORT}"
 
 HOMEPAGE = "https://${GO_IMPORT}"
 SRC_URI = "git://${GO_IMPORT};branch=main;protocol=https"
-SRCREV = "86d7d6416101b6a373acc2abe177e10e9ad93e58"
-PV = "2.2.0"
+SRCREV = "1231ed3f601d2859cb0fa7de1585931735845ed7"
+PV = "2.4.1"
 
 RDEPENDS:${PN}-dev += " bash"
 
@@ -63,7 +63,7 @@ LIC_FILES_CHKSUM = " \
     file://src/${GO_IMPORT}/vendor/github.com/davecgh/go-spew/LICENSE;md5=c06795ed54b2a35ebeeb543cd3a73e56 \
     file://src/${GO_IMPORT}/vendor/github.com/reubenmiller/go-c8y/LICENSE;md5=5ad50ede22fd4ba20c16a11b227eccac \
     file://src/${GO_IMPORT}/vendor/github.com/felixge/httpsnoop/LICENSE.txt;md5=684da2bf3eed8fc8860e75ad84638225 \
-    file://src/${GO_IMPORT}/vendor/github.com/golang-jwt/jwt/v4/LICENSE;md5=a21b708d8b320c68979c44ac9dba9b0d \
+    file://src/${GO_IMPORT}/vendor/github.com/golang-jwt/jwt/v5/LICENSE;md5=a21b708d8b320c68979c44ac9dba9b0d \
     file://src/${GO_IMPORT}/vendor/github.com/klauspost/compress/LICENSE;md5=d0fd9ebda39468b51ff4539c9fbb13a8 \
     file://src/${GO_IMPORT}/vendor/github.com/klauspost/compress/internal/snapref/LICENSE;md5=b8b79c7d4cda128290b98c6a21f9aac6 \
     file://src/${GO_IMPORT}/vendor/github.com/klauspost/compress/zstd/internal/xxhash/LICENSE.txt;md5=802da049c92a99b4387d3f3d91b00fa9 \
@@ -73,6 +73,7 @@ LIC_FILES_CHKSUM = " \
     file://src/${GO_IMPORT}/vendor/github.com/pmezard/go-difflib/LICENSE;md5=e9a2ebb8de779a07500ddecca806145e \
     file://src/${GO_IMPORT}/vendor/github.com/eclipse/paho.mqtt.golang/LICENSE;md5=dcdb33474b60c38efd27356d8f2edec7 \
     file://src/${GO_IMPORT}/vendor/github.com/fsnotify/fsnotify/LICENSE;md5=8bae8b116e2cfd723492b02d9a212fe2 \
+    file://src/${GO_IMPORT}/vendor/github.com/hashicorp/go-version/LICENSE;md5=81eb103d8076ec72ebe52e3ee40176db \
     file://src/${GO_IMPORT}/vendor/github.com/hashicorp/hcl/LICENSE;md5=b278a92d2c1509760384428817710378 \
     file://src/${GO_IMPORT}/vendor/github.com/h2non/filetype/LICENSE;md5=d4004d1b897e7c064b57b0f7127643d6 \
     file://src/${GO_IMPORT}/vendor/github.com/stretchr/testify/LICENSE;md5=188f01994659f3c0d310612333d2a26f \
