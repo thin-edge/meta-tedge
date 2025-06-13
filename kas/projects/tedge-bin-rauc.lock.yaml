@@ -13,6 +13,6 @@ overrides:
     meta-rauc-community:
       commit: cfc8901f68f931cebbb4d48759368bb263d977d4
     meta-lts-mixins-go:
-      commit: 3e452059473f0ed49d421b6ebfa2bc2aa96645da
+      commit: 7e875b0c16e915588e3868121e7c64755d2e4da3
     meta-virtualization:
       commit: 227cefa1261daf20b7d9737541994ec2bba629fc
