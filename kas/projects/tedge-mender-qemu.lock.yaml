@@ -12,7 +12,5 @@ overrides:
       commit: a8046d5ec53b1856169ac795aa87cb0d5db84c04
     meta-lts-mixins-go:
       commit: 61f9b2720705cd68d9d6a96c11896f9ea20cfb13
-    meta-lts-mixins-u-boot:
-      commit: a44882db02a0ed0f149371831bfbe067665eb42b
     meta-virtualization:
       commit: 9e040ee8dd6025558ea60ac9db60c41bfeddf221
