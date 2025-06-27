@@ -10,3 +10,4 @@ local_conf_header:
     IMAGE_FSTYPES:remove = " rpi-sdimg wic.bz2 wic.bmap"
     SDIMG_ROOTFS_TYPE = "ext4"
     MENDER_BOOT_PART_SIZE_MB = "64"
+    MENDER_FEATURES_ENABLE:append = " mender-uboot"
