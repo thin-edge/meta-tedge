@@ -5,9 +5,9 @@ overrides:
     poky:
       commit: b8f8125f05e8ece078ba6bf01eebb2900cf2f9bf
     meta-raspberrypi:
-      commit: bce7b3acd2e0d9d127fcb57eae4a512bd7e7924a
+      commit: 1091bde25e9ebaea33114edb85e4aee931d105f3
     meta-openembedded:
-      commit: 491671faee11ea131feab5a3a451d1a01deb2ab1
+      commit: 727811eaf256b88fd135be99559f2cbf14c82fce
     meta-mender:
       commit: 0d393c2267a92091f975eb932338c07109f5f5fd
     meta-mender-community:
