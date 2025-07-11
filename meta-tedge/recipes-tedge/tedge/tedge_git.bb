@@ -3,6 +3,7 @@ SRCREV_tedge-services = "${AUTOREV}"
 SRCREV_FORMAT = "tedge"
 S = "${WORKDIR}/git"
 PV = "1.6+git${SRCPV}"
+DEFAULT_PREFERENCE = "-1"
 
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
