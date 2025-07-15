@@ -129,6 +129,7 @@ EOT
 
     TAG=$(echo "$MATCHING_TAG" | cut -f1)
     COMMIT_HASH=$(echo "$MATCHING_TAG" | cut -f2)
+    TEDGE_SERVICES_COMMIT_HASH=$(gh api /repos/thin-edge/tedge-services/commits | jq -r '.[0].sha')
 
     echo "Found tag: tag=$TAG, commit=$COMMIT_HASH" >&2
 
@@ -136,7 +137,7 @@ EOT
     tedge_bb_file="meta-tedge/recipes-tedge/tedge/tedge_${tedge_version}.bb"
     cat << EOT | tee "$tedge_bb_file" >&2
 SRCREV_tedge = "$COMMIT_HASH"
-SRCREV_tedge-services = "\${AUTOREV}"
+SRCREV_tedge-services = "$TEDGE_SERVICES_COMMIT_HASH"
 SRCREV_FORMAT = "tedge"
 S = "\${WORKDIR}/git"
 
@@ -145,9 +146,13 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 require tedge.inc
 EOT
 
+    SED="sed"
+    if command -v gsed >/dev/null 2>&1; then
+        SED="gsed"
+    fi
     # Set preferred version to the latest official version
-    sed -i 's/PREFERRED_VERSION_tedge ?=.*/PREFERRED_VERSION_tedge ?= "'"$tedge_version"'"/g' kas/config/common.yaml
-    sed -i 's/PREFERRED_VERSION_tedge ?=.*/PREFERRED_VERSION_tedge ?= "'"$tedge_version"'"/g' kas/config/minimal.yaml
+    $SED -i 's/PREFERRED_VERSION_tedge ?=.*/PREFERRED_VERSION_tedge ?= "'"$tedge_version"'"/g' kas/config/common.yaml
+    $SED -i 's/PREFERRED_VERSION_tedge ?=.*/PREFERRED_VERSION_tedge ?= "'"$tedge_version"'"/g' kas/config/minimal.yaml
 
     # Update the tedge_git.bb to use a fixed version which is the next official version (with git suffix)
     next_minor_version=$(get_next_minor_version "$tedge_version")
