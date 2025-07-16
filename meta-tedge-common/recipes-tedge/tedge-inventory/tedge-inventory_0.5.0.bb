@@ -1,5 +1,5 @@
 SRC_URI += "git://git@github.com/thin-edge/tedge-inventory-plugin.git;protocol=https;branch=main"
-SRCREV = "${AUTOREV}"
+SRCREV = "eb8c2b56d5c5852b363a2b65d546324541c23212"
 
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10" 
@@ -8,7 +8,7 @@ inherit systemd allarch features_check
 
 REQUIRED_DISTRO_FEATURES = "systemd"
 
-PV = "0.3.1+git${SRCPV}"
+PV = "0.5.0"
 
 S = "${WORKDIR}/git"
 
