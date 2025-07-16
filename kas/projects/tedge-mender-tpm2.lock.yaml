@@ -3,20 +3,22 @@ header:
 overrides:
   repos:
     poky:
-      commit: b8f8125f05e8ece078ba6bf01eebb2900cf2f9bf
+      commit: ae2d52758fc2fcb0ed996aa234430464ebf4b310
     meta-raspberrypi:
-      commit: 1091bde25e9ebaea33114edb85e4aee931d105f3
+      commit: 48452445d779b0f69bf1ead12b3850d50eb8920d
     meta-openembedded:
-      commit: 727811eaf256b88fd135be99559f2cbf14c82fce
+      commit: e8fd97d86af86cdcc5a6eb3f301cbaf6a2084943
     meta-security:
       commit: bc865c5276c2ab4031229916e8d7c20148dfbac3
     meta-mender:
       commit: 0d393c2267a92091f975eb932338c07109f5f5fd
     meta-mender-community:
-      commit: 1a45f70dc5983454a7822002883546cde27bae7c
+      commit: 69e18c5aef75f5bafa693e5c1fe8a0448f4d337b
     meta-lts-mixins-rust:
       commit: a8046d5ec53b1856169ac795aa87cb0d5db84c04
     meta-lts-mixins-go:
       commit: 61f9b2720705cd68d9d6a96c11896f9ea20cfb13
+    meta-lts-mixins-u-boot:
+      commit: a44882db02a0ed0f149371831bfbe067665eb42b
     meta-virtualization:
-      commit: 9e040ee8dd6025558ea60ac9db60c41bfeddf221
+      commit: a5449c0c50aa07d02186f548fe6bb6c1ce8823dc
