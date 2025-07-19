@@ -7,8 +7,8 @@ GO_INSTALL = "${GO_IMPORT}"
 
 HOMEPAGE = "https://${GO_IMPORT}"
 SRC_URI = "git://${GO_IMPORT};branch=main;protocol=https"
-SRCREV = "1231ed3f601d2859cb0fa7de1585931735845ed7"
-PV = "2.4.1"
+SRCREV = "3b2a896f28f3bb197c169acba75ace324d26d893"
+PV = "2.4.2"
 
 RDEPENDS:${PN}-dev += " bash"
 
