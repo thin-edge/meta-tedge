@@ -1,0 +1,69 @@
+#!/bin/sh
+##################################################
+# Rugix system information
+#
+# Example input format:
+# ```
+# {
+#   "slots": {
+#     "boot-a": {
+#       "active": true,
+#       "hashes": {},
+#       "updatedAt": "2025-07-14T21:05:23.224099988Z"
+#     },
+#     "boot-b": {
+#       "active": false,
+#       "hashes": {},
+#       "updatedAt": "2025-07-14T20:15:01.459841658Z"
+#     },
+#     "system-a": {
+#       "active": true,
+#       "hashes": {
+#         "sha512_256": "sha512-256:f7b953f455c06b515333873de43ee5d69997d997432faf411755b7c4b525e4fa"
+#       },
+#       "size": 2406704640,
+#       "updatedAt": "2025-07-14T21:07:26.922661546Z"
+#     },
+#     "system-b": {
+#       "active": false,
+#       "hashes": {
+#         "sha512_256": "sha512-256:99f64878855be24d5e9a3a1aa64643cf08203c07aa48c79f34c4085eeefb165d"
+#       },
+#       "size": 2406704640,
+#       "updatedAt": "2025-07-14T20:16:59.002372104Z"
+#     }
+#   },
+#   "boot": {
+#     "bootFlow": "tryboot",
+#     "activeGroup": "a",
+#     "defaultGroup": "a",
+#     "groups": {
+#       "a": {},
+#       "b": {}
+#     }
+#   }
+# }
+# ```
+##################################################
+set -e
+
+SUDO=""
+if command -V sudo >/dev/null 2>&1; then
+    SUDO="sudo"
+fi
+
+SYSTEM_INFO=$($SUDO rugix-ctrl system info --json 2>/dev/null)
+
+echo "defaultGroup=$(echo "$SYSTEM_INFO" | jq .boot.defaultGroup)"
+echo "activeGroup=$(echo "$SYSTEM_INFO" | jq .boot.activeGroup)"
+echo "bootFlow=$(echo "$SYSTEM_INFO" | jq .boot.bootFlow)"
+
+# use string due to wider c8y UI support for filtering on strings rather than a boolean
+echo "defaultActive=\"$(echo "$SYSTEM_INFO" | jq '.boot.activeGroup == .boot.defaultGroup')\""
+
+ACTIVE_PARTITION=$(echo "$SYSTEM_INFO" | jq -r .boot.activeGroup)
+ACTIVE_PARTITION_HASH=$(echo "$SYSTEM_INFO" | jq -r '.slots."system-'"${ACTIVE_PARTITION}"'".hashes.sha512_256 // ""' ||:)
+ACTIVE_UPDATED_AT=$(echo "$SYSTEM_INFO" | jq -r '.slots."system-'"${ACTIVE_PARTITION}"'".updatedAt // "-"' ||:)
+
+echo "hash=\"${ACTIVE_PARTITION_HASH}\""
+echo "updatedAt=\"${ACTIVE_UPDATED_AT}\""

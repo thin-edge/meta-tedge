@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+SUDO=""
+if command -V sudo >/dev/null 2>&1; then
+    SUDO="sudo"
+fi
+
+BOOT_ACTIVE=$($SUDO rugix-ctrl system info --json | jq -r '.boot.activeGroup' | tr '[:lower:]' '[:upper:]')
+BOOT_DEFAULT=$($SUDO rugix-ctrl system info --json | jq -r '.boot.defaultGroup' | tr '[:lower:]' '[:upper:]')
+
+if [ -n "$BOOT_ACTIVE" ] && [ -n "$BOOT_DEFAULT" ] && [ "$BOOT_ACTIVE" = "$BOOT_DEFAULT" ]; then
+    echo "Already on default partition. Nothing to rollback to. active=$BOOT_ACTIVE, default=$BOOT_DEFAULT" >&2
+    exit 0
+fi
+
+echo "Rebooting into default partition. active=$BOOT_ACTIVE, default=$BOOT_DEFAULT"
+$SUDO reboot
+exit 0

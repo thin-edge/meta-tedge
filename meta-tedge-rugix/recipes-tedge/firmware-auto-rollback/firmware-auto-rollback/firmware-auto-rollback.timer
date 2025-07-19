@@ -1,0 +1,8 @@
+[Unit]
+Description=rugix auto rollback
+
+[Timer]
+OnBootSec=1800s
+
+[Install]
+WantedBy=timers.target

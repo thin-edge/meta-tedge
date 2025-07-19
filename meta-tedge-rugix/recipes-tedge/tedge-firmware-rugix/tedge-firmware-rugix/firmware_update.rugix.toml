@@ -1,0 +1,73 @@
+#:schema https://gist.githubusercontent.com/reubenmiller/4e28e8403fe0c54b7461ac7d1d6838c2/raw/56bb3339be8e251e5cbdade7a6cdb40aa9992126/tedge.workflow.json
+operation = "firmware_update"
+on_error = "failed"
+
+[init]
+action = "proceed"
+on_success = "scheduled"
+
+[scheduled]
+action = "proceed"
+on_success = "executing"
+
+[executing]
+script = "/usr/bin/rugix_workflow.sh ${.payload.status}"
+on_success = "download"
+on_error = { status = "failed", reason = "Refusing to start update as the wrong partition is active" }
+
+[download]
+script = "/usr/bin/rugix_workflow.sh ${.payload.status} --url ${.payload.remoteUrl}"
+on_success = "install"
+on_error = { status = "failed", reason = "Failed to download image"}
+
+[install]
+script = "/usr/bin/rugix_workflow.sh ${.payload.status} --url ${.payload.url}"
+on_success = "restart"
+on_error = { status = "failed", reason = "Failed to install image"}
+
+[restart]
+operation = "restart"
+on_exec = "await_restart"
+
+[await_restart]
+action = "await-operation-completion"
+on_success = "restarted"
+on_error = { status = "failed_restart", reason = "Failed to restart device" }
+
+[restarted]
+script = "/usr/bin/rugix_workflow.sh ${.payload.status}"
+on_success = "verify"
+on_error = { status = "rollback_restart", reason = "Unexpected error during restarted check. Rolling back"}
+
+[failed_restart]
+script = "/usr/bin/rugix_workflow.sh failed_restart"
+on_success = { status = "failed", reason = "Device failed to restart" }
+
+[verify]
+script = "/usr/bin/rugix_workflow.sh ${.payload.status} --firmware-name ${.payload.name} --firmware-version ${.payload.version}"
+on_exit.0 = { status = "commit" }
+on_exit.4 = { status = "rollback_restart", reason = "Verification failed. Rolling back to default partition" }
+on_exit._ = { status = "failed", reason = "Verification failed, no rollback necessary" }
+
+[commit]
+script = "/usr/bin/rugix_workflow.sh ${.payload.status}"
+on_success = "successful"
+on_error = { status = "rollback_restart", reason = "Commit failed. Rolling back to default partition" }
+
+[rollback_restart]
+operation = "restart"
+on_exec = "await_rollback_restart"
+
+[await_rollback_restart]
+action = "await-operation-completion"
+on_success = "rollback_successful"
+
+[rollback_successful]
+script = "/usr/bin/rugix_workflow.sh ${.payload.status}"
+on_success = { status = "failed", reason = "Firmware update failed, but the rollback to the default partition was successful" }
+
+[successful]
+action = "cleanup"
+
+[failed]
+action = "cleanup"

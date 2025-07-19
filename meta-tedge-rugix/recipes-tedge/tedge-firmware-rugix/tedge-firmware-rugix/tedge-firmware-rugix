@@ -1,0 +1,1 @@
+tedge  ALL = (ALL) NOPASSWD: /usr/bin/rugix-ctrl, /usr/bin/rugix_workflow.sh, /usr/bin/systemctl start *
