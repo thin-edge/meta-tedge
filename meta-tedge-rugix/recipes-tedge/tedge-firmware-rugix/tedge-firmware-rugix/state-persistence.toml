@@ -1,0 +1,22 @@
+#:schema https://raw.githubusercontent.com/silitics/rugix/refs/tags/v0.8.0/schemas/rugix-ctrl-state.schema.json
+
+[[persist]]
+directory = "/etc/tedge"
+
+[[persist]]
+directory = "/data"
+
+[[persist]]
+directory = "/etc/NetworkManager/system-connections"
+
+[[persist]]
+directory = "/etc/dropbear"
+
+[[persist]]
+file = "/etc/hostname"
+
+[[persist]]
+directory = "/root"
+
+[[persist]]
+directory = "/var/lib/vnstat"
