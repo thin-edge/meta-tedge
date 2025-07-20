@@ -108,3 +108,5 @@ jobs:
             kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.${{ matrix.image_ext }}
             kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.${{ matrix.update_ext }}
             kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.${{ matrix.manifest_ext }}
+            kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.spdx.tar.zst
+            kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.cve.json
