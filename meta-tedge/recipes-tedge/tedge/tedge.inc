@@ -14,14 +14,9 @@ SUMMARY = "tedge is the cli tool for thin-edge.io"
 HOMEPAGE = "https://thin-edge.io"
 LICENSE = "Apache-2.0"
 
-inherit cargo-tedge useradd
+inherit cargo-tedge tedge-user
 
-RDEPENDS:${PN} = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd ${PN}-p11-server mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo"
-
-USERADD_PACKAGES = "${PN}"
-GROUPADD_PARAM:${PN} = "--system --gid 950 tedge"
-USERADD_PARAM:${PN} = "--system --no-create-home --shell /sbin/nologin --uid 951 --gid 950 tedge"
-
+RDEPENDS:${PN} = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo"
 TEDGE_CONFIG_DIR ?= "/etc/tedge"
 TEDGE_CONFIG_SYMLINK ?= ""
 TEDGE_CONFIG_SYMLINK_SRC ?= ""

@@ -1,0 +1,9 @@
+[config]
+version = "2"
+
+[device.cryptoki]
+mode = "socket"
+module_path = "/usr/lib/softhsm/libsofthsm2.so"
+pin = "123456"
+uri = "pkcs11:model=SoftHSM%20v2;manufacturer=SoftHSM%20project;serial=83f9cf49039c051a;token=my-token;id=%01;object=my-key;type=private"
+socket_path = "/run/tedge-p11-server/tedge-p11-server.sock"
