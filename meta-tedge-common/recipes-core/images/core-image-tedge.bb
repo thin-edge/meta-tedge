@@ -5,6 +5,8 @@ IMAGE_INSTALL:append = " \
     tedge-command-plugin \
     opensc \
     gnutls-bin \
+    vnstat \
+    less \
     zsh \
     tedge-completions-zsh \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'tedge-bootstrap', '', d)} \

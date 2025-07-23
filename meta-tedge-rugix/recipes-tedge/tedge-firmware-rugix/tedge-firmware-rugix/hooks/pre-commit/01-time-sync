@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+# Wait for network to be ready but don't block if still not available as the mender commit
+# might be used to restore network connectivity.
+#
+
+set -e
+
+OK=0
+
+log() {
+    echo "$*" >&2
+}
+
+attempt=0
+max_attempts=10
+
+# Network ready: 0 = no, 1 = yes
+ready=0
+log "Waiting for network to be ready, and time to be synced"
+
+while [ "$attempt" -lt "$max_attempts" ]; do
+    TIME_IN_SYNC=$(timedatectl | awk '/System clock synchronized/{print $NF}')
+    case "${TIME_IN_SYNC}" in
+        yes)
+            ready=1
+            break
+            ;;
+    esac
+    attempt=$((attempt + 1))
+    log "Network not ready yet (attempt: $attempt from $max_attempts)"
+    sleep 30
+done
+
+# Duration can only be based on uptime since the device's clock might not be synced yet, so 'date' will not be monotonic
+duration=$(awk '{print $1}' /proc/uptime)
+
+log "Network: ready=$ready (after ${duration}s)"
+if [ "$ready" = "1" ]; then
+    log "Network is ready after ${duration}s (from startup)"
+else
+    # Don't fail, as the downstream checks might still work
+    log "WARNING: System time is still not in sync but continuing anyway"
+fi
+
+exit ${OK}

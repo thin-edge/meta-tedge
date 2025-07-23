@@ -15,6 +15,10 @@ local_conf_header:
     INIT_MANAGER="systemd"
     TEDGE_CONFIG_DIR = "/etc/tedge"
 
+    # enable CVE checks
+    CVE_CHECK_MANIFEST_JSON_SUFFIX ?= "cve.json"
+    INHERIT += "cve-check"
+
     # preferred thin-edge.io version
     # Use "1.X%" if you want to use the latest from the main branch
     #PREFERRED_VERSION_tedge ?= "1.6.0"

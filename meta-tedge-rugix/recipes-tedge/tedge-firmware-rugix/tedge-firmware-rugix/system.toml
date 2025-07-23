@@ -1,0 +1,2 @@
+[system]
+reboot = ["/usr/bin/rugix_workflow.sh", "restart"]
