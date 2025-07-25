@@ -1,0 +1,9 @@
+[Unit]
+Description=Rollback to default partition if this service has not been disabled yet
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/firmware-auto-rollback
+
+[Install]
+WantedBy=multi-user.target

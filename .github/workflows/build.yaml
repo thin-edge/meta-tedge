@@ -40,6 +40,7 @@ jobs:
         project:
           - tedge-rauc
           - tedge-mender
+          - tedge-rugix
         machine:
           - raspberrypi
           - raspberrypi2
@@ -58,6 +59,19 @@ jobs:
             image_ext: "sdimg.bz2"
             update_ext: "mender"
             manifest_ext: "manifest"
+
+          - project: tedge-rugix
+            image_name: core-image-tedge-rugix
+            image_ext: "wic.bz2"
+            update_ext: "rugixb"
+            manifest_ext: "manifest"
+        
+        exclude:
+          - project: tedge-rugix
+            machine: raspberrypi
+
+          - project: tedge-rugix
+            machine: raspberrypi2
 
     steps:
       - name: Checkout
@@ -94,3 +108,5 @@ jobs:
             kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.${{ matrix.image_ext }}
             kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.${{ matrix.update_ext }}
             kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.${{ matrix.manifest_ext }}
+            kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.spdx.tar.zst
+            kas/build/tmp/deploy/images/${{ matrix.machine }}/${{ matrix.image_name }}*${{ matrix.machine }}*.cve.json
