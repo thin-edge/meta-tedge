@@ -5,7 +5,7 @@ overrides:
     meta-lts-mixins-go:
       commit: 4e092daf1e920a44fb51d6df67cbddc9bc399e33
     meta-lts-mixins-rust:
-      commit: dcc60f3115a8133c4013ce36cb6fe0969c07d6f5
+      commit: 895b8b76de6dea32ba53b86e4db3ec5b9b275f28
     meta-openembedded:
       commit: 06fc0278f10d630838d703dde707bbf0e2999873
     meta-raspberrypi:
