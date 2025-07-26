@@ -3,13 +3,16 @@ SRC_URI += "git://git@github.com/thin-edge/tedge-services.git;protocol=https;bra
 inherit ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}
 inherit ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'update-rc.d', '', d)}
 
+# tedge-p11-server is defined in a seprated recipe
+TEDGE_EXCLUDE += "tedge-p11-server"
+
 do_install:append () {
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
 		install -d ${D}${systemd_system_unitdir}
         
         for service in ${WORKDIR}/tedge-services/services/systemd/system/*; do
-            filename=$(basename "$service" ".service" | cut -d. -f1)
-            if ! echo "${@d.getVar('TEDGE_EXCLUDE')}" | grep -iq $filename; then
+            unit_name=$(basename "$service" | cut -d. -f1)
+            if ! echo "${@d.getVar('TEDGE_EXCLUDE')}" | grep -qw "$unit_name"; then
                 install -m 0644 $service ${D}${systemd_system_unitdir}
             fi
         done 
@@ -35,7 +38,7 @@ do_install:append () {
     fi
 }
 
-PACKAGES += "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd ${PN}-p11-server"
+PACKAGES += "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd"
 
 FILES:${PN} += "\
     ${sysconfdir}/init.d/* \
@@ -64,15 +67,10 @@ FILES:${PN}-mapper-az += "\
 FILES:${PN}-mapper-collectd += "\
     ${systemd_system_unitdir}/tedge-mapper-collectd.service \
 "
-FILES:${PN}-p11-server += "\
-    ${systemd_system_unitdir}/tedge-p11-server.service \
-    ${systemd_system_unitdir}/tedge-p11-server.socket \
-"
 
-SYSTEMD_PACKAGES = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd ${PN}-p11-server"
+SYSTEMD_PACKAGES += "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd"
 SYSTEMD_SERVICE:${PN}-agent = "tedge-agent.service"
 SYSTEMD_SERVICE:${PN}-mapper-c8y = "tedge-mapper-c8y.service c8y-remote-access-plugin@.service c8y-remote-access-plugin.socket"
 SYSTEMD_SERVICE:${PN}-mapper-aws = "tedge-mapper-aws.service"
 SYSTEMD_SERVICE:${PN}-mapper-az = "tedge-mapper-az.service"
 SYSTEMD_SERVICE:${PN}-mapper-collectd = "tedge-mapper-collectd.service"
-SYSTEMD_SERVICE:${PN}-p11-server = "tedge-p11-server.socket"

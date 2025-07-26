@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/siemens/kas/66261547b75885786777a0b9c8a4400ab81d432e/kas/schema-kas.json
+header:
+  version: 14
+
+bblayers_conf_header:
+  meta-tedge-p11-server: |
+    POKY_BBLAYERS_CONF_VERSION = "2"
+
+local_conf_header:
+  meta-tedge-p11-server: |
+    # Change/remove if you don't need these settings
+    PACKAGE_CLASSES ?= "package_ipk"
+    EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-dropbear"
+
+    # systemd is recommended
+    INIT_MANAGER ?= "systemd"
+
+    # install only tedge-p11-server
+    IMAGE_INSTALL:append = " tedge-p11-server"
+
+    # preferred thin-edge.io version
+    # Use "1.X%" if you want to use the latest from the main branch
+    # PREFERRED_VERSION_tedge-p11-server ?= "1.6.0"
+
+    # Enable/Disable services by using "enable" or "disable"
+    SYSTEMD_AUTO_ENABLE:tedge-p11-server = "enable"
+
