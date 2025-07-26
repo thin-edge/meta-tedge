@@ -7,4 +7,4 @@ overrides:
     meta-openembedded:
       commit: e8fd97d86af86cdcc5a6eb3f301cbaf6a2084943
     meta-lts-mixins-rust:
-      commit: a8046d5ec53b1856169ac795aa87cb0d5db84c04
+      commit: 65c51abe3871d50e599366765838d1478eba093e
