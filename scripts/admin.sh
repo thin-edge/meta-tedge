@@ -133,7 +133,7 @@ EOT
 
     echo "Found tag: tag=$TAG, commit=$COMMIT_HASH" >&2
 
-    # Generate BB file
+    # Generate tedge BB file
     tedge_bb_file="meta-tedge/recipes-tedge/tedge/tedge_${tedge_version}.bb"
     cat << EOT | tee "$tedge_bb_file" >&2
 SRCREV_tedge = "$COMMIT_HASH"
@@ -146,6 +146,17 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 require tedge.inc
 EOT
 
+    # Generate tedge-p11-server BB file
+    tedge_p11_server_bb_file="meta-tedge/recipes-tedge/tedge-p11-server/tedge-p11-server_${tedge_version}.bb"
+    cat << EOT | tee "$tedge_p11_server_bb_file" >&2
+SRCREV_tedge = "$COMMIT_HASH"
+SRCREV_tedge-services = "$TEDGE_SERVICES_COMMIT_HASH"
+SRCREV_FORMAT = "tedge"
+S = "\${WORKDIR}/git"
+
+require tedge-p11-server.inc
+EOT
+
     SED="sed"
     if command -v gsed >/dev/null 2>&1; then
         SED="gsed"
@@ -153,11 +164,12 @@ EOT
     # Set preferred version to the latest official version
     $SED -i 's/PREFERRED_VERSION_tedge ?=.*/PREFERRED_VERSION_tedge ?= "'"$tedge_version"'"/g' kas/config/common.yaml
     $SED -i 's/PREFERRED_VERSION_tedge ?=.*/PREFERRED_VERSION_tedge ?= "'"$tedge_version"'"/g' kas/config/minimal.yaml
+    $SED -i 's/PREFERRED_VERSION_tedge-p11-server ?=.*/PREFERRED_VERSION_tedge-p11-server ?= "'"$tedge_version"'"/g' kas/config/tedge-p11-server-minimal.yaml
 
     # Update the tedge_git.bb to use a fixed version which is the next official version (with git suffix)
     next_minor_version=$(get_next_minor_version "$tedge_version")
     tedge_git_bb_file="meta-tedge/recipes-tedge/tedge/tedge_git.bb"
-    echo "Writing bb file for tedge main branch: $tedge_git_bb_file" >&2
+    echo "Writing tedge bb file for tedge main branch: $tedge_git_bb_file" >&2
 
     cat <<EOT | tee "$tedge_git_bb_file"
 SRCREV_tedge = "\${AUTOREV}"
@@ -170,6 +182,20 @@ DEFAULT_PREFERENCE = "-1"
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
+EOT
+
+    tedge_p11_server_git_bb_file="meta-tedge/recipes-tedge/tedge-p11-server/tedge-p11-server_git.bb"
+    echo "Writing tedge-p11-server bb file for tedge main branch: $tedge_p11_server_git_bb_file" >&2
+
+    cat <<EOT | tee "$tedge_p11_server_git_bb_file"
+SRCREV_tedge = "\${AUTOREV}"
+SRCREV_tedge-services = "\${AUTOREV}"
+SRCREV_FORMAT = "tedge"
+S = "\${WORKDIR}/git"
+PV = "${next_minor_version}+git\${SRCPV}"
+DEFAULT_PREFERENCE = "-1"
+
+require tedge-p11-server.inc
 EOT
 }
 
