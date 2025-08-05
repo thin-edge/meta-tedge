@@ -20,7 +20,7 @@ local_conf_header:
 
     # preferred thin-edge.io version
     # Use "1.X%" if you want to use the latest from the main branch
-    # PREFERRED_VERSION_tedge-p11-server ?= "1.6.0"
+    # PREFERRED_VERSION_tedge-p11-server ?= "1.6.1"
 
     # Enable/Disable services by using "enable" or "disable"
     SYSTEMD_AUTO_ENABLE:tedge-p11-server = "enable"

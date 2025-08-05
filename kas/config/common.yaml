@@ -21,7 +21,7 @@ local_conf_header:
 
     # preferred thin-edge.io version
     # Use "1.X%" if you want to use the latest from the main branch
-    #PREFERRED_VERSION_tedge ?= "1.6.0"
+    #PREFERRED_VERSION_tedge ?= "1.6.1"
 
     # Add /etc/buildinfo file with information about build
     INHERIT += "image-buildinfo"
