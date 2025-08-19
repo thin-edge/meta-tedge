@@ -1,5 +1,3 @@
-EXTRA_OECONF += " \
-    --with-default-trust-store-dir=/etc/ssl/certs  \
-"
+EXTRA_OECONF:append:tedge-p11-kit = " --with-default-trust-store-dir=/etc/ssl/certs"
 
-PACKAGECONFIG:append = " p11-kit"
+PACKAGECONFIG:append:tedge-p11-kit = " p11-kit"

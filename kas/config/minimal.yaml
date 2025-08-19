@@ -8,10 +8,13 @@ bblayers_conf_header:
 
 local_conf_header:
   meta-minimal: |
-
     # Change/remove if you don't need these settings
     PACKAGE_CLASSES ?= "package_ipk"
     EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-dropbear"
+
+    # Enable the tedge feature and its underlying system configurations
+    TEDGE_FEATURES_ENABLE:append = " tedge-logs tedge-collectd tedge-p11-kit"
+    TEDGE_FEATURES_DISABLE:append = " tedge-docker"
 
     # systemd is recommended
     INIT_MANAGER ?= "systemd"
