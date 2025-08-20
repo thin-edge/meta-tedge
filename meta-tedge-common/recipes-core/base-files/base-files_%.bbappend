@@ -1,5 +1,5 @@
-dirs755:remove = "${localstatedir}/volatile/log"
-volatiles:remove = "log"
+dirs755:remove:tedge-logs = "${localstatedir}/volatile/log"
+volatiles:remove:tedge-logs = "log"
 
-volatiles:append = "tmp"
-dirs755:append = "${localstatedir}/log"
+volatiles:append:tedge-logs = "tmp"
+dirs755:append:tedge-logs = "${localstatedir}/log"
