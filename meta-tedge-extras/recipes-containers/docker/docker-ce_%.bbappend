@@ -1,6 +1,6 @@
 DOCKER_DATA_DIR ?= "/data/docker"
 
-do_install:append () {
+do_install:append:tedge-docker () {
     # Store docker files on persistent volume
 
     # Use 'use deprecated-key-path' setting so that older docker versions For docker < 19.x,
