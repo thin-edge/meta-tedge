@@ -21,4 +21,4 @@ overrides:
     meta-lts-mixins-u-boot:
       commit: a44882db02a0ed0f149371831bfbe067665eb42b
     meta-virtualization:
-      commit: 02f72c96bf9acd0bd3ae0463f482bce8feabe749
+      commit: af1db2042caf8021d767dce1b26c08b59b96f3d1

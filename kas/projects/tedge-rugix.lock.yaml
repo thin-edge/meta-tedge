@@ -15,4 +15,4 @@ overrides:
     meta-lts-mixins-go:
       commit: 61f9b2720705cd68d9d6a96c11896f9ea20cfb13
     meta-virtualization:
-      commit: 02f72c96bf9acd0bd3ae0463f482bce8feabe749
+      commit: af1db2042caf8021d767dce1b26c08b59b96f3d1
