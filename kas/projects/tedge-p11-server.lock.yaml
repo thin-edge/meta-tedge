@@ -3,7 +3,7 @@ header:
 overrides:
   repos:
     poky:
-      commit: d655701622de0228e28324c0a1e8eabf73668e56
+      commit: 69d52fa539d7b0f0c62379c010c846d40c09d4ee
     meta-openembedded:
       commit: 06fc0278f10d630838d703dde707bbf0e2999873
     meta-lts-mixins-rust:
