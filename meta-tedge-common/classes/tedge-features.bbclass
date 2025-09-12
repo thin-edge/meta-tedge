@@ -25,7 +25,6 @@ DISTROOVERRIDES:append = ":${@tedge_features(d, separator=':')}"
 python() {
     available_features = {
         'tedge-collectd',
-        'tedge-logs',
         'tedge-docker',
         'tedge-p11-kit'
     }
