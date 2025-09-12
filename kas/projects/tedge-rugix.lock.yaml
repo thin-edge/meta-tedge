@@ -3,7 +3,7 @@ header:
 overrides:
   repos:
     poky:
-      commit: 9ce8f26d37c2e3e0030fd1f36f5c54209c269a05
+      commit: 6400741e0c11d1620a5ebe394d24deec295236f9
     meta-raspberrypi:
       commit: aaf976a665daa7e520545908adef8a0e9410b57f
     meta-openembedded:
