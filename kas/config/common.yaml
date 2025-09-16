@@ -16,7 +16,7 @@ local_conf_header:
     TEDGE_CONFIG_DIR = "/etc/tedge"
 
     # customize tedge features
-    TEDGE_FEATURES_ENABLE:append = " tedge-logs tedge-collectd tedge-docker tedge-p11-kit"
+    TEDGE_FEATURES_ENABLE:append = " tedge-collectd tedge-docker tedge-p11-kit"
 
     # enable CVE checks
     CVE_CHECK_MANIFEST_JSON_SUFFIX ?= "cve.json"
