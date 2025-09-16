@@ -13,7 +13,7 @@ local_conf_header:
     EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-dropbear"
 
     # Enable the tedge feature and its underlying system configurations
-    TEDGE_FEATURES_ENABLE:append = " tedge-logs tedge-collectd tedge-p11-kit"
+    TEDGE_FEATURES_ENABLE:append = " tedge-collectd tedge-p11-kit"
     TEDGE_FEATURES_DISABLE:append = " tedge-docker"
 
     # systemd is recommended
