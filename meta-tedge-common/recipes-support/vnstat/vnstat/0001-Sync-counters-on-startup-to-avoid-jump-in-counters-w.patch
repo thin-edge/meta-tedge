@@ -1,0 +1,23 @@
+From 99ee9a731bd1940e7ffaa10f2727a2da6476b463 Mon Sep 17 00:00:00 2001
+From: Reuben Miller <reuben.d.miller@gmail.com>
+Date: Tue, 16 Sep 2025 22:12:30 +0200
+Subject: [PATCH] Sync counters on startup to avoid jump in counters when
+ switching partitions
+
+---
+ examples/systemd/vnstat.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/examples/systemd/vnstat.service b/examples/systemd/vnstat.service
+index 4f2d27f..53821b9 100644
+--- a/examples/systemd/vnstat.service
++++ b/examples/systemd/vnstat.service
+@@ -6,7 +6,7 @@ StartLimitIntervalSec=20
+ StartLimitBurst=4
+ 
+ [Service]
+-ExecStart=/usr/sbin/vnstatd -n
++ExecStart=/usr/sbin/vnstatd -n --sync
+ ExecReload=/bin/kill -HUP $MAINPID
+ Restart=on-failure
+ RestartSec=2
