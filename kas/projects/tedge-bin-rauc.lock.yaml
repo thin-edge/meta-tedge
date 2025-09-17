@@ -7,7 +7,7 @@ overrides:
     meta-raspberrypi:
       commit: 255500dd9f6a01a3445ac491d1abc401801e3bad
     meta-openembedded:
-      commit: 06fc0278f10d630838d703dde707bbf0e2999873
+      commit: 5c138125018fef4b240e62b664a809d19f4b26a5
     meta-rauc:
       commit: 056c283e83df2bcfd822d3721ddaa27a37f40652
     meta-rauc-community:
