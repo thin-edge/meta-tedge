@@ -11,7 +11,7 @@ overrides:
     meta-mender:
       commit: 33fa9ff0f5cfa7ac31eebe66801f6961783931dc
     meta-mender-community:
-      commit: b63832ad6da2e6bc5c479a7985259ec3d9e70427
+      commit: 4e1fd98470164a4f2235cf9efeac35dc00d7a3d8
     meta-lts-mixins-rust:
       commit: a0705b87e7c1a257dafb089063f3302ed49c87d3
     meta-lts-mixins-go:
