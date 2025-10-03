@@ -8,6 +8,9 @@ bblayers_conf_header:
 
 local_conf_header:
   meta-common: |
+    # conserve disk space during a build
+    INHERIT += "rm_work"
+
     PACKAGE_CLASSES ?= "package_deb"
     VOLATILE_LOG_DIR = "no"
     IMAGE_INSTALL:append = " gnupg"
