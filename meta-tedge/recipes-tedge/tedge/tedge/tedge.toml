@@ -8,4 +8,4 @@ path = "/data/tedge/data"
 path = "/data/tedge/log"
 
 [software.plugin]
-exclude = "^(glibc|lib|kernel-|iptables-module).*"
+exclude = "^(glibc|lib|kernel-|iptables-module|util-linux|packagegroup-|pam-plugin-|alsa-|linux-firmware-|bluez-firmware-|e2fsprogs).*"
