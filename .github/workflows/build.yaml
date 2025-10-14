@@ -90,7 +90,7 @@ jobs:
         if: ${{ !startsWith(runner.name, 'tedge') }}
 
       - name: Build
-        run: just build-project projects/${{ matrix.project }}.yaml
+        run: just build-project projects/${{ matrix.project }}.yaml || { echo "::warning title=Retried build for ${{ matrix.project }} ${{ matrix.machine }}::The initial build failed and retried." && just build-project projects/${{ matrix.project }}.yaml; }
         working-directory: kas
         env:
           KAS_MACHINE: ${{ matrix.machine }}
