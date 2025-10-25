@@ -12,7 +12,7 @@ export TOKEN_LABEL="${TOKEN_LABEL:-tedge}"
 export TEDGE_CONFIG_DIR="${TEDGE_CONFIG_DIR:-/etc/tedge}"
 
 # Only used for TPM 2.0
-export TPM2_PKCS11_STORE="${TPM2_PKCS11_STORE:-/etc/tedge/hsm}"
+export TPM2_PKCS11_STORE="${TPM2_PKCS11_STORE:-/data/tedge/hsm}"
 
 PKCS11_MODULE="${PKCS11_MODULE:-}"
 KEY="${KEY:-}"
