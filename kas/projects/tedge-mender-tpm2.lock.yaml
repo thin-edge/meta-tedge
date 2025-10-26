@@ -3,7 +3,7 @@ header:
 overrides:
   repos:
     poky:
-      commit: f16cffd030d21d12dd57bb95cfc310bda41f8a1f
+      commit: ad597f4a54ec5b51677160d537b87b1b7e3828db
     meta-raspberrypi:
       commit: 4d53165cbe543452a4fda31887c4ae4333422d3e
     meta-openembedded:
@@ -13,7 +13,7 @@ overrides:
     meta-mender:
       commit: 4ae8e962a3c011cfc4d9e4b85878c226b2763b0c
     meta-mender-community:
-      commit: 4ea2452dc8dbafbabb81183af2a9df5a5949e329
+      commit: bfb119f21430e80f900031cfeee5a8739b75de1d
     meta-lts-mixins-rust:
       commit: a0705b87e7c1a257dafb089063f3302ed49c87d3
     meta-lts-mixins-go:
