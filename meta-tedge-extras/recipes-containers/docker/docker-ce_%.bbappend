@@ -1,4 +1,5 @@
 DOCKER_DATA_DIR ?= "/data/docker"
+DOCKER_DRIVER ?= "journald"
 
 do_install:append:tedge-docker () {
     # Store docker files on persistent volume
@@ -10,7 +11,11 @@ do_install:append:tedge-docker () {
     #
     # On newer docker versions, the key file has been moved, see https://github.com/moby/moby/issues/41443
     # so once the docker version is upgraded the 'deprecated-key-path' setting can be removed (if it breaks the config)
-    echo '{"data-root": "${DOCKER_DATA_DIR}","deprecated-key-path":"${DOCKER_DATA_DIR}/key.json"}' > "${D}${sysconfdir}/docker/daemon.json"
+    echo "{
+    \"data-root\": \"${DOCKER_DATA_DIR}\",
+    \"deprecated-key-path\": \"${DOCKER_DATA_DIR}/key.json\",
+    \"log-driver\": \"${DOCKER_DRIVER}\"
+}" > ${D}${sysconfdir}/docker/daemon.json
 }
 
 FILES:${PN} += " \
