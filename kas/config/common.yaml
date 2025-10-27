@@ -14,6 +14,7 @@ local_conf_header:
     PACKAGE_CLASSES ?= "package_deb"
     VOLATILE_LOG_DIR = "no"
     IMAGE_INSTALL:append = " gnupg"
+    IMAGE_INSTALL:append = " systemd-journald-defaults"
     EXTRA_IMAGE_FEATURES:append = " debug-tweaks ssh-server-dropbear"
     INIT_MANAGER="systemd"
     TEDGE_CONFIG_DIR = "/etc/tedge"

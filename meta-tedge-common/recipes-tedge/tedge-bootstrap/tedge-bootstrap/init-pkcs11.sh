@@ -12,13 +12,13 @@ export TOKEN_LABEL="${TOKEN_LABEL:-tedge}"
 export TEDGE_CONFIG_DIR="${TEDGE_CONFIG_DIR:-/etc/tedge}"
 
 # Only used for TPM 2.0
-export TPM2_PKCS11_STORE="${TPM2_PKCS11_STORE:-/etc/tedge/hsm}"
+export TPM2_PKCS11_STORE="${TPM2_PKCS11_STORE:-/data/tedge/hsm}"
 
 PKCS11_MODULE="${PKCS11_MODULE:-}"
 KEY="${KEY:-}"
 IS_SELF_SIGNED=0
 
-ACTION=
+ACTION="create"
 
 HSM_TYPE="${HSM_TYPE:-}"
 
@@ -32,8 +32,6 @@ $0 [OPTIONS]
 
 ARGUMENTS
   --c8y-url <url>           Cumulocity URL
-  --create                  Request a device certificate using the Cumulocity CA
-  --renew                   Renew the device certificate using the Cumulocity CA
   --type <string>           Type of HSM (using the PKCS#11 interface) to use. Available values: [softhsm2, yubikey, nitrokey, tpm2]
   --token-url <url>         Token PKCS#11 URL which is to be used for initialization.
   --key <url>               Key's PKCS#11 URL. If left blank then it will be auto detected
@@ -48,35 +46,22 @@ ARGUMENTS
 
 EXAMPLES
 
-## Initialization
+## Nitrokey
 
-### Nitrokey
-
-$0 --create --type nitrokey --c8y-url example.c8y.io --token-url 'pkcs11:model=PKCS%2315%20emulated;manufacturer=www.CardContact.de;serial=DENK0400089;token=SmartCard-HSM%20%28UserPIN%29'
+sudo $0 --type nitrokey --c8y-url example.c8y.io --token-url 'pkcs11:model=PKCS%2315%20emulated;manufacturer=www.CardContact.de;serial=DENK0400089;token=SmartCard-HSM%20%28UserPIN%29'
 # Initialize private key using nitrokey, where you have to specify the slot where the nitrokey is accessible from
 
 
-### SoftHSM2
+## SoftHSM2
 
-$0 --type softhsm2 --create --c8y-url example.c8y.io
+sudo $0 --type softhsm2 --c8y-url example.c8y.io
 # Initialize private key using softhsm2, and use the Cumulocity CA to request a certificate
 
 
-### TPM2
+## TPM2
 
-sudo -u tedge $0 --type tpm2 --create --c8y-url example.c8y.io --token-url 'pkcs11:model=SLB9672%00%00%00%00%00%00%00%00%00;manufacturer=Infineon;serial=0000000000000000;token='
+sudo $0 --type tpm2 --c8y-url example.c8y.io --token-url 'pkcs11:model=SLB9672%00%00%00%00%00%00%00%00%00;manufacturer=Infineon;serial=0000000000000000;token='
 # Initialize private key using a tpm 2.0 module, and use the Cumulocity CA to request a certificate
-
-
-## Renewal
-
-### TPM
-
-sudo -u tedge $0 --renew
-
-### All Others
-
-$0 --renew
 
 EOT
 }
@@ -127,12 +112,6 @@ while [ $# -gt 0 ]; do
             C8Y_URL="$2"
             shift
             ;;
-        --create)
-            ACTION="create"
-            ;;
-        --renew)
-            ACTION="renew"
-            ;;
         # Cumulocity Enrollment token
         --one-time-password|-p)
             DEVICE_ONE_TIME_PASSWORD="$2"
@@ -148,6 +127,11 @@ while [ $# -gt 0 ]; do
     esac
     shift
 done
+
+if [ "$(id -u)" -ne 0 ]; then
+    echo "This script must be run as root. Please use sudo or run as root." >&2
+    exit 1
+fi
 
 if [ -z "${DEVICE_ID:-}" ]; then
     DEVICE_ID=$(tedge config get device.id 2>/dev/null || tedge-identity 2>/dev/null || hostname)
@@ -398,21 +382,16 @@ else
 fi
 
 case "$ACTION" in
-    renew)
-        sudo tedge cert renew c8y --csr-path "$CSR_PATH"
-        sudo tedge reconnect c8y
-        echo "Renewed certificate successfully" >&2
-        ;;
     create)
         # Restart the existing tedge-p11-server instance so it can reload the new key (used later on)
         if command -V systemctl >/dev/null 2>&1; then
-            sudo systemctl restart tedge-p11-server.socket ||:
+            systemctl restart tedge-p11-server.socket ||:
         fi
 
         if [ "$IS_SELF_SIGNED" = 1 ]; then
             echo "Uploading self-signed certificate" >&2
-            sudo tedge cert upload c8y
-            sudo tedge reconnect c8y
+            tedge cert upload c8y
+            tedge reconnect c8y
             exit 0
         fi
 
@@ -422,15 +401,25 @@ case "$ACTION" in
         fi
 
         if [ -n "$C8Y_URL" ]; then
+            echo "" >&2
             echo "Register in Cumulocity using:" >&2
             echo "" >&2
             echo "  https://$C8Y_URL/apps/devicemanagement/index.html#/deviceregistration?externalId=$DEVICE_ID&one-time-password=$DEVICE_ONE_TIME_PASSWORD" >&2
             echo "" >&2
         fi
 
-        sudo tedge cert download c8y --device-id "$DEVICE_ID" --csr-path "$CSR_PATH" --one-time-password "$DEVICE_ONE_TIME_PASSWORD" --retry-every 5s
-        sudo tedge reconnect c8y
-        echo "Downloaded certificate successfully" >&2
+        if ! tedge cert download c8y --device-id "$DEVICE_ID" --csr-path "$CSR_PATH" --one-time-password "$DEVICE_ONE_TIME_PASSWORD" --retry-every 5s 2>/dev/null; then
+            echo "Failed to download certificate from Cumulocity" >&2
+            exit 1
+        fi
+        echo "Successfully downloaded certificate. Trying to connect with the cloud..." >&2
+        
+        if ! tedge reconnect c8y; then
+            echo "Failed to connect to Cumulocity. Please look through the console messages for details, or try running with --debug" >&2
+            exit 1
+        fi
+
+        printf '\nSuccessfully connected the device to the cloud!\n\n' >&2
         ;;
     *)
         echo "No action given by the user" >&2
