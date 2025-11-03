@@ -106,6 +106,7 @@ SRC_URI[systemd.md5sum] = "$(get_services_checksum "$community_repo" "$services_
 SRC_URI[sysvinit.md5sum] = "$(get_services_checksum "$community_repo" "$services_version" "tedge-sysvinit-yocto")"
 
 require tedge.inc
+require tedge-diag.inc
 EOT
 
     #
@@ -144,6 +145,7 @@ S = "\${WORKDIR}/git"
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
+require tedge-diag.inc
 EOT
 
     # Generate tedge-p11-server BB file
