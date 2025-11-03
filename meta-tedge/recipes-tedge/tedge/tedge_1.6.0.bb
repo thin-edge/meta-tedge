@@ -6,3 +6,4 @@ S = "${WORKDIR}/git"
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
+require tedge-diag.inc
