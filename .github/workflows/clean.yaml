@@ -9,12 +9,15 @@ on:
         description: Only run when disk usage is above this percentage
         type: number
         required: false
-        default: "50"
+        default: 50
       older_than:
         description: Delete items older than (in days)
         type: number
         required: false
-        default: "30"
+        default: 30
+
+permissions:
+  contents: read
 
 env:
   SSTATE_DIR: /data/yocto/sstate-cache
