@@ -7,7 +7,7 @@ overrides:
     meta-raspberrypi:
       commit: 8767e2ff80ec3b09cd70dd22cdb18e783ab20d7b
     meta-openembedded:
-      commit: 15e18246dd0c0585cd1515a0be8ee5e2016d1329
+      commit: f1f248262d662315159ee96c604f97415d1dbe6a
     meta-security:
       commit: bc865c5276c2ab4031229916e8d7c20148dfbac3
     meta-rugix:
