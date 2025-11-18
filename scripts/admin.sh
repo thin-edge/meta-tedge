@@ -146,6 +146,9 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
 require tedge-diag.inc
+
+# build tedge without tedge-flows due to an issue with rquickjs and bindgen
+CARGO_BUILD_FLAGS:append = " --bin tedge --features aws,azure,c8y --no-default-features "
 EOT
 
     # Generate tedge-p11-server BB file
@@ -184,6 +187,9 @@ DEFAULT_PREFERENCE = "-1"
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
+
+# build tedge without tedge-flows due to an issue with rquickjs and bindgen
+CARGO_BUILD_FLAGS:append = " --bin tedge --features aws,azure,c8y --no-default-features "
 EOT
 
     tedge_p11_server_git_bb_file="meta-tedge/recipes-tedge/tedge-p11-server/tedge-p11-server_git.bb"
