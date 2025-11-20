@@ -8,3 +8,4 @@ DEFAULT_PREFERENCE = "-1"
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
+require tedge-diag.inc
