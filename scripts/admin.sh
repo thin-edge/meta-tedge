@@ -184,6 +184,7 @@ DEFAULT_PREFERENCE = "-1"
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
+require tedge-diag.inc
 EOT
 
     tedge_p11_server_git_bb_file="meta-tedge/recipes-tedge/tedge-p11-server/tedge-p11-server_git.bb"
