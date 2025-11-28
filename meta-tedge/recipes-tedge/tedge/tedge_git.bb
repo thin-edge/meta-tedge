@@ -10,5 +10,9 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 require tedge.inc
 require tedge-diag.inc
 
-# build tedge without tedge-flows due to an issue with rquickjs and bindgen
-CARGO_BUILD_FLAGS:append = " --bin tedge --features aws,azure,c8y --no-default-features "
+CARGO_BUILD_FLAGS:append = " --bin tedge"
+DEBUG_PREFIX_MAP:remove = "-fcanon-prefix-map"
+
+SRC_URI += "\
+file://0001-Cargo.toml-change-rev-of-rquickjs.patch \
+"
