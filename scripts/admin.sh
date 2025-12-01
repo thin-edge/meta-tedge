@@ -107,6 +107,7 @@ SRC_URI[sysvinit.md5sum] = "$(get_services_checksum "$community_repo" "$services
 
 require tedge.inc
 require tedge-diag.inc
+require tedge-log.inc
 EOT
 
     #
@@ -146,6 +147,7 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
 require tedge-diag.inc
+require tedge-log.inc
 
 # build tedge without tedge-flows due to an issue with rquickjs and bindgen
 CARGO_BUILD_FLAGS:append = " --bin tedge --features aws,azure,c8y --no-default-features "
@@ -188,6 +190,7 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
 require tedge-diag.inc
+require tedge-log.inc
 
 # build tedge without tedge-flows due to an issue with rquickjs and bindgen
 CARGO_BUILD_FLAGS:append = " --bin tedge --features aws,azure,c8y --no-default-features "
