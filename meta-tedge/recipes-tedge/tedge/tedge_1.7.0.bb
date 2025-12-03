@@ -1,9 +1,7 @@
-SRCREV_tedge = "${AUTOREV}"
-SRCREV_tedge-services = "${AUTOREV}"
+SRCREV_tedge = "404a0c54d811ae107c43b574a0829cc8fa5153e1"
+SRCREV_tedge-services = "f495b82f0002be81a7778483003139a223a508a1"
 SRCREV_FORMAT = "tedge"
 S = "${WORKDIR}/git"
-PV = "1.8+git${SRCPV}"
-DEFAULT_PREFERENCE = "-1"
 
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
