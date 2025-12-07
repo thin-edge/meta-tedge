@@ -80,3 +80,6 @@ repos:
 
   meta-virtualization:
     url: "https://git.yoctoproject.org/meta-virtualization"
+
+  meta-clang:
+    url: "https://github.com/kraj/meta-clang.git"
