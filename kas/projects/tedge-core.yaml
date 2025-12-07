@@ -37,3 +37,6 @@ repos:
     layers:
       meta-tedge:
       meta-tedge-common:
+
+  meta-clang:
+    url: "https://github.com/kraj/meta-clang.git"
