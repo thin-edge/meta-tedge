@@ -3,8 +3,10 @@ header:
 overrides:
   repos:
     poky:
-      commit: 553530a8acce3b078473c0fa512246a3e84d46bf
+      commit: 72983ac391008ebceb45edc7a8f0f6d5f4fe715c
     meta-openembedded:
-      commit: b4812b18eec77e9f0286bd6b81a5c3032ac0d3be
+      commit: 2b26d30fc7f478f5735d514f0c1bc28f6a4148b6
     meta-lts-mixins-rust:
       commit: 00c30d00f7377ee426b017bb46dd8c4c7eeea03b
+    meta-clang:
+      commit: 5c602337ea1a80fb7217eeda04e396cf90587dca
