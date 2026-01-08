@@ -16,6 +16,9 @@ LICENSE = "Apache-2.0"
 
 inherit cargo-tedge tedge-user
 
+# Build only tedge, as tedge-p11-server is handled by a separate recipe
+CARGO_BUILD_FLAGS:append = " --bin tedge"
+
 RDEPENDS:${PN} = "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo"
 TEDGE_CONFIG_DIR ?= "/etc/tedge"
 TEDGE_CONFIG_SYMLINK ?= ""
