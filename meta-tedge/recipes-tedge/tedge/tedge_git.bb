@@ -10,5 +10,6 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
-require tedge-flows.inc
 
+# build tedge without tedge-flows due to an issue with rquickjs and bindgen
+CARGO_BUILD_FLAGS:append = " --bin tedge --features aws,azure,c8y --no-default-features "
