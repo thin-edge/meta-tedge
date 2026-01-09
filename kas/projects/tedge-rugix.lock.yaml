@@ -3,7 +3,7 @@ header:
 overrides:
   repos:
     poky:
-      commit: 37dc9a476ae92cf41dc5c70ed56cbbefd21ce086
+      commit: c942cdb0572ab065a13424aa7482404269ff9554
     meta-raspberrypi:
       commit: 255500dd9f6a01a3445ac491d1abc401801e3bad
     meta-openembedded:
@@ -16,3 +16,5 @@ overrides:
       commit: 2e863aa716386c4d14ff482b6caf4faccf8a1c91
     meta-virtualization:
       commit: c474ae21b11a816be607eb7b44d2cf77d1125bce
+    meta-clang:
+      commit: eafdaa3cda9000c6d9bd1819ffe1219c7b66e4b8
