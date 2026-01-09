@@ -108,6 +108,7 @@ SRC_URI[sysvinit.md5sum] = "$(get_services_checksum "$community_repo" "$services
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
+require tedge-config.inc
 require tedge-flows.inc
 EOT
 
@@ -149,6 +150,7 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
+require tedge-config.inc
 require tedge-flows.inc
 EOT
 
@@ -190,6 +192,7 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
+require tedge-config.inc
 require tedge-flows.inc
 EOT
 

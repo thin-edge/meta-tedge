@@ -10,5 +10,5 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
+require tedge-config.inc
 require tedge-flows.inc
-
