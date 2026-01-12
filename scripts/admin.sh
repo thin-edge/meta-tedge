@@ -108,6 +108,7 @@ SRC_URI[sysvinit.md5sum] = "$(get_services_checksum "$community_repo" "$services
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
+require tedge-flows.inc
 EOT
 
     #
@@ -148,9 +149,7 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
-
-# build tedge without tedge-flows due to an issue with rquickjs and bindgen
-CARGO_BUILD_FLAGS:append = " --bin tedge --features aws,azure,c8y --no-default-features "
+require tedge-flows.inc
 EOT
 
     # Generate tedge-p11-server BB file
@@ -191,9 +190,7 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
-
-# build tedge without tedge-flows due to an issue with rquickjs and bindgen
-CARGO_BUILD_FLAGS:append = " --bin tedge --features aws,azure,c8y --no-default-features "
+require tedge-flows.inc
 EOT
 
     tedge_p11_server_git_bb_file="meta-tedge/recipes-tedge/tedge-p11-server/tedge-p11-server_git.bb"
