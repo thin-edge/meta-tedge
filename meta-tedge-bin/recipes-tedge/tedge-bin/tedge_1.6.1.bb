@@ -14,5 +14,10 @@ SRC_URI[openrc.md5sum] = "eda14cc61d3c1be5d7fd8ff9543fad07"
 SRC_URI[systemd.md5sum] = "2220a0eecd01da450176e60db2fef895"
 SRC_URI[sysvinit.md5sum] = "fc7a3913b556afd503717e4d457e65a8"
 
+# required for other files from the tedge source repo
+SRCREV_tedge = "e7c50099ce6b418c411e1ae049b3c6d997c18a1f"
+SRCREV_FORMAT = "tedge"
+SRC_URI += "git://git@github.com/thin-edge/thin-edge.io.git;protocol=https;branch=main;name=tedge"
+
 require tedge.inc
 require tedge-diag.inc

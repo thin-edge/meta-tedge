@@ -1,6 +1,6 @@
 do_install:append () {
     install -d ${D}${datadir}/tedge/diag-plugins
-    install -m 0755 ${S}/configuration/contrib/diag-plugins/* ${D}${datadir}/tedge/diag-plugins/
+    install -m 0755 ${WORKDIR}/git/configuration/contrib/diag-plugins/* ${D}${datadir}/tedge/diag-plugins/
 }
 
 FILES:${PN} += "\
