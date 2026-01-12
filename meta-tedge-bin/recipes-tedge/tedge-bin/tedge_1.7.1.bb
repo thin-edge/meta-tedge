@@ -17,3 +17,5 @@ SRC_URI[sysvinit.md5sum] = "fc7a3913b556afd503717e4d457e65a8"
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
+require tedge-config.inc
+require tedge-flows.inc
