@@ -52,6 +52,26 @@ get_next_minor_version() {
     echo "${major}.${next_minor}"
 }
 
+version_lte() {
+    # check if version is less than or equal to a specific version
+    [  "$1" = "$(printf '%s\n%s\n' "$1" "$2" | sort -V | head -n1)" ]
+}
+
+version_lt() {
+    # check if version is less than a specific version
+    if [ "$1" = "$2" ]; then
+        return 1
+    fi
+    version_lte "$1" "$2"
+}
+
+print_lines() {
+    for item in "$@"; do
+        echo "$item"
+    done
+}
+
+
 update_version() {
     # Install tooling if missing
     if ! [ -x "$(command -v cloudsmith)" ]; then
@@ -78,10 +98,27 @@ update_version() {
     tedge_version=$(get_latest_version "thinedge/tedge-release" "arm64")
     echo "Latest thin-edge.io version: $tedge_version in (thinedge/tedge-release)"
 
+    # helper to optionally add statements if the minimum version requirement is met
+    OPTIONAL_STATEMENTS=()
+    add_from_version() {
+        from_version="$1"
+        text="$2"
+        if version_lte "$from_version" "$tedge_version"; then
+            OPTIONAL_STATEMENTS+=(
+                "$text"
+            )
+        fi
+    }
+
     # tedge service definitions
     community_repo="thinedge/community"
     services_version=$(get_services_latest_version "$community_repo")
     echo "Latest services repo version: $services_version in ($community_repo)"
+
+    add_from_version "1.6.0" "require tedge-diag.inc"
+    add_from_version "1.7.0" "require tedge-log.inc"
+    add_from_version "1.8.0" "require tedge-flows.inc"
+    add_from_version "1.8.0" "require tedge-config.inc"
 
     # Generate BB file
     tedge_bb_file="meta-tedge-bin/recipes-tedge/tedge-bin/tedge_${tedge_version}.bb"
@@ -106,10 +143,6 @@ SRC_URI[systemd.md5sum] = "$(get_services_checksum "$community_repo" "$services_
 SRC_URI[sysvinit.md5sum] = "$(get_services_checksum "$community_repo" "$services_version" "tedge-sysvinit-yocto")"
 
 require tedge.inc
-require tedge-diag.inc
-require tedge-log.inc
-require tedge-config.inc
-require tedge-flows.inc
 EOT
 
     #
@@ -148,10 +181,7 @@ S = "\${WORKDIR}/git"
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
-require tedge-diag.inc
-require tedge-log.inc
-require tedge-config.inc
-require tedge-flows.inc
+$(print_lines "${OPTIONAL_STATEMENTS[@]}")
 EOT
 
     # Generate tedge-p11-server BB file
