@@ -9,7 +9,10 @@ USAGE
     $0 <COMMAND> [OPTIONS]
 
 COMMANDS
-    $0 update_version          Update the BB layer for thin-edge.io to the latest version
+    $0 update_version [--overwrite]          Update the BB layer for thin-edge.io to the latest version
+
+FLAGS
+    --overwrite     Overwrite any existing files (only used in the update_version subcommand)
 EOT
 }
 
@@ -52,26 +55,6 @@ get_next_minor_version() {
     echo "${major}.${next_minor}"
 }
 
-version_lte() {
-    # check if version is less than or equal to a specific version
-    [  "$1" = "$(printf '%s\n%s\n' "$1" "$2" | sort -V | head -n1)" ]
-}
-
-version_lt() {
-    # check if version is less than a specific version
-    if [ "$1" = "$2" ]; then
-        return 1
-    fi
-    version_lte "$1" "$2"
-}
-
-print_lines() {
-    for item in "$@"; do
-        echo "$item"
-    done
-}
-
-
 update_version() {
     # Install tooling if missing
     if ! [ -x "$(command -v cloudsmith)" ]; then
@@ -98,27 +81,10 @@ update_version() {
     tedge_version=$(get_latest_version "thinedge/tedge-release" "arm64")
     echo "Latest thin-edge.io version: $tedge_version in (thinedge/tedge-release)"
 
-    # helper to optionally add statements if the minimum version requirement is met
-    OPTIONAL_STATEMENTS=()
-    add_from_version() {
-        from_version="$1"
-        text="$2"
-        if version_lte "$from_version" "$tedge_version"; then
-            OPTIONAL_STATEMENTS+=(
-                "$text"
-            )
-        fi
-    }
-
     # tedge service definitions
     community_repo="thinedge/community"
     services_version=$(get_services_latest_version "$community_repo")
     echo "Latest services repo version: $services_version in ($community_repo)"
-
-    add_from_version "1.6.0" "require tedge-diag.inc"
-    add_from_version "1.7.0" "require tedge-log.inc"
-    add_from_version "1.8.0" "require tedge-flows.inc"
-    add_from_version "1.8.0" "require tedge-config.inc"
 
     # Generate BB file
     tedge_bb_file="meta-tedge-bin/recipes-tedge/tedge-bin/tedge_${tedge_version}.bb"
@@ -170,9 +136,10 @@ EOT
 
     echo "Found tag: tag=$TAG, commit=$COMMIT_HASH" >&2
 
-    # Generate tedge BB file
     tedge_bb_file="meta-tedge/recipes-tedge/tedge/tedge_${tedge_version}.bb"
-    cat << EOT | tee "$tedge_bb_file" >&2
+    # Generate tedge BB file (if it doesn't already exist)
+    if [ "$FORCE_OVERWRITE" = 1 ] || [ ! -f "$tedge_bb_file" ]; then
+        cat << EOT | tee "$tedge_bb_file" >&2
 SRCREV_tedge = "$COMMIT_HASH"
 SRCREV_tedge-services = "$TEDGE_SERVICES_COMMIT_HASH"
 SRCREV_FORMAT = "tedge"
@@ -181,11 +148,16 @@ S = "\${WORKDIR}/git"
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
 require tedge.inc
-$(print_lines "${OPTIONAL_STATEMENTS[@]}")
+require tedge-diag.inc
+require tedge-log.inc
 EOT
+    else
+        printf 'bb recipe already exists: %s\n\n' "$tedge_bb_file"
+    fi
 
-    # Generate tedge-p11-server BB file
+    # Generate tedge-p11-server BB file (if it doesn't already exist)
     tedge_p11_server_bb_file="meta-tedge/recipes-tedge/tedge-p11-server/tedge-p11-server_${tedge_version}.bb"
+    if [ "$FORCE_OVERWRITE" = 1 ] || [ ! -f "$tedge_p11_server_bb_file" ]; then
     cat << EOT | tee "$tedge_p11_server_bb_file" >&2
 SRCREV_tedge = "$COMMIT_HASH"
 SRCREV_tedge-services = "$TEDGE_SERVICES_COMMIT_HASH"
@@ -194,6 +166,9 @@ S = "\${WORKDIR}/git"
 
 require tedge-p11-server.inc
 EOT
+    else
+        printf 'bb recipe already exists: %s\n\n' "$tedge_p11_server_bb_file"
+    fi
 
     SED="sed"
     if command -v gsed >/dev/null 2>&1; then
@@ -241,9 +216,15 @@ require tedge-p11-server.inc
 EOT
 }
 
+# force overwriting existing recipes
+FORCE_OVERWRITE=0
+
 REST_ARGS=()
 while [ $# -gt 0 ]; do
     case "$1" in
+        --overwrite)
+            FORCE_OVERWRITE=1
+            ;;
         --help|-h)
             help
             exit 0
