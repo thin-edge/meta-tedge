@@ -15,5 +15,3 @@ SRC_URI[systemd.md5sum] = "2220a0eecd01da450176e60db2fef895"
 SRC_URI[sysvinit.md5sum] = "fc7a3913b556afd503717e4d457e65a8"
 
 require tedge.inc
-require tedge-diag.inc
-require tedge-log.inc
