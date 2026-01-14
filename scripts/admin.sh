@@ -69,55 +69,10 @@ update_version() {
         fi
     fi
 
-
-    #
-    # meta-tedge-bin
-    #
-    echo "--------------------------------------------" >&2
-    echo "Updating version on meta-tedge-bin" >&2
-    echo "--------------------------------------------" >&2
-    # thin-edge.io
+    # thin-edge.io meta information
     tedge_channel="release"
     tedge_version=$(get_latest_version "thinedge/tedge-release" "arm64")
     echo "Latest thin-edge.io version: $tedge_version in (thinedge/tedge-release)"
-
-    # tedge service definitions
-    community_repo="thinedge/community"
-    services_version=$(get_services_latest_version "$community_repo")
-    echo "Latest services repo version: $services_version in ($community_repo)"
-
-    # Generate BB file
-    tedge_bb_file="meta-tedge-bin/recipes-tedge/tedge-bin/tedge_${tedge_version}.bb"
-
-    echo "Writing bb file: $tedge_bb_file" >&2
-
-    cat << EOT | tee "$tedge_bb_file"
-# Architecture variables
-ARCH_REPO_CHANNEL = "$tedge_channel"
-ARCH_VERSION = "$tedge_version"
-SRC_URI[aarch64.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "arm64" "$tedge_version")"
-SRC_URI[armv6.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}-armv6" "armv6" "$tedge_version")"
-SRC_URI[armv7.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "armv7" "$tedge_version")"
-SRC_URI[x86_64.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "amd64" "$tedge_version")"
-SRC_URI[riscv64.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "riscv64" "$tedge_version")"
-
-# Init manager variables
-INIT_REPO_CHANNEL = "$(basename "$community_repo")"
-INIT_VERSION = "$services_version"
-SRC_URI[openrc.md5sum] = "$(get_services_checksum "$community_repo" "$services_version" "tedge-openrc")"
-SRC_URI[systemd.md5sum] = "$(get_services_checksum "$community_repo" "$services_version" "tedge-systemd")"
-SRC_URI[sysvinit.md5sum] = "$(get_services_checksum "$community_repo" "$services_version" "tedge-sysvinit-yocto")"
-
-require tedge.inc
-EOT
-
-    #
-    # meta-tedge
-    #
-    echo >&2
-    echo "--------------------------------------------" >&2
-    echo "Updating version on meta-tedge" >&2
-    echo "--------------------------------------------" >&2
     JQ_QUERY=$(printf '.[] | select(.name == "%s") | [.name, .commit.sha] | @tsv' "$tedge_version")
     MATCHING_TAG=$(
         gh api \
@@ -136,6 +91,60 @@ EOT
 
     echo "Found tag: tag=$TAG, commit=$COMMIT_HASH" >&2
 
+    #
+    # meta-tedge-bin
+    #
+    echo "--------------------------------------------" >&2
+    echo "Updating version on meta-tedge-bin" >&2
+    echo "--------------------------------------------" >&2
+    # tedge service definitions
+    community_repo="thinedge/community"
+    services_version=$(get_services_latest_version "$community_repo")
+    echo "Latest services repo version: $services_version in ($community_repo)"
+
+    # Generate BB file
+    tedge_bb_file="meta-tedge-bin/recipes-tedge/tedge-bin/tedge_${tedge_version}.bb"
+    # Generate tedge BB file (if it doesn't already exist)
+    if [ "$FORCE_OVERWRITE" = 1 ] || [ ! -f "$tedge_bb_file" ]; then
+        echo "Writing bb file: $tedge_bb_file" >&2
+
+        cat << EOT | tee "$tedge_bb_file"
+# Architecture variables
+ARCH_REPO_CHANNEL = "$tedge_channel"
+ARCH_VERSION = "$tedge_version"
+SRC_URI[aarch64.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "arm64" "$tedge_version")"
+SRC_URI[armv6.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}-armv6" "armv6" "$tedge_version")"
+SRC_URI[armv7.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "armv7" "$tedge_version")"
+SRC_URI[x86_64.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "amd64" "$tedge_version")"
+SRC_URI[riscv64.md5sum] = "$(get_tedge_md5_checksum "thinedge/tedge-${tedge_channel}" "riscv64" "$tedge_version")"
+
+# Init manager variables
+INIT_REPO_CHANNEL = "$(basename "$community_repo")"
+INIT_VERSION = "$services_version"
+SRC_URI[openrc.md5sum] = "$(get_services_checksum "$community_repo" "$services_version" "tedge-openrc")"
+SRC_URI[systemd.md5sum] = "$(get_services_checksum "$community_repo" "$services_version" "tedge-systemd")"
+SRC_URI[sysvinit.md5sum] = "$(get_services_checksum "$community_repo" "$services_version" "tedge-sysvinit-yocto")"
+
+# checkout source
+SRCREV_tedge = "$COMMIT_HASH"
+SRCREV_FORMAT = "tedge"
+SRC_URI += "git://git@github.com/thin-edge/thin-edge.io.git;protocol=https;branch=main;name=tedge"
+
+require tedge.inc
+require tedge-diag.inc
+require tedge-log.inc
+EOT
+    else
+        printf 'bb recipe already exists: %s\n\n' "$tedge_bb_file"
+    fi
+
+    #
+    # meta-tedge
+    #
+    echo >&2
+    echo "--------------------------------------------" >&2
+    echo "Updating version on meta-tedge" >&2
+    echo "--------------------------------------------" >&2
     tedge_bb_file="meta-tedge/recipes-tedge/tedge/tedge_${tedge_version}.bb"
     # Generate tedge BB file (if it doesn't already exist)
     if [ "$FORCE_OVERWRITE" = 1 ] || [ ! -f "$tedge_bb_file" ]; then

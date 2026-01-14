@@ -10,6 +10,8 @@ header:
     - ../config/package-management.yaml
     - ../config/tedge-docker.yaml
     - ../config/tedge-nodered.yaml
+    # Note: tedge-p11-server is not yet available in the meta-tedge-bin layer
+    - ../config/skip-tedge-p11-server.yaml
 
 machine: raspberrypi-armv8
 distro: poky
