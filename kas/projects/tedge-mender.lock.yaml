@@ -7,7 +7,7 @@ overrides:
     meta-raspberrypi:
       commit: 255500dd9f6a01a3445ac491d1abc401801e3bad
     meta-openembedded:
-      commit: 97d4be2839754dadfc326c21948472c2fc2985ce
+      commit: 7d4507f226bd2af939d4482fb14a809867ece939
     meta-mender:
       commit: 19f859af0911c2a1ca62bd9d0e115b27884f5cec
     meta-lts-mixins-rust:
