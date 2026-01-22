@@ -1,0 +1,20 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  block-fixup:
+    name: Block fixup commits
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Block Fixup Commit Merge
+        # https://github.com/13rac1/block-fixup-merge-action
+        uses: 13rac1/block-fixup-merge-action@v2.0.0
