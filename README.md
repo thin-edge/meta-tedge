@@ -2,7 +2,7 @@
 
 This meta layer contains all the recipes needed to build [thin-edge.io](https://thin-edge.io) into a [Yocto](https://www.yoctoproject.org) image.
 
-## How to start
+## How to start - test
 
 Check out the [kas folder and README](./kas/README.md) for some example projects which make use of the thin-edge.io layer to create an image which includes Over-the-Air update support. The projects use [kas](https://github.com/siemens/kas) to make it easy to setup your Yocto environment (e.g. checkout all of the required layers) and build your image in a single commands.
 
