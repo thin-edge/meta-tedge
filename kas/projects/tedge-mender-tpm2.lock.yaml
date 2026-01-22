@@ -9,7 +9,7 @@ overrides:
     meta-openembedded:
       commit: 2759d8870ea387b76c902070bed8a6649ff47b56
     meta-security:
-      commit: afbbe28cee4af2c6760aaead43a4a3ef29969809
+      commit: 97e482b71688b62ac1109d16e89368122f039cbf
     meta-mender:
       commit: 76404a7b914676a57d76ccb5fe12149112c05c03
     meta-mender-community:
