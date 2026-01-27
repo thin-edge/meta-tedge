@@ -9,7 +9,7 @@ overrides:
     meta-openembedded:
       commit: 2759d8870ea387b76c902070bed8a6649ff47b56
     meta-rauc:
-      commit: a0f4a8b9986954239850b9d4256c003c91e6b931
+      commit: e9d65639be4d8f150fbc7435e2ea399e2671fde1
     meta-rauc-community:
       commit: 935ea34c32fcdc70b5f48a7f6a6a32b1af65081d
     meta-virtualization:
