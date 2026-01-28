@@ -11,7 +11,7 @@ overrides:
     meta-rugix:
       commit: 22e60ef3aeb07f630af163a5ad1aef42ac8e97e6
     meta-lts-mixins-rust:
-      commit: 88ee10acb0de3da6b3107fb7a8617c8cd56420bf
+      commit: 6baa9afeb88a4a9b4a0e82dd7e3e611438999dbb
     meta-lts-mixins-go:
       commit: f1e17e928f740f5ed0698956274c4a9cee88850b
     meta-virtualization:

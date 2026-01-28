@@ -9,7 +9,7 @@ overrides:
     meta-mender:
       commit: e017c1a6b9ff545ab7db29681a5c443faab85ccd
     meta-lts-mixins-rust:
-      commit: 88ee10acb0de3da6b3107fb7a8617c8cd56420bf
+      commit: 6baa9afeb88a4a9b4a0e82dd7e3e611438999dbb
     meta-lts-mixins-go:
       commit: f1e17e928f740f5ed0698956274c4a9cee88850b
     meta-virtualization:
