@@ -11,7 +11,7 @@ overrides:
     meta-security:
       commit: 97e482b71688b62ac1109d16e89368122f039cbf
     meta-mender:
-      commit: 76404a7b914676a57d76ccb5fe12149112c05c03
+      commit: c3064a2767be4779589bd276079d7bb535dcb481
     meta-mender-community:
       commit: 9145b8e34bac23c82984ddcdd5468154ffe7af6d
     meta-lts-mixins-rust:
