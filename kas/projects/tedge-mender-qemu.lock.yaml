@@ -5,7 +5,7 @@ overrides:
     poky:
       commit: 353491479086e8d3f209d5cce0019a29e143b064
     meta-openembedded:
-      commit: 2759d8870ea387b76c902070bed8a6649ff47b56
+      commit: 7a5075cef77b5f7af454e9868e1d0019f2fd1394
     meta-mender:
       commit: c3064a2767be4779589bd276079d7bb535dcb481
     meta-lts-mixins-rust:
