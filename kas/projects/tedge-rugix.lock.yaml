@@ -9,7 +9,7 @@ overrides:
     meta-openembedded:
       commit: 8a598a2bc9199a4fbb9008a32ab143fb509a0933
     meta-rugix:
-      commit: 3455721cfea12473108ee0c84095ab3c42242f44
+      commit: c76dc283deccb1ac7b8ce8626ccab095c587da2a
     meta-lts-mixins-rust:
       commit: 6baa9afeb88a4a9b4a0e82dd7e3e611438999dbb
     meta-lts-mixins-go:
