@@ -3,11 +3,11 @@ header:
 overrides:
   repos:
     poky:
-      commit: 353491479086e8d3f209d5cce0019a29e143b064
+      commit: 1d54d1c4736a114e1cecbe85a0306e3814d5ce70
     meta-raspberrypi:
       commit: 2c646d29912dcc873469a57b1c207e1549c5094d
     meta-openembedded:
-      commit: 7a5075cef77b5f7af454e9868e1d0019f2fd1394
+      commit: ec0469748be4159fb83fb0fa0148d786484c88cf
     meta-rugix:
       commit: 3455721cfea12473108ee0c84095ab3c42242f44
     meta-lts-mixins-rust:
@@ -15,6 +15,6 @@ overrides:
     meta-lts-mixins-go:
       commit: 61f9b2720705cd68d9d6a96c11896f9ea20cfb13
     meta-virtualization:
-      commit: f92518e20530edfebca45e4170e11460949a5303
+      commit: 8b1543e121deda2445f80f74d85c10316d5b31f4
     meta-clang:
-      commit: 5c602337ea1a80fb7217eeda04e396cf90587dca
+      commit: 613362523f3bf85ff4862e2f1f00113b8d2028be
