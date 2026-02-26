@@ -11,7 +11,7 @@ overrides:
     meta-mender:
       commit: 9725d5f199e645bf93c5d68c7c87ac0a9f519f06
     meta-mender-community:
-      commit: 9145b8e34bac23c82984ddcdd5468154ffe7af6d
+      commit: 1a203620063b4bd99c4a4c7bc1bda80074f7dac5
     meta-lts-mixins-rust:
       commit: c19b6da5a3afd3c892b3b1b44983e993ac6d5308
     meta-lts-mixins-go:
@@ -19,6 +19,6 @@ overrides:
     meta-lts-mixins-u-boot:
       commit: a44882db02a0ed0f149371831bfbe067665eb42b
     meta-virtualization:
-      commit: 8b1543e121deda2445f80f74d85c10316d5b31f4
+      commit: 78abd77b8695705e6e55266745c838bb665486de
     meta-clang:
       commit: 613362523f3bf85ff4862e2f1f00113b8d2028be
