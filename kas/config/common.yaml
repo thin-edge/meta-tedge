@@ -46,4 +46,5 @@ local_conf_header:
     SYSTEMD_AUTO_ENABLE:tedge-mapper-aws = "disable"
     SYSTEMD_AUTO_ENABLE:tedge-mapper-az = "disable"
     SYSTEMD_AUTO_ENABLE:tedge-mapper-collectd = "disable"
+    SYSTEMD_AUTO_ENABLE:tedge-mapper-local = "disable"
     SYSTEMD_AUTO_ENABLE:tedge-p11-server = "enable"
