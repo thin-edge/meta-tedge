@@ -133,6 +133,8 @@ SRC_URI += "git://git@github.com/thin-edge/thin-edge.io.git;protocol=https;branc
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
+require tedge-config.inc
+require tedge-flows.inc
 EOT
     else
         printf 'bb recipe already exists: %s\n\n' "$tedge_bb_file"
@@ -159,6 +161,8 @@ TEDGE_EXCLUDE = "c8y-firmware-plugin"
 require tedge.inc
 require tedge-diag.inc
 require tedge-log.inc
+require tedge-config.inc
+require tedge-flows.inc
 EOT
     else
         printf 'bb recipe already exists: %s\n\n' "$tedge_bb_file"
