@@ -5,6 +5,8 @@ inherit ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'update-rc.d', '', d
 
 # tedge-p11-server is defined in a seprated recipe
 TEDGE_EXCLUDE += "tedge-p11-server"
+# Exclude tedge-mapper-local for versions before 1.8.0
+TEDGE_EXCLUDE += "${@'tedge-mapper-local' if bb.utils.vercmp_string(d.getVar('PV'), '1.8') < 0 else ''}"
 
 do_install:append () {
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
@@ -39,6 +41,8 @@ do_install:append () {
 }
 
 PACKAGES += "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd"
+# Add tedge-mapper-local package only for versions >= 1.8.0
+PACKAGES += "${@'${PN}-mapper-local' if bb.utils.vercmp_string(d.getVar('PV'), '1.8') >= 0 else ''}"
 
 FILES:${PN} += "\
     ${sysconfdir}/init.d/* \
@@ -67,10 +71,16 @@ FILES:${PN}-mapper-az += "\
 FILES:${PN}-mapper-collectd += "\
     ${systemd_system_unitdir}/tedge-mapper-collectd.service \
 "
+FILES:${PN}-mapper-local += "\
+    ${systemd_system_unitdir}/tedge-mapper-local.service \
+"
 
 SYSTEMD_PACKAGES += "${PN}-agent ${PN}-mapper-c8y ${PN}-mapper-aws ${PN}-mapper-az ${PN}-mapper-collectd"
+SYSTEMD_PACKAGES += "${@'${PN}-mapper-local' if bb.utils.vercmp_string(d.getVar('PV'), '1.8') >= 0 else ''}"
+
 SYSTEMD_SERVICE:${PN}-agent = "tedge-agent.service"
 SYSTEMD_SERVICE:${PN}-mapper-c8y = "tedge-mapper-c8y.service c8y-remote-access-plugin@.service c8y-remote-access-plugin.socket"
 SYSTEMD_SERVICE:${PN}-mapper-aws = "tedge-mapper-aws.service"
 SYSTEMD_SERVICE:${PN}-mapper-az = "tedge-mapper-az.service"
 SYSTEMD_SERVICE:${PN}-mapper-collectd = "tedge-mapper-collectd.service"
+SYSTEMD_SERVICE:${PN}-mapper-local = "tedge-mapper-local.service"
