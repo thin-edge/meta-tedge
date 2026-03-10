@@ -9,7 +9,7 @@ overrides:
     meta-openembedded:
       commit: 4d3e2639dec542b58708244662d5ce36810fc510
     meta-rauc:
-      commit: e9d65639be4d8f150fbc7435e2ea399e2671fde1
+      commit: a687885f3f3ebfcab5865a587a2f0ac8e591899e
     meta-rauc-community:
       commit: 935ea34c32fcdc70b5f48a7f6a6a32b1af65081d
     meta-lts-mixins-rust:
