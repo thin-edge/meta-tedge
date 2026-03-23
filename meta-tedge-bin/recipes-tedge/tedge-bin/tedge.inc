@@ -38,6 +38,12 @@ do_install:append () {
     install -d ${D}${TEDGE_CONFIG_DIR}/sm-plugins
     ln -s -r  ${D}${bindir}/tedge-apt-plugin ${D}${TEDGE_CONFIG_DIR}/sm-plugins/apt
 
+    # Create symlink for tedge-flows-plugin in `/etc/tedge/sm-plugins` (version >= 1.8.0)
+    if ${@'true' if bb.utils.vercmp_string(d.getVar('PV'), '1.8') >= 0 else 'false'}; then
+        install -d ${D}${TEDGE_CONFIG_DIR}/sm-plugins
+        ln -s -r  ${D}${bindir}/tedge-flows-plugin ${D}${TEDGE_CONFIG_DIR}/sm-plugins/flow
+    fi
+
     # Remove packages indicated in `TEDGE_EXCLUDE` (NOTE: they cannot be part of tedge-binary)
     for package in ${@d.getVar('TEDGE_EXCLUDE')}; do 
         rm -f ${D}${bindir}/${package}
@@ -54,6 +60,10 @@ do_install:append () {
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-apt-plugin
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/c8y-remote-access-plugin
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-watchdog
+    if ${@'true' if bb.utils.vercmp_string(d.getVar('PV'), '1.8') >= 0 else 'false'}; then
+        ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-flows-plugin
+    fi
+
 
     chown -R tedge:tedge "${D}${TEDGE_CONFIG_DIR}"
 
@@ -113,6 +123,7 @@ FILES:${PN} += "\
     ${TEDGE_CONFIG_DIR}/mosquitto-conf/tedge-mosquitto.conf \
     ${TEDGE_CONFIG_DIR}/contrib/collectd \
     ${TEDGE_CONFIG_DIR}/sm-plugins/apt \
+    ${@'${TEDGE_CONFIG_DIR}/sm-plugins/flow' if bb.utils.vercmp_string(d.getVar('PV'), '1.8') >= 0 else ''} \
 "
 
 require architectures/${TEDGE_PKG}.inc
