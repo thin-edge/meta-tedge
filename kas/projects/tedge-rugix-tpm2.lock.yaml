@@ -9,9 +9,9 @@ overrides:
     meta-openembedded:
       commit: 4d3e2639dec542b58708244662d5ce36810fc510
     meta-security:
-      commit: 97e482b71688b62ac1109d16e89368122f039cbf
+      commit: b13f1705d723650de61277670c8a76aadea4cfdd
     meta-rugix:
-      commit: 96943c77851643d249489f3e324442137420d443
+      commit: b9991ea62ef79536f5dabbc5a4e46df3a1855c51
     meta-lts-mixins-rust:
       commit: c19b6da5a3afd3c892b3b1b44983e993ac6d5308
     meta-lts-mixins-go:
