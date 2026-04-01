@@ -288,16 +288,16 @@ install() {
         http://*|https://*)
             if [ "$STREAM_DOWNLOAD" = 1 ]; then
                 log "Downloading and streaming image to rugix"
-                download_file "$url" | $SUDO rugix-ctrl update install --reboot no -
+                download_file "$url" | $SUDO rugix-ctrl update install --insecure-skip-bundle-verification --reboot no -
             else
                 log "Downloading image using rugix"
-                $SUDO rugix-ctrl update install --reboot no "$url"
+                $SUDO rugix-ctrl update install --insecure-skip-bundle-verification --reboot no "$url"
             fi
             ;;
         *)
             # It is a file
             log "Installing local image to rugix"
-            $SUDO rugix-ctrl update install --reboot no "$url"
+            $SUDO rugix-ctrl update install --insecure-skip-bundle-verification --reboot no "$url"
             ;;
     esac
     EXIT_CODE=$?
