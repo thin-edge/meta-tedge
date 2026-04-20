@@ -14,7 +14,7 @@ jobs:
       PR_BRANCH: updater-${{github.ref_name}}
       TARGET_BRANCH: ${{github.ref_name}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # Only install tooling if not running on a self-hosted runner as the tools are already pre-installed
       - uses: taiki-e/install-action@just
