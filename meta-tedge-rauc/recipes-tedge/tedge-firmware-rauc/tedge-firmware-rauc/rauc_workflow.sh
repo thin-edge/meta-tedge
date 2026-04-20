@@ -262,7 +262,7 @@ verify() {
     is_mapper_connected() {
         CLOUD_MAPPER="$1"
 
-        if [ -n "$(tedge config get "$CLOUD_MAPPER.url" 2>/dev/null)" ]; then
+        if [ -n "$(tedge config get "${CLOUD_MAPPER}.url" 2>/dev/null || tedge config get "${CLOUD_MAPPER}.mqtt" 2>/dev/null)" ]; then
             tedge connect "$CLOUD_MAPPER" --test >&2
         else
             # If the configuration is not configured, then treat the device as healthy
@@ -284,9 +284,26 @@ verify() {
         return "$failed"
     }
 
-    # Try fixing any possible mosquitto permissions first
-    # In case if the pervious image uses different uid/gid for the mosquitto user
-    chown mosquitto:mosquitto /etc/tedge/device-certs/* ||:
+    # upgrade the config to move out the mapper specific settings from tedge.toml (tedge version >= 2.0.0)
+    if tedge config upgrade --help >/dev/null 2>&1; then
+        if ! $SUDO tedge config upgrade; then
+            code="$?"
+            local_log "ERROR: 'tedge config upgrade' failed. code=$code"
+            exit "$FAILED"
+        fi
+    else
+        # Try fixing any possible mosquitto permissions first
+        # In case if the pervious image uses different uid/gid for the mosquitto user
+        chown mosquitto:mosquitto /etc/tedge/device-certs/* ||:
+    fi
+
+    if tedge refresh-bridges --help >/dev/null 2>&1; then
+        if ! $SUDO tedge refresh-bridges; then
+            code="$?"
+            local_log "ERROR: 'tedge refresh-bridges' failed. code=$code"
+            exit "$FAILED"
+        fi
+    fi
 
     # Check mapper health with retries
     ATTEMPT=1

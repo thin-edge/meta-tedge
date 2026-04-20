@@ -398,7 +398,7 @@ rollback_successful() {
     # TODO: Support cloud profiles and look for all enabled mappers, not just the standard names
     MAPPERS="c8y az aws"
     for CLOUD_MAPPER in $MAPPERS; do
-        if [ -n "$(tedge config get "${CLOUD_MAPPER}.url" 2>/dev/null)" ]; then
+        if [ -n "$(tedge config get "${CLOUD_MAPPER}.url" 2>/dev/null || tedge config get "${CLOUD_MAPPER}.mqtt" 2>/dev/null)" ]; then
             # Use a reconnect as it will also recreate the bridge config
             log "Reconnecting $CLOUD_MAPPER mapper"
             if ! $SUDO tedge reconnect "$CLOUD_MAPPER"; then
