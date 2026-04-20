@@ -1,0 +1,87 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/siemens/kas/66261547b75885786777a0b9c8a4400ab81d432e/kas/schema-kas.json
+header:
+  version: 14
+  includes:
+    - ../config/common.yaml
+    - ../config/raspberrypi.yaml
+    - ../config/rauc-raspberrypi.yaml
+    - ../config/network.yaml
+    - ../config/monitor.yaml
+    - ../config/package-management.yaml
+    - ../config/tedge-docker.yaml
+    - ../config/tedge-nodered.yaml
+    - ../config/raspberrypi-tpm2.yaml
+
+machine: raspberrypi-armv8
+distro: poky
+target: rauc-update-bundle
+
+env:
+  IMAGE_VERSION: ""
+  IMAGE_VERSION_SUFFIX: "_123123"
+  BUNDLE_NAME: "core-image-tedge-rauc-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+  RAUC_BUNDLE_VERSION: "${IMAGE_VERSION}"
+
+defaults:
+  repos:
+    branch: scarthgap
+
+repos:
+  poky:
+    url: "https://git.yoctoproject.org/git/poky"
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-raspberrypi:
+    url: "https://github.com/agherzan/meta-raspberrypi.git"
+
+  meta-openembedded:
+    url: "https://git.openembedded.org/meta-openembedded"
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+      meta-multimedia:
+      meta-filesystems:
+
+  # Required for tpm2
+  meta-security:
+    url: "git://git.yoctoproject.org/meta-security"
+    layers:
+      .:
+      meta-tpm:
+
+  meta-rauc:
+    url: "https://github.com/rauc/meta-rauc.git"
+
+  meta-rauc-community:
+    url: "https://github.com/thin-edge/meta-rauc-community"
+    branch: scarthgap-fork
+    layers:
+      meta-rauc-raspberrypi:
+
+  meta-tedge:
+    path: ../../
+    layers:
+      meta-tedge:
+      meta-tedge-common:
+      meta-tedge-rauc:
+      meta-tedge-extras:
+      meta-raspberrypi:
+      meta-slb9670-rpi:
+
+  meta-lts-mixins-rust:
+    url: "https://git.yoctoproject.org/meta-lts-mixins"
+    branch: scarthgap/rust
+
+  meta-lts-mixins-go:
+    url: "https://github.com/thin-edge/meta-lts-mixins.git"
+    branch: scarthgap/go
+
+  meta-virtualization:
+    url: "https://git.yoctoproject.org/meta-virtualization"
+
+  meta-clang:
+    url: "https://github.com/kraj/meta-clang.git"
