@@ -4,6 +4,7 @@ header:
   includes:
     - ../config/common.yaml
     - ../config/raspberrypi.yaml
+    - ../config/usb-wifi.yaml
     - ../config/rauc-raspberrypi.yaml
     - ../config/network.yaml
     - ../config/monitor.yaml
