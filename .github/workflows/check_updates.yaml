@@ -22,6 +22,6 @@ jobs:
           - kirkstone
           - scarthgap
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Update ${{ matrix.branch }}
         run: gh workflow run update --ref ${{ matrix.branch }}

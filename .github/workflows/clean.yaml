@@ -59,7 +59,7 @@ jobs:
       - X64
       - offsite_yocto
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Disk space (before)
         run: df -h /
       - name: Remove old SSTATE files
