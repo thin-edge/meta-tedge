@@ -12,7 +12,7 @@ EXIT_OK=0
 #
 MAPPERS="c8y az aws"
 for name in $MAPPERS; do
-    if [ -n "$(tedge config get "${name}.url" 2>/dev/null)" ]; then
+    if [ -n "$(tedge config get "${name}.url" 2>/dev/null || tedge config get "${name}.mqtt" 2>/dev/null)" ]; then
         # Try reconnecting, but ignore any failures as it could be due to connectivity problems, and these are detected downstream
         # using a proper retry mechanism
         tedge reconnect "${name}" >&2 || true

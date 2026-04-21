@@ -17,7 +17,7 @@ MAPPERS="c8y az aws"
 is_mapper_connected() {
     CLOUD_MAPPER="$1"
 
-    if [ -n "$(tedge config get "${CLOUD_MAPPER}.url" 2>/dev/null)" ]; then
+    if [ -n "$(tedge config get "${CLOUD_MAPPER}.url" 2>/dev/null || tedge config get "${CLOUD_MAPPER}.mqtt" 2>/dev/null)" ]; then
 
         # Use a reconnect as it will also recreate the bridge config (in case it has changed)
         sudo tedge reconnect "$CLOUD_MAPPER" || return 1
