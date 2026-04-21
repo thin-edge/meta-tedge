@@ -78,7 +78,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -104,7 +104,7 @@ jobs:
           find "kas/build/tmp/deploy/images/${{ matrix.machine }}/" -type l -name "${{ matrix.image_name }}*" -delete
 
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.image_name }}_${{ matrix.machine }}
           path: |
