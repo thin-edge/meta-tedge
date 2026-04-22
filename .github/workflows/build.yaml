@@ -41,9 +41,9 @@ jobs:
       fail-fast: false
       matrix:
         project:
-          - tedge-rauc
-          - tedge-mender
-          - tedge-rugix
+          - tedge-rauc-tpm2
+          - tedge-mender-tpm2
+          - tedge-rugix-tpm2
         machine:
           - raspberrypi
           - raspberrypi2
@@ -51,29 +51,29 @@ jobs:
           # https://git.yoctoproject.org/meta-raspberrypi/tree/conf/machine/raspberrypi-armv8.conf?h=master
           - raspberrypi-armv8
         include:
-          - project: tedge-rauc
+          - project: tedge-rauc-tpm2
             image_name: core-image-tedge-rauc
             image_ext: "wic.bz2"
             update_ext: "raucb"
             manifest_ext: "manifest"
 
-          - project: tedge-mender
+          - project: tedge-mender-tpm2
             image_name: core-image-tedge-mender
             image_ext: "sdimg.bz2"
             update_ext: "mender"
             manifest_ext: "manifest"
 
-          - project: tedge-rugix
+          - project: tedge-rugix-tpm2
             image_name: core-image-tedge-rugix
             image_ext: "wic.bz2"
             update_ext: "rugixb"
             manifest_ext: "manifest"
         
         exclude:
-          - project: tedge-rugix
+          - project: tedge-rugix-tpm2
             machine: raspberrypi
 
-          - project: tedge-rugix
+          - project: tedge-rugix-tpm2
             machine: raspberrypi2
 
     steps:

@@ -5,22 +5,23 @@ header:
     - ../config/common.yaml
     - ../config/raspberrypi.yaml
     - ../config/usb-wifi.yaml
-    - ../config/rugix.yaml
-    - ../config/rugix-raspberrypi.yaml
+    - ../config/rauc-raspberrypi.yaml
     - ../config/network.yaml
     - ../config/monitor.yaml
     - ../config/package-management.yaml
     - ../config/tedge-docker.yaml
     - ../config/tedge-nodered.yaml
+    - ../config/raspberrypi-tpm2.yaml
 
 machine: raspberrypi-armv8
 distro: poky
-target: rugix-update-bundle
+target: rauc-update-bundle
 
 env:
   IMAGE_VERSION: ""
   IMAGE_VERSION_SUFFIX: "_123123"
-  RUGIX_BUNDLE_NAME: "core-image-tedge-rugix-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+  BUNDLE_NAME: "core-image-tedge-rauc-${MACHINE}${IMAGE_VERSION_SUFFIX}"
+  RAUC_BUNDLE_VERSION: "${IMAGE_VERSION}"
 
 defaults:
   repos:
@@ -46,21 +47,31 @@ repos:
       meta-multimedia:
       meta-filesystems:
 
-  meta-rugix:
-    url: "https://github.com/silitics/meta-rugix.git"
-    branch: main
+  # Required for tpm2
+  meta-security:
+    url: "git://git.yoctoproject.org/meta-security"
     layers:
-      meta-rugix-core:
-      meta-rugix-rpi-tryboot:
+      .:
+      meta-tpm:
+
+  meta-rauc:
+    url: "https://github.com/rauc/meta-rauc.git"
+
+  meta-rauc-community:
+    url: "https://github.com/thin-edge/meta-rauc-community"
+    branch: scarthgap-fork
+    layers:
+      meta-rauc-raspberrypi:
 
   meta-tedge:
     path: ../../
     layers:
       meta-tedge:
       meta-tedge-common:
-      meta-tedge-rugix:
+      meta-tedge-rauc:
       meta-tedge-extras:
       meta-raspberrypi:
+      meta-slb9670-rpi:
 
   meta-lts-mixins-rust:
     url: "https://git.yoctoproject.org/meta-lts-mixins"
