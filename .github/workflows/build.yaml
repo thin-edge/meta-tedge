@@ -82,6 +82,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Rewrite git protocol to https
+        run: git config --global url."https://".insteadOf git://
+
       # Only install tooling if not running on a self-hosted runner as the tools are already pre-installed
       - uses: taiki-e/install-action@just
         if: ${{ !startsWith(runner.name, 'tedge') }}
