@@ -6,6 +6,6 @@ local_conf_header:
   rugix-raspberrypi: |
     IMAGE_INSTALL:append = " kernel-image kernel-modules kernel-devicetree"
 
-    IMAGE_FSTYPES = " tar.bz2 ext4 wic.bz2 wic.bmap"
+    IMAGE_FSTYPES = " tar.bz2 ext4 wic.bz2 wic.bmap rugixb rugixb.hash"
     SDIMG_ROOTFS_TYPE = "ext4"
     WKS_FILE = "sdimage-rugix-rpi-tryboot.wks.in"
