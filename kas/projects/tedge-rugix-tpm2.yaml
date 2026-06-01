@@ -16,7 +16,7 @@ header:
 
 machine: raspberrypi-armv8
 distro: poky
-target: rugix-update-bundle
+target: core-image-tedge-rugix
 
 env:
   IMAGE_VERSION: ""
