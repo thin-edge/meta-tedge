@@ -49,7 +49,7 @@ repos:
 
   # Required for tpm2
   meta-security:
-    url: "git://git.yoctoproject.org/meta-security"
+    url: "https://git.yoctoproject.org/meta-security"
     layers:
       .:
       meta-tpm:
