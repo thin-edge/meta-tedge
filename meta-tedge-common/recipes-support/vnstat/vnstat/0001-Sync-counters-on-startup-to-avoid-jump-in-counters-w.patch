@@ -4,6 +4,8 @@ Date: Tue, 16 Sep 2025 22:12:30 +0200
 Subject: [PATCH] Sync counters on startup to avoid jump in counters when
  switching partitions
 
+Upstream-Status: Inappropriate [user preference]
+
 ---
  examples/systemd/vnstat.service | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
