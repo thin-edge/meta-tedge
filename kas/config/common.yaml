@@ -15,7 +15,6 @@ local_conf_header:
     INHERIT += "rm_work"
 
     PACKAGE_CLASSES ?= "package_deb"
-    VOLATILE_LOG_DIR = "no"
     IMAGE_INSTALL:append = " gnupg"
     IMAGE_INSTALL:append = " systemd-journald-defaults"
     EXTRA_IMAGE_FEATURES:append = " allow-empty-password allow-root-login empty-root-password ssh-server-dropbear"
