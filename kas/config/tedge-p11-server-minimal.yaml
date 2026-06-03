@@ -8,6 +8,9 @@ bblayers_conf_header:
 
 local_conf_header:
   meta-tedge-p11-server: |
+    BB_ENV_PASSTHROUGH_ADDITIONS = "SSTATE_DIR"
+    BB_HASHSERVE_DB_DIR = "${SSTATE_DIR}"
+
     # Change/remove if you don't need these settings
     PACKAGE_CLASSES ?= "package_ipk"
     EXTRA_IMAGE_FEATURES ?= "allow-empty-password allow-root-login empty-root-password ssh-server-dropbear"

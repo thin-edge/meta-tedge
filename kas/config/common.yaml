@@ -8,6 +8,9 @@ bblayers_conf_header:
 
 local_conf_header:
   meta-common: |
+    BB_ENV_PASSTHROUGH_ADDITIONS = "SSTATE_DIR"
+    BB_HASHSERVE_DB_DIR = "${SSTATE_DIR}"
+
     # conserve disk space during a build
     INHERIT += "rm_work"
 
