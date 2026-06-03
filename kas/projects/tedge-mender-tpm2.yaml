@@ -26,12 +26,23 @@ defaults:
     branch: wrynose
 
 repos:
-  poky:
-    url: "https://git.yoctoproject.org/git/poky"
+  bitbake:
+    url: "https://github.com/openembedded/bitbake.git"
+    tag: yocto-6.0
+    branch: ""
+    # this repo does not provide any layers
+    layers: {}
+
+  meta-yocto:
+    url: "https://git.yoctoproject.org/meta-yocto"
     layers:
-      meta:
       meta-poky:
       meta-yocto-bsp:
+
+  openembedded-core:
+    url: "https://github.com/openembedded/openembedded-core.git"
+    layers:
+      meta:
 
   meta-raspberrypi:
     url: "https://github.com/agherzan/meta-raspberrypi.git"
@@ -55,12 +66,12 @@ repos:
 
   meta-mender:
     url: "https://github.com/mendersoftware/meta-mender"
+    branch: test-commit-wrynose
     layers:
       meta-mender-core:
 
   meta-mender-community:
     url: "https://github.com/mendersoftware/meta-mender-community"
-    branch: test-commit-wrynose
     layers:
       meta-mender-raspberrypi:
 
