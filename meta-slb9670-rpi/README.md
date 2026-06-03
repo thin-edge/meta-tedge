@@ -17,10 +17,10 @@ It also gives an Image for quick start tests.
 ## Dependencies
 
   URI: <https://github.com/agherzan/meta-raspberrypi.git>
-  branch: **scarthgap**
+  branch: **master**
 
-  URI: <git://git.yoctoproject.org/meta-security>
-  branch: **scarthgap**
+  URI: <https://git.yoctoproject.org/meta-security>
+  branch: **wrynose**
 
 ## Quick Start
 
@@ -74,4 +74,4 @@ VIRTUAL-RUNTIME_initscripts = ""
 
 Original Maintainer: Pierre Fontaine <pierre.ftn@pfontaine.fr>
 
-`scarthgap` Branch editor: ejaaskel <esa.jaaskela@suomi24.fi>
+`master` Branch editor: ejaaskel <esa.jaaskela@suomi24.fi>

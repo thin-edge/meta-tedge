@@ -10,8 +10,6 @@ REQUIRED_DISTRO_FEATURES = "systemd"
 
 PV = "0.5.0"
 
-S = "${WORKDIR}/git"
-
 SRC_URI += " \
     file://firmware-version \
 "

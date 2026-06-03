@@ -6,7 +6,5 @@ overrides:
       commit: d4576e3c081a7ee7b57d48421c4c4f491cb4defe
     meta-openembedded:
       commit: ae7dfb12245c7f9b9a353499e2688015bd4e6413
-    meta-lts-mixins-rust:
-      commit: c19b6da5a3afd3c892b3b1b44983e993ac6d5308
     meta-clang:
       commit: 5bce7e26a38a58bb52242494e54ab2af40009574

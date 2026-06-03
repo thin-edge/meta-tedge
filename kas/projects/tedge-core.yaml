@@ -9,7 +9,7 @@ target: core-image-base
 
 defaults:
   repos:
-    branch: scarthgap
+    branch: wrynose
 
 repos:
   poky:
@@ -27,10 +27,6 @@ repos:
       meta-networking:
       meta-multimedia:
       meta-filesystems:
-
-  meta-lts-mixins-rust:
-    url: "https://git.yoctoproject.org/meta-lts-mixins"
-    branch: scarthgap/rust
 
   meta-tedge:
     path: ../../

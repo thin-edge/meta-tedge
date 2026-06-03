@@ -12,10 +12,11 @@ For more user-friendly documentation, check out the [official thin-edge.io docum
 
 The repository follows the release-named branch strategy. Only LTS releases are supported by the thin-edge team. If you want to maintain other Yocto releases, feel free to create a ticket or read [contributing](#contributing) and prepare a pull request! 
 
-| Yocto Release | thin-edge version | Branch Name | Branch Status |
+| Yocto Release | Branch Name | Branch Status |
 | :- | :- | :- | :- |
-| Kirkstone | 1.x | kirkstone | Active and maintained |
-| Scarthgap | 1.x | scarthgap | Active and maintained |
+| Kirkstone | kirkstone | EOL |
+| Scarthgap | scarthgap | Active and maintained |
+| wrynose | wrynose | In development |
 
 ## Contributing
 

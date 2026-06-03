@@ -24,7 +24,7 @@ env:
 
 defaults:
   repos:
-    branch: scarthgap
+    branch: wrynose
 
 repos:
   poky:
@@ -36,6 +36,7 @@ repos:
 
   meta-raspberrypi:
     url: "https://github.com/agherzan/meta-raspberrypi.git"
+    branch: master
 
   meta-openembedded:
     url: "https://git.openembedded.org/meta-openembedded"
@@ -50,8 +51,8 @@ repos:
     url: "https://github.com/rauc/meta-rauc.git"
 
   meta-rauc-community:
-    url: "https://github.com/thin-edge/meta-rauc-community"
-    branch: scarthgap-fork
+    url: "https://github.com/rauc/meta-rauc-community"
+    branch: master
     layers:
       meta-rauc-raspberrypi:
 
@@ -63,14 +64,6 @@ repos:
       meta-tedge-rauc:
       meta-tedge-extras:
       meta-raspberrypi:
-
-  meta-lts-mixins-rust:
-    url: "https://git.yoctoproject.org/meta-lts-mixins"
-    branch: scarthgap/rust
-
-  meta-lts-mixins-go:
-    url: "https://github.com/thin-edge/meta-lts-mixins.git"
-    branch: scarthgap/go
 
   meta-virtualization:
     url: "https://git.yoctoproject.org/meta-virtualization"
