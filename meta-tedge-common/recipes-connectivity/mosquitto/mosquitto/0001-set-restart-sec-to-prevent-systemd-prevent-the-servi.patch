@@ -5,6 +5,8 @@ Subject: [PATCH] set restart sec to bypass systemd preventing the service
  from starting due to failing on boot due to the listener ip addresses
  not being available
 
+Upstream-Status: Inappropriate [user preference]
+
 ---
  service/systemd/mosquitto.service.notify | 1 +
  1 file changed, 1 insertion(+)
