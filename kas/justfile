@@ -39,6 +39,10 @@ update-lock file *args="": init
 build-project file *args="": init
     python3 -m kas build {{file}} {{args}}
 
+# Open a kas shell
+shell file *args="": init
+    python3 -m kas shell {{file}} {{args}}
+
 # Run custom bitbake command with a given project
 bitbake file *args="": init
     python3 -m kas shell {{file}} -c 'bitbake {{args}}'
