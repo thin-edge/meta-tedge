@@ -33,3 +33,16 @@ CARGO_BUILD_FLAGS:remove = "--frozen"
 # https://doc.rust-lang.org/cargo/reference/profiles.html#strip
 # https://doc.rust-lang.org/cargo/reference/config.html#command-line-overrides
 CARGO_BUILD_FLAGS:append = " --config 'profile.release.strip="none"'"
+
+# Remap build-time absolute paths (under TMPDIR) in DWARF debug symbols to a
+# reproducible, installation-relative prefix.  Without this the `buildpaths`
+# QA check fails because the debug binary embeds references to TMPDIR.
+RUSTFLAGS:append = " --remap-path-prefix=${WORKDIR}=/usr/src/debug/${PN}/${PV}-${PR}"
+
+# Remap cargo registry paths in C/assembly code compiled by cargo build scripts
+# (e.g. the `ring` crate compiles C/asm via gcc through its build.rs).
+# ${CARGO_HOME} is under ${WORKDIR} but is not covered by the default
+# DEBUG_PREFIX_MAP (which only remaps ${S} and ${B}).
+# DEBUG_PREFIX_MAP_EXTRA is included in CFLAGS, which cargo_common.bbclass
+# exports to the build script environment.
+DEBUG_PREFIX_MAP_EXTRA:append = " -ffile-prefix-map=${CARGO_HOME}=/usr/src/debug/${PN}/${PV}-${PR}"
