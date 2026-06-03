@@ -19,7 +19,7 @@ local_conf_header:
     IMAGE_INSTALL:append = " gnupg"
     IMAGE_INSTALL:append = " systemd-journald-defaults"
     EXTRA_IMAGE_FEATURES:append = " allow-empty-password allow-root-login empty-root-password ssh-server-dropbear"
-    INIT_MANAGER="systemd"
+    INIT_MANAGER = "systemd"
     TEDGE_CONFIG_DIR = "/etc/tedge"
 
     # customize tedge features

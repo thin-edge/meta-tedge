@@ -277,7 +277,7 @@ CONF_VERSION = "2"
 
 INHERIT += "rm_work"
 PACKAGE_CLASSES = "package_deb"
-INIT_MANAGER= "systemd"
+INIT_MANAGER = "systemd"
 EXTRA_IMAGE_FEATURES += "ssh-server-openssh"
 
 MACHINE = "raspberrypi3-64"
