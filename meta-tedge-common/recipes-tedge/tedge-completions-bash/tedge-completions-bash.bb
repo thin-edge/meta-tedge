@@ -12,7 +12,7 @@ SRC_URI += " \
 
 do_install () {
     install -d "${D}${datadir}/bash-completion/completions"
-    install -m 0644 "${WORKDIR}/tedge-completions.bash" "${D}${datadir}/bash-completion/completions/tedge"
+    install -m 0644 "${UNPACKDIR}/tedge-completions.bash" "${D}${datadir}/bash-completion/completions/tedge"
 }
 
 FILES:${PN} += " \

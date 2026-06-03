@@ -11,7 +11,7 @@ SRC_URI += " \
 
 do_install () {
     install -d "${D}${datadir}/tedge-bootstrap/scripts.d"
-    install -m 0755 "${WORKDIR}/tedge-sethostname" -T "${D}${datadir}/tedge-bootstrap/scripts.d/70_tedge-sethostname"
+    install -m 0755 "${UNPACKDIR}/tedge-sethostname" -T "${D}${datadir}/tedge-bootstrap/scripts.d/70_tedge-sethostname"
 }
 
 FILES:${PN} += " \

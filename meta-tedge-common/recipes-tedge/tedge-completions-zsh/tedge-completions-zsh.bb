@@ -13,10 +13,10 @@ SRC_URI += " \
 
 do_install () {
     install -d ${D}${datadir}/zsh/site-functions
-    install -m 0644 ${WORKDIR}/tedge-completions.zsh ${D}${datadir}/zsh/site-functions/_tedge
+    install -m 0644 ${UNPACKDIR}/tedge-completions.zsh ${D}${datadir}/zsh/site-functions/_tedge
 
     install -d ${D}${sysconfdir}
-    install -m 0644 ${WORKDIR}/zshrc ${D}${sysconfdir}
+    install -m 0644 ${UNPACKDIR}/zshrc ${D}${sysconfdir}
 }
 
 FILES:${PN} += " \

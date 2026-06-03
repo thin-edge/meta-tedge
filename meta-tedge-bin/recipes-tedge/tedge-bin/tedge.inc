@@ -50,9 +50,9 @@ do_install:append () {
     done
 
     # Initialize the tedge
-    install -m 0644 "${WORKDIR}/operations/c8y/"* ${D}${TEDGE_CONFIG_DIR}/operations/c8y/
-    install -m 0644 "${WORKDIR}/tedge.toml" ${D}${TEDGE_CONFIG_DIR}/
-    install -m 0644 "${WORKDIR}/mosquitto-conf/tedge-mosquitto.conf" ${D}${TEDGE_CONFIG_DIR}/mosquitto-conf/
+    install -m 0644 "${S}/operations/c8y/"* ${D}${TEDGE_CONFIG_DIR}/operations/c8y/
+    install -m 0644 "${S}/tedge.toml" ${D}${TEDGE_CONFIG_DIR}/
+    install -m 0644 "${S}/mosquitto-conf/tedge-mosquitto.conf" ${D}${TEDGE_CONFIG_DIR}/mosquitto-conf/
 
     # Create symlinks
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-agent

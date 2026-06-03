@@ -17,24 +17,24 @@ SRC_URI += " \
 
 do_install () {
     install -d "${D}${bindir}"
-    install -m 0755 "${WORKDIR}/tedge-identity" "${D}${bindir}"
+    install -m 0755 "${UNPACKDIR}/tedge-identity" "${D}${bindir}"
 
     install -d "${D}${bindir}"
-    install -m 0755 "${WORKDIR}/tedge-bootstrap" "${D}${bindir}"
+    install -m 0755 "${UNPACKDIR}/tedge-bootstrap" "${D}${bindir}"
 
     install -d "${D}${systemd_system_unitdir}"
-    install -m 0644 "${WORKDIR}/tedge-bootstrap.service" "${D}${systemd_system_unitdir}"
+    install -m 0644 "${UNPACKDIR}/tedge-bootstrap.service" "${D}${systemd_system_unitdir}"
 
     # Create bootstrap hook directory
     install -d "${D}${datadir}/tedge-bootstrap/scripts.d"
 
     # Enable service discovery
     install -d "${D}${sysconfdir}/avahi/services"
-    install -m 0644 "${WORKDIR}/tedge-avahi.service" "${D}${sysconfdir}/avahi/services/"
+    install -m 0644 "${UNPACKDIR}/tedge-avahi.service" "${D}${sysconfdir}/avahi/services/"
 
     # pkcs11 helper script to init a module and on-board to Cumulocity
     install -d "${D}${bindir}"
-    install -m 0755 "${WORKDIR}/init-pkcs11.sh" "${D}${bindir}"
+    install -m 0755 "${UNPACKDIR}/init-pkcs11.sh" "${D}${bindir}"
 }
 
 FILES:${PN} += " \
