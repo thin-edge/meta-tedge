@@ -10,7 +10,7 @@ local_conf_header:
   meta-tedge-p11-server: |
     # Change/remove if you don't need these settings
     PACKAGE_CLASSES ?= "package_ipk"
-    EXTRA_IMAGE_FEATURES ?= "debug-tweaks ssh-server-dropbear"
+    EXTRA_IMAGE_FEATURES ?= "allow-empty-password allow-root-login empty-root-password ssh-server-dropbear"
 
     # systemd is recommended
     INIT_MANAGER ?= "systemd"
