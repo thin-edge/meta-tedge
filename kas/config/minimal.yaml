@@ -11,6 +11,8 @@ local_conf_header:
     BB_ENV_PASSTHROUGH_ADDITIONS = "SSTATE_DIR"
     BB_HASHSERVE_DB_DIR = "${SSTATE_DIR}"
 
+    IMAGE_FSTYPES:append = " tar.bz2"
+
     # Change/remove if you don't need these settings
     PACKAGE_CLASSES ?= "package_ipk"
     EXTRA_IMAGE_FEATURES ?= "allow-empty-password allow-root-login empty-root-password ssh-server-dropbear"
