@@ -9,7 +9,7 @@ overrides:
     openembedded-core:
       commit: 9da814ca3685ada3fce46b8987f04ed3d57247b7
     meta-raspberrypi:
-      commit: 60c7fe38497f7aec561c1a079ba36a9913f73541
+      commit: f62c67921474370829d24a4fa01ef88543f3906b
     meta-openembedded:
       commit: 14282a02be9c74a1276a7cda7d6c89e054699a11
     meta-rauc:
