@@ -48,7 +48,6 @@ repos:
 
   meta-raspberrypi:
     url: "https://github.com/agherzan/meta-raspberrypi.git"
-    branch: master
 
   meta-openembedded:
     url: "https://git.openembedded.org/meta-openembedded"

@@ -48,7 +48,6 @@ repos:
 
   meta-raspberrypi:
     url: "https://github.com/agherzan/meta-raspberrypi.git"
-    branch: master
 
   meta-openembedded:
     url: "https://git.openembedded.org/meta-openembedded"
@@ -68,7 +67,6 @@ repos:
 
   meta-rugix:
     url: "https://github.com/silitics/meta-rugix.git"
-    branch: wrynose
     layers:
       meta-rugix-core:
       meta-rugix-rpi-tryboot:
