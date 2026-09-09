@@ -68,7 +68,7 @@ repos:
 
   meta-rugix:
     url: "https://github.com/silitics/meta-rugix.git"
-    branch: main
+    branch: wrynose
     layers:
       meta-rugix-core:
       meta-rugix-rpi-tryboot:
