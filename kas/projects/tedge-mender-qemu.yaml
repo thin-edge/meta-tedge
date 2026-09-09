@@ -52,7 +52,6 @@ repos:
 
   meta-mender:
     url: "https://github.com/mendersoftware/meta-mender"
-    branch: test-commit-wrynose
     layers:
       meta-mender-core:
       meta-mender-qemu:
