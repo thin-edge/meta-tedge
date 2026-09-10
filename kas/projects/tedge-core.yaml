@@ -9,15 +9,26 @@ target: core-image-base
 
 defaults:
   repos:
-    branch: scarthgap
+    branch: wrynose
 
 repos:
-  poky:
-    url: "https://git.yoctoproject.org/git/poky"
+  bitbake:
+    url: "https://github.com/openembedded/bitbake.git"
+    tag: yocto-6.0
+    branch: ""
+    # this repo does not provide any layers
+    layers: {}
+
+  meta-yocto:
+    url: "https://git.yoctoproject.org/meta-yocto"
     layers:
-      meta:
       meta-poky:
       meta-yocto-bsp:
+
+  openembedded-core:
+    url: "https://github.com/openembedded/openembedded-core.git"
+    layers:
+      meta:
 
   meta-openembedded:
     url: "https://git.openembedded.org/meta-openembedded"
@@ -27,10 +38,6 @@ repos:
       meta-networking:
       meta-multimedia:
       meta-filesystems:
-
-  meta-lts-mixins-rust:
-    url: "https://git.yoctoproject.org/meta-lts-mixins"
-    branch: scarthgap/rust
 
   meta-tedge:
     path: ../../

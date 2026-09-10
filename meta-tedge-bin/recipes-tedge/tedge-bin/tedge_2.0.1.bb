@@ -9,15 +9,16 @@ SRC_URI[riscv64.md5sum] = "3f7b22d326d141664d9e7fb73e5a5de9"
 
 # Init manager variables
 INIT_REPO_CHANNEL = "community"
-INIT_VERSION = "0.7.4"
-SRC_URI[openrc.md5sum] = "eda14cc61d3c1be5d7fd8ff9543fad07"
-SRC_URI[systemd.md5sum] = "2220a0eecd01da450176e60db2fef895"
-SRC_URI[sysvinit.md5sum] = "fc7a3913b556afd503717e4d457e65a8"
+INIT_VERSION = "0.7.5"
+SRC_URI[openrc.md5sum] = "e06035d45ce87b67457b1d3052bf4b46"
+SRC_URI[systemd.md5sum] = "83e4d1a5503f3f75a4084f5212fcb722"
+SRC_URI[sysvinit.md5sum] = "a9d2d58bdfec752800182609f420a677"
 
 # checkout source
 SRCREV_tedge = "19662f12d8df2ad0bab60d749e4133b4dbd7844e"
 SRCREV_FORMAT = "tedge"
-SRC_URI += "git://git@github.com/thin-edge/thin-edge.io.git;protocol=https;branch=main;name=tedge"
+SRC_URI += "git://git@github.com/thin-edge/thin-edge.io.git;protocol=https;branch=main;name=tedge;destsuffix=tedge"
+S = "${UNPACKDIR}/tedge"
 
 require tedge.inc
 require tedge-diag.inc

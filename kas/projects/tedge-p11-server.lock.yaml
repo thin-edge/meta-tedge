@@ -2,9 +2,11 @@ header:
   version: 14
 overrides:
   repos:
-    poky:
-      commit: d4576e3c081a7ee7b57d48421c4c4f491cb4defe
+    bitbake:
+      commit: 33581c84f3a85008239acbd940501a35de48dc91
+    meta-yocto:
+      commit: 1b132647002eea43a2c7a7f857f63f42dacbc26c
+    openembedded-core:
+      commit: 9da814ca3685ada3fce46b8987f04ed3d57247b7
     meta-openembedded:
-      commit: ae7dfb12245c7f9b9a353499e2688015bd4e6413
-    meta-lts-mixins-rust:
-      commit: c19b6da5a3afd3c892b3b1b44983e993ac6d5308
+      commit: 14282a02be9c74a1276a7cda7d6c89e054699a11

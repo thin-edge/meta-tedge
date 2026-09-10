@@ -7,3 +7,10 @@ FILES:${PN} += "\
     ${sysconfdir}/tedgectl/env \
     ${bindir}/tedgectl \
 "
+
+do_install:append () {
+    # Install service/init files from the init-manager tarball
+    if [ -d "${UNPACKDIR}/${BP}" ]; then
+        tar -C "${UNPACKDIR}/${BP}" --no-same-owner -cpf - . | tar --no-same-owner -xpf - -C "${D}${base_prefix}"
+    fi
+}

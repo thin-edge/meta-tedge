@@ -6,7 +6,7 @@ GO_IMPORT = "github.com/thin-edge/tedge-nodered-plugin"
 GO_INSTALL = "${GO_IMPORT}"
 
 HOMEPAGE = "https://${GO_IMPORT}"
-SRC_URI = "git://${GO_IMPORT};branch=main;protocol=https"
+SRC_URI = "git://${GO_IMPORT};branch=main;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX}"
 SRCREV = "a91031d87b1a2627532b0f1da79cba89a4d1752d"
 PV = "1.0.0"
 

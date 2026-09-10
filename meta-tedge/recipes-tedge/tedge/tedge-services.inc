@@ -1,5 +1,7 @@
 SRC_URI += "git://git@github.com/thin-edge/tedge-services.git;protocol=https;branch=main;name=tedge-services;destsuffix=tedge-services"
 
+SERVICES_SRC = "${UNPACKDIR}/tedge-services"
+
 inherit ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}
 inherit ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'update-rc.d', '', d)}
 
@@ -12,7 +14,7 @@ do_install:append () {
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
 		install -d ${D}${systemd_system_unitdir}
         
-        for service in ${WORKDIR}/tedge-services/services/systemd/system/*; do
+        for service in ${SERVICES_SRC}/services/systemd/system/*; do
             unit_name=$(basename "$service" | cut -d. -f1)
             if ! echo "${@d.getVar('TEDGE_EXCLUDE')}" | grep -qw "$unit_name"; then
                 install -m 0644 $service ${D}${systemd_system_unitdir}
@@ -20,7 +22,7 @@ do_install:append () {
         done 
 	elif ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
         install -d ${D}${sysconfdir}/init.d
-        for service in ${WORKDIR}/tedge-services/services/sysvinit-yocto/init.d/*; do
+        for service in ${SERVICES_SRC}/services/sysvinit-yocto/init.d/*; do
             filename=$(basename -- "$service")
             if ! echo "${@d.getVar('TEDGE_EXCLUDE')}" | grep -iq $filename; then
                 install -m 0755 $service ${D}${sysconfdir}/init.d
@@ -30,13 +32,13 @@ do_install:append () {
 
     # Install for every init manager but systemd as it is natively supported by thin-edge
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'false', 'true', d)}; then
-        install -m 0644 ${WORKDIR}/tedge-services/services/system.toml ${D}${TEDGE_CONFIG_DIR}
+        install -m 0644 ${SERVICES_SRC}/services/system.toml ${D}${TEDGE_CONFIG_DIR}
 
         install -d ${D}${sysconfdir}/tedgectl
-        install -m 0644 ${WORKDIR}/tedge-services/services/tedgectl_env ${D}${sysconfdir}/tedgectl/env
+        install -m 0644 ${SERVICES_SRC}/services/tedgectl_env ${D}${sysconfdir}/tedgectl/env
 
         install -d ${D}${bindir}
-        install -m 0755 ${WORKDIR}/tedge-services/services/tedgectl ${D}${bindir}
+        install -m 0755 ${SERVICES_SRC}/services/tedgectl ${D}${bindir}
     fi
 }
 

@@ -1,2 +1,2 @@
-SRC_URI += "https://dl.cloudsmith.io/public/thinedge/tedge-${ARCH_REPO_CHANNEL}/raw/names/tedge-armv7/versions/${ARCH_VERSION}/tedge.tar.gz;name=armv7;subdir=${BP}/usr/bin"
+SRC_URI += "https://dl.cloudsmith.io/public/thinedge/tedge-${ARCH_REPO_CHANNEL}/raw/names/tedge-armv7/versions/${ARCH_VERSION}/tedge.tar.gz;name=armv7;subdir=bins"
 COMPATIBLE_HOST = "(armv7.*-linux)"

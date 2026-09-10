@@ -14,9 +14,9 @@ do_install () {
     # auto rollback service incase if new agent is corrupt (only rely on tooling which is definitely there)
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
         install -d ${D}${systemd_system_unitdir}
-        install -D -m 0755 ${WORKDIR}/firmware-auto-rollback ${D}${bindir}/firmware-auto-rollback
-        install -D -m 0644 ${WORKDIR}/firmware-auto-rollback.service -t ${D}${systemd_system_unitdir}
-        install -D -m 0644 ${WORKDIR}/firmware-auto-rollback.timer -t ${D}${systemd_system_unitdir}
+        install -D -m 0755 ${UNPACKDIR}/firmware-auto-rollback ${D}${bindir}/firmware-auto-rollback
+        install -D -m 0644 ${UNPACKDIR}/firmware-auto-rollback.service -t ${D}${systemd_system_unitdir}
+        install -D -m 0644 ${UNPACKDIR}/firmware-auto-rollback.timer -t ${D}${systemd_system_unitdir}
     fi
 }
 

@@ -8,23 +8,26 @@ bblayers_conf_header:
 
 local_conf_header:
   meta-common: |
+    BB_ENV_PASSTHROUGH_ADDITIONS = "SSTATE_DIR"
+    BB_HASHSERVE_DB_DIR = "${SSTATE_DIR}"
+
     # conserve disk space during a build
     INHERIT += "rm_work"
 
     PACKAGE_CLASSES ?= "package_deb"
-    VOLATILE_LOG_DIR = "no"
     IMAGE_INSTALL:append = " gnupg"
     IMAGE_INSTALL:append = " systemd-journald-defaults"
-    EXTRA_IMAGE_FEATURES:append = " debug-tweaks ssh-server-dropbear"
-    INIT_MANAGER="systemd"
+    EXTRA_IMAGE_FEATURES:append = " allow-empty-password allow-root-login empty-root-password ssh-server-dropbear"
+    INIT_MANAGER = "systemd"
     TEDGE_CONFIG_DIR = "/etc/tedge"
 
     # customize tedge features
     TEDGE_FEATURES_ENABLE:append = " tedge-collectd tedge-docker tedge-p11-kit"
 
-    # enable CVE checks
-    CVE_CHECK_MANIFEST_JSON_SUFFIX ?= "cve.json"
-    INHERIT += "cve-check"
+    # enable CVE checks (wrynose: sbom-cve-check replaces removed cve-check class)
+    OE_FRAGMENTS += "core/yocto/sbom-cve-check"
+    # preserve the legacy .cve.txt summary file in DEPLOY_DIR_IMAGE
+    SBOM_CVE_CHECK_EXPORT_VARS:append = " SBOM_CVE_CHECK_EXPORT_SUMMARY"
 
     # preferred thin-edge.io version
     # Use "1.X%" if you want to use the latest from the main branch
@@ -48,3 +51,7 @@ local_conf_header:
     SYSTEMD_AUTO_ENABLE:tedge-mapper-collectd = "disable"
     SYSTEMD_AUTO_ENABLE:tedge-mapper-local = "disable"
     SYSTEMD_AUTO_ENABLE:tedge-p11-server = "enable"
+
+    # Opt out of new DISTRO_FEATURES defaults introduced in Yocto 6.0 that are
+    # not relevant for embedded/IoT builds.
+    DISTRO_FEATURES_OPTED_OUT = "multiarch opengl ptest vulkan wayland"

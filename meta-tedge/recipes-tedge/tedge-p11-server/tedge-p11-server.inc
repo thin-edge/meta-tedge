@@ -21,8 +21,8 @@ CARGO_BUILD_FLAGS:append = " --bin tedge-p11-server"
 do_install:append() {
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
         install -d ${D}${systemd_system_unitdir}
-        install -m 0644 ${WORKDIR}/tedge-services/services/systemd/system/tedge-p11-server.service ${D}${systemd_system_unitdir}
-        install -m 0644 ${WORKDIR}/tedge-services/services/systemd/system/tedge-p11-server.socket ${D}${systemd_system_unitdir}
+        install -m 0644 ${UNPACKDIR}/tedge-services/services/systemd/system/tedge-p11-server.service ${D}${systemd_system_unitdir}
+        install -m 0644 ${UNPACKDIR}/tedge-services/services/systemd/system/tedge-p11-server.socket ${D}${systemd_system_unitdir}
     fi
 
     install -d ${D}${TEDGE_CONFIG_DIR}

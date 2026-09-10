@@ -154,7 +154,6 @@ EOT
 SRCREV_tedge = "$COMMIT_HASH"
 SRCREV_tedge-services = "$TEDGE_SERVICES_COMMIT_HASH"
 SRCREV_FORMAT = "tedge"
-S = "\${WORKDIR}/git"
 
 TEDGE_EXCLUDE = "c8y-firmware-plugin"
 
@@ -175,7 +174,6 @@ EOT
 SRCREV_tedge = "$COMMIT_HASH"
 SRCREV_tedge-services = "$TEDGE_SERVICES_COMMIT_HASH"
 SRCREV_FORMAT = "tedge"
-S = "\${WORKDIR}/git"
 
 require tedge-p11-server.inc
 EOT
@@ -201,7 +199,6 @@ EOT
 SRCREV_tedge = "\${AUTOREV}"
 SRCREV_tedge-services = "\${AUTOREV}"
 SRCREV_FORMAT = "tedge"
-S = "\${WORKDIR}/git"
 PV = "${next_minor_version}+git\${SRCPV}"
 DEFAULT_PREFERENCE = "-1"
 
@@ -221,7 +218,6 @@ EOT
 SRCREV_tedge = "\${AUTOREV}"
 SRCREV_tedge-services = "\${AUTOREV}"
 SRCREV_FORMAT = "tedge"
-S = "\${WORKDIR}/git"
 PV = "${next_minor_version}+git\${SRCPV}"
 DEFAULT_PREFERENCE = "-1"
 

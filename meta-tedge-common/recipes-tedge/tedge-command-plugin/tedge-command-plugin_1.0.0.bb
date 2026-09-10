@@ -10,8 +10,6 @@ inherit allarch
 
 PV = "1.0.0"
 
-S = "${WORKDIR}/git"
-
 DEPENDS += " tedge"
 RDEPENDS:${PN} += " tedge jq"
 

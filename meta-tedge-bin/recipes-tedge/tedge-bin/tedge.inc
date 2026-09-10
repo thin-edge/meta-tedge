@@ -10,7 +10,7 @@ SRC_URI += " \
 
 RDEPENDS:${PN} += " mosquitto ca-certificates libgcc glibc-utils libxcrypt sudo"
 
-inherit bin_package useradd
+inherit useradd
 
 INSANE_SKIP:${PN} = "already-stripped usrmerge"
 
@@ -22,8 +22,12 @@ TEDGE_CONFIG_DIR ?= "/etc/tedge"
 TEDGE_CONFIG_SYMLINK ?= ""
 TEDGE_CONFIG_SYMLINK_SRC ?= ""
 
-do_install:append () {
+do_install () {
     bbnote "tedge recipe config: TEDGE_CONFIG_DIR=${TEDGE_CONFIG_DIR}, TEDGE_CONFIG_SYMLINK=${TEDGE_CONFIG_SYMLINK}"
+
+    # Install the pre-compiled binary
+    install -d "${D}${bindir}"
+    install -m 0755 "${UNPACKDIR}/bins/tedge" "${D}${bindir}/"
 
     # Create all folders
     install -d ${D}${TEDGE_CONFIG_DIR}
@@ -50,9 +54,9 @@ do_install:append () {
     done
 
     # Initialize the tedge
-    install -m 0644 "${WORKDIR}/operations/c8y/"* ${D}${TEDGE_CONFIG_DIR}/operations/c8y/
-    install -m 0644 "${WORKDIR}/tedge.toml" ${D}${TEDGE_CONFIG_DIR}/
-    install -m 0644 "${WORKDIR}/mosquitto-conf/tedge-mosquitto.conf" ${D}${TEDGE_CONFIG_DIR}/mosquitto-conf/
+    install -m 0644 "${UNPACKDIR}/operations/c8y/"* ${D}${TEDGE_CONFIG_DIR}/operations/c8y/
+    install -m 0644 "${UNPACKDIR}/tedge.toml" ${D}${TEDGE_CONFIG_DIR}/
+    install -m 0644 "${UNPACKDIR}/mosquitto-conf/tedge-mosquitto.conf" ${D}${TEDGE_CONFIG_DIR}/mosquitto-conf/
 
     # Create symlinks
     ln --relative --symbolic ${D}${bindir}/tedge ${D}${bindir}/tedge-agent

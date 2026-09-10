@@ -10,8 +10,6 @@ REQUIRED_DISTRO_FEATURES = "systemd"
 
 PV = "0.5.0"
 
-S = "${WORKDIR}/git"
-
 SRC_URI += " \
     file://firmware-version \
 "
@@ -25,7 +23,7 @@ do_install () {
         install -m 0755 "$file" "${D}${datadir}/tedge-inventory/scripts.d"
     done
 
-    install -m 0755 "${WORKDIR}/firmware-version" "${D}${datadir}/tedge-inventory/scripts.d/80_firmware"
+    install -m 0755 "${UNPACKDIR}/firmware-version" "${D}${datadir}/tedge-inventory/scripts.d/80_firmware"
 
     install -d "${D}${systemd_system_unitdir}"
     for file in ${S}/src/services/systemd/tedge-inventory*; do
