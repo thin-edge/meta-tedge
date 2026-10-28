@@ -3,8 +3,8 @@ name: build
 on:
   push:
     branches:
-      - kirkstone
       - scarthgap
+      - wrynose
   workflow_dispatch:
   pull_request:
     types: [ labeled ]
