@@ -19,8 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         branch:
-          - kirkstone
           - scarthgap
+          - wrynose
     steps:
       - uses: actions/checkout@v6
       - name: Update ${{ matrix.branch }}
