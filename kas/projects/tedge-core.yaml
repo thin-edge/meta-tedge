@@ -2,7 +2,7 @@
 header:
   version: 14
   includes:
-    - ../config/minimal.yaml
+    - kas/config/minimal.yaml
 
 distro: poky
 target: core-image-base

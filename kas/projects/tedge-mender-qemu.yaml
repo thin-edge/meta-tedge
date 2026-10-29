@@ -2,13 +2,13 @@
 header:
   version: 14
   includes:
-    - ../config/common.yaml
-    - ../config/mender-qemu.yaml
-    - ../config/network.yaml
-    - ../config/monitor.yaml
-    - ../config/package-management.yaml
-    - ../config/tedge-docker.yaml
-    - ../config/tedge-nodered.yaml
+    - kas/config/common.yaml
+    - kas/config/mender-qemu.yaml
+    - kas/config/network.yaml
+    - kas/config/monitor.yaml
+    - kas/config/package-management.yaml
+    - kas/config/tedge-docker.yaml
+    - kas/config/tedge-nodered.yaml
 
 machine: qemux86-64
 distro: poky

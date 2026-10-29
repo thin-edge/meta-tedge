@@ -56,4 +56,13 @@ runqemu config="./projects/tedge-rauc.yaml":
 
 # Update the lock files of all projects
 update-all-locks:
-    find ./projects -maxdepth 1 \( -name "*.yaml" -a ! -name "*.lock.*" \) -exec just update-lock {} \;
+    #!/usr/bin/env bash
+    set -uo pipefail
+    failed=()
+    for file in $(find ./projects -maxdepth 1 \( -name "*.yaml" -a ! -name "*.lock.*" \) | sort); do
+        just update-lock "$file" || failed+=("$file")
+    done
+    if [ "${#failed[@]}" -gt 0 ]; then
+        echo "Failed to update lock files for: ${failed[*]}" >&2
+        exit 1
+    fi
