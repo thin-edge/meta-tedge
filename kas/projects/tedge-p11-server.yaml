@@ -2,7 +2,7 @@
 header:
   version: 14
   includes:
-    - ../config/tedge-p11-server-minimal.yaml
+    - kas/config/tedge-p11-server-minimal.yaml
 
 machine: qemux86-64
 distro: poky
