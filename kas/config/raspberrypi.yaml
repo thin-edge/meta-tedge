@@ -7,4 +7,6 @@ local_conf_header:
     DISTRO_FEATURES:append = " bluez5 bluetooth wifi "
     IMAGE_INSTALL:append = " bluez5 i2c-tools"
     ENABLE_UART = "1"
+    ENABLE_I2C = "1"
+    KERNEL_MODULE_AUTOLOAD += "i2c-dev"
     LICENSE_FLAGS_ACCEPTED = "synaptics-killswitch"
