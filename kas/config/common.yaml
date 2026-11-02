@@ -28,6 +28,11 @@ local_conf_header:
     OE_FRAGMENTS += "core/yocto/sbom-cve-check"
     # preserve the legacy .cve.txt summary file in DEPLOY_DIR_IMAGE
     SBOM_CVE_CHECK_EXPORT_VARS:append = " SBOM_CVE_CHECK_EXPORT_SUMMARY"
+    # don't log per-recipe CVE warnings, the kernel's list exceeds kas' 64 KiB line limit (siemens/kas#190).
+    # The full report is still written to the .cve.json/.cve.txt files
+    SBOM_CVE_CHECK_SHOW_WARNINGS = "0"
+    # only report kernel CVEs for compiled sources (the fragment only enables this for linux-yocto)
+    SPDX_INCLUDE_COMPILED_SOURCES:pn-linux-raspberrypi = "1"
 
     # preferred thin-edge.io version
     # Use "1.X%" if you want to use the latest from the main branch

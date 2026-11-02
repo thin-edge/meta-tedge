@@ -5,18 +5,18 @@ overrides:
     bitbake:
       commit: 33581c84f3a85008239acbd940501a35de48dc91
     meta-yocto:
-      commit: 1b132647002eea43a2c7a7f857f63f42dacbc26c
+      commit: 79b6d87030178bed0088ad3b00aa6dfbabac37c4
     openembedded-core:
-      commit: 9da814ca3685ada3fce46b8987f04ed3d57247b7
+      commit: ae5a301091f5b0574ea7444aab40b309b6d9f3f2
     meta-raspberrypi:
-      commit: f62c67921474370829d24a4fa01ef88543f3906b
+      commit: 919588393f41b48cb6c5d832aa35e58a19b6762d
     meta-openembedded:
-      commit: 14282a02be9c74a1276a7cda7d6c89e054699a11
+      commit: c734c2cb9713dbd6d50697a9f6c25ebdf3ae589e
     meta-security:
-      commit: c0d1d6200e7a84c39fb940cb1f22aad4b0b3d808
+      commit: 2703974d5e2d61b221dffa302c2e059a522adbf3
     meta-rugix:
-      commit: c6dda131916cf439a61f6b0e7fa983262a1c27f5
+      commit: 32dafcfe65b7a2ed31d236249978da6b10fe7902
     meta-virtualization:
-      commit: 70a5d5a65d7237cfe978961fa4d8765c895cddc8
+      commit: 18d58082b2458cf85438ac6e0f2f1fd0153318cb
     meta-clang:
       commit: ef0d22f21910a0c30c967eeb17d8f209806e2d81
