@@ -13,8 +13,6 @@ LIC_FILES_CHKSUM = " \
 
 inherit allarch
 
-S = "${WORKDIR}/git"
-
 # The plugin uses whichever of dnf, microdnf or zypper it finds on the device.
 TEDGE_RPM_PLUGIN_PACKAGE_MANAGER ?= "dnf"
 
