@@ -47,6 +47,14 @@ shell file *args="": init
 bitbake file *args="": init
     python3 -m kas shell {{file}} -c 'bitbake {{args}}'
 
+# Create a CA and signer for RAUC bundle signing (default args: --dir pki --write-env .env)
+[positional-arguments]
+rauc-create-pki *args:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [ $# -eq 0 ]; then set -- --dir pki --write-env .env; fi
+    exec "{{justfile_directory()}}/scripts/rauc-create-pki.sh" "$@"
+
 # Publish image to Cumulocity IoT (requires go-c8y-cli to be installed)
 publish *args="":
     {{justfile_directory()}}/scripts/publish-c8y.sh {{args}}
