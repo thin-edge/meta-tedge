@@ -4,6 +4,8 @@ header:
 
 local_conf_header:
   meta-raspberrypi: |
+    # The scarthgap default (6.6) is no longer updated upstream, whereas 6.12 tracks rpi-6.12.y
+    PREFERRED_VERSION_linux-raspberrypi ?= "6.12.%"
     DISTRO_FEATURES:append = " bluez5 bluetooth wifi "
     IMAGE_INSTALL:append = " bluez5 i2c-tools"
     ENABLE_UART = "1"
