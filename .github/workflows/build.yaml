@@ -92,11 +92,49 @@ jobs:
       - run: pip3 install kas
         if: ${{ !startsWith(runner.name, 'tedge') }}
 
+      # Sign RAUC bundles with the thin-edge.io release signer. Pull requests
+      # (including forks, which have no access to secrets) fall back to the
+      # public development keys.
+      - name: Configure RAUC signing
+        if: ${{ matrix.update_ext == 'raucb' }}
+        env:
+          IS_RELEASE_SIGNING: ${{ github.event_name != 'pull_request' }}
+          RAUC_SIGNING_KEY: ${{ secrets.RAUC_SIGNING_KEY }}
+          RAUC_SIGNING_CERT: ${{ vars.RAUC_SIGNING_CERT }}
+          RAUC_INTERMEDIATE: ${{ vars.RAUC_INTERMEDIATE }}
+          RAUC_KEYRING: ${{ vars.RAUC_KEYRING }}
+        run: |
+          if [ "$IS_RELEASE_SIGNING" != "true" ] || [ -z "$RAUC_SIGNING_KEY" ] || [ -z "$RAUC_SIGNING_CERT" ] || [ -z "$RAUC_KEYRING" ]; then
+            echo "::warning title=RAUC development keys::RAUC bundles are signed with the public development keys (not for production)"
+            exit 0
+          fi
+          PKI_DIR="$RUNNER_TEMP/rauc-pki"
+          (umask 077 && mkdir -p "$PKI_DIR" && printf '%s\n' "$RAUC_SIGNING_KEY" > "$PKI_DIR/signer.key.pem")
+          printf '%s\n' "$RAUC_SIGNING_CERT" > "$PKI_DIR/signer.cert.pem"
+          printf '%s\n' "$RAUC_KEYRING" > "$PKI_DIR/ca.cert.pem"
+          VERIFY_ARGS=()
+          if [ -n "$RAUC_INTERMEDIATE" ]; then
+            printf '%s\n' "$RAUC_INTERMEDIATE" > "$PKI_DIR/intermediate.cert.pem"
+            VERIFY_ARGS=(-untrusted "$PKI_DIR/intermediate.cert.pem")
+            echo "RAUC_INTERMEDIATE_FILE=$PKI_DIR/intermediate.cert.pem" >> "$GITHUB_ENV"
+          fi
+          openssl verify -CAfile "$PKI_DIR/ca.cert.pem" "${VERIFY_ARGS[@]}" "$PKI_DIR/signer.cert.pem"
+          {
+            echo "RAUC_KEY_FILE=$PKI_DIR/signer.key.pem"
+            echo "RAUC_CERT_FILE=$PKI_DIR/signer.cert.pem"
+            echo "RAUC_KEYRING_FILE=$PKI_DIR/ca.cert.pem"
+          } >> "$GITHUB_ENV"
+
       - name: Build
         run: just build-project projects/${{ matrix.project }}.yaml || { echo "::warning title=Retried build for ${{ matrix.project }} ${{ matrix.machine }}::The initial build failed and retried." && just build-project projects/${{ matrix.project }}.yaml; }
         working-directory: kas
         env:
           KAS_MACHINE: ${{ matrix.machine }}
+
+      # Don't leave the signing key on the (self-hosted) runner
+      - name: Remove RAUC signing key
+        if: ${{ always() && matrix.update_ext == 'raucb' }}
+        run: rm -rf "$RUNNER_TEMP/rauc-pki"
 
       # Delete any symlinks as this affects the artifact upload pattern
       - name: Delete image symlinks
