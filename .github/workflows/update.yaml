@@ -37,23 +37,44 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./scripts/admin.sh update_version
 
-      - name: Create PR on new version
+      - name: Create or update PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -x
+          set -ex
+          gh repo set-default ${{github.repository}}
           git add -A . ||:
+
+          # Find an existing open updater PR (if any)
+          EXISTING_PR=$(gh pr list --head "$PR_BRANCH" --base "$TARGET_BRANCH" --state open --json number --jq '.[0].number // empty')
 
           if git diff --quiet && git diff --cached --quiet; then
             echo "No changes detected"
+            if [ -n "$EXISTING_PR" ]; then
+              echo "Closing stale PR #$EXISTING_PR as the target branch is already up to date"
+              gh pr close "$EXISTING_PR" --delete-branch --comment "Closing as $TARGET_BRANCH is already up to date."
+            fi
             exit 0
           fi
-          echo "Changes detected. Raising PR"
+
+          echo "Changes detected"
           git status
           git config --global user.email "info@thin-edge.io"
           git config --global user.name "Versioneer"
           git checkout -b "$PR_BRANCH"
-          git commit -am "Update $TARGET_BRANCH branch"
-          git push --set-upstream origin "$PR_BRANCH"
-          gh repo set-default ${{github.repository}}
-          gh pr create --base "$TARGET_BRANCH" --title "chore($TARGET_BRANCH): Update version/s" --body "Update version/s for the $TARGET_BRANCH branch"
+          git commit -m "Update $TARGET_BRANCH branch"
+
+          # The commit is generated from the latest target branch, so it already contains
+          # all pending updates. Only push if the content differs from the existing PR branch
+          # to avoid needless force-pushes (and CI runs) when nothing new is available.
+          if git fetch origin "$PR_BRANCH" 2>/dev/null && git diff --quiet FETCH_HEAD HEAD; then
+            echo "Existing branch $PR_BRANCH is already up to date. Nothing to push"
+          else
+            git push --force origin "$PR_BRANCH"
+          fi
+
+          if [ -n "$EXISTING_PR" ]; then
+            echo "Updated existing PR #$EXISTING_PR"
+          else
+            gh pr create --base "$TARGET_BRANCH" --head "$PR_BRANCH" --title "chore($TARGET_BRANCH): Update version/s" --body "Update version/s for the $TARGET_BRANCH branch"
+          fi
