@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/siemens/kas/66261547b75885786777a0b9c8a4400ab81d432e/kas/schema-kas.json
+#
+# RAUC bundle signing
+#
+# Pass the signing configuration from the environment (or the kas/.env file)
+# through to bitbake. Values must be absolute paths.
+#
+#   RAUC_KEY_FILE       Private key of the signer (or a PKCS#11 URI)
+#   RAUC_CERT_FILE      Certificate of the signer
+#   RAUC_KEYRING_FILE   CA certificate(s) installed on the device and used to
+#                       verify bundles during an update
+#   RAUC_INTERMEDIATE_FILE
+#                       Optional intermediate CA certificate(s) embedded in
+#                       the bundle
+#
+# Variables which are not set fall back to the public development PKI in
+# meta-tedge-rauc/files/pki/development (not for production use).
+# Run "just rauc-create-pki" to create your own CA and signer.
+header:
+  version: 14
+
+env:
+  RAUC_KEY_FILE: null
+  RAUC_CERT_FILE: null
+  RAUC_KEYRING_FILE: null
+  RAUC_INTERMEDIATE_FILE: null

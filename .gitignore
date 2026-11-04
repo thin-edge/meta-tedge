@@ -1,3 +1,4 @@
 kas/_kas/
 kas/build/
 .env
+kas/pki/

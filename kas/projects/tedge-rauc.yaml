@@ -6,6 +6,7 @@ header:
     - kas/config/raspberrypi.yaml
     - kas/config/usb-wifi.yaml
     - kas/config/rauc-raspberrypi.yaml
+    - kas/config/rauc-signing.yaml
     - kas/config/network.yaml
     - kas/config/monitor.yaml
     - kas/config/package-management.yaml
