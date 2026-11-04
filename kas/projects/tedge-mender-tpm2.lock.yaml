@@ -15,7 +15,7 @@ overrides:
     meta-security:
       commit: 2703974d5e2d61b221dffa302c2e059a522adbf3
     meta-mender:
-      commit: 8e741b076a5ff7f7cd701299fa562bcf081c6c63
+      commit: 1b0a813e630a335acff12daff0da2e0aa59b191b
     meta-mender-community:
       commit: ebad311b35c45b420e354a24c9ce5e1ee709a25e
     meta-virtualization:

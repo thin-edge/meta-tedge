@@ -11,7 +11,7 @@ overrides:
     meta-openembedded:
       commit: c734c2cb9713dbd6d50697a9f6c25ebdf3ae589e
     meta-mender:
-      commit: 8e741b076a5ff7f7cd701299fa562bcf081c6c63
+      commit: 1b0a813e630a335acff12daff0da2e0aa59b191b
     meta-virtualization:
       commit: 18d58082b2458cf85438ac6e0f2f1fd0153318cb
     meta-clang:
