@@ -3,7 +3,6 @@ require recipes-core/images/core-image-base.bb
 IMAGE_INSTALL:append = " \
     tedge \
     tedge-p11-server \
-    tedge-command-plugin \
     opensc \
     gnutls-bin \
     vnstat \

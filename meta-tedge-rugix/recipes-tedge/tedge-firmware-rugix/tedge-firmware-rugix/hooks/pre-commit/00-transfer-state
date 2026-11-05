@@ -13,9 +13,6 @@ log() { echo "$*" >&2; }
 if [ ! -L /etc/tedge/operations/c8y/c8y_Command ]; then
     log "Replacing legacy c8y-command-plugin files with tedge-command-plugin"
     rm -f /etc/tedge/operations/c8y/c8y_Command
-    cp -a /run/rugix/mounts/system/etc/tedge/operations/shell_execute.toml /etc/tedge/operations/shell_execute.toml
-    cp -a /run/rugix/mounts/system/etc/tedge/operations/c8y/c8y_Command.template /etc/tedge/operations/c8y/
-    ln -f /etc/tedge/operations/c8y/c8y_Command.template /etc/tedge/operations/c8y/c8y_Command
 else
     log "Legacy c8y-command-plugin files have already been migrated"
 fi
