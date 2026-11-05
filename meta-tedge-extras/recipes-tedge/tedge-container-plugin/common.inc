@@ -30,6 +30,17 @@ do_install:append () {
     install -d ${D}${TEDGE_CONFIG_DIR}/sm-plugins
     ln --relative --symbolic ${D}${bindir}/tedge-container ${D}${TEDGE_CONFIG_DIR}/sm-plugins/container
     ln --relative --symbolic ${D}${bindir}/tedge-container ${D}${TEDGE_CONFIG_DIR}/sm-plugins/container-group
+    ln --relative --symbolic ${D}${bindir}/tedge-container ${D}${TEDGE_CONFIG_DIR}/sm-plugins/container-image
+
+    # tedge log plugins
+    install -d ${D}${datadir}/tedge/log-plugins
+    install -m 0755 ${S}/src/${GO_IMPORT}/packaging/log-plugins/container ${D}${datadir}/tedge/log-plugins/container
+    install -m 0755 ${S}/src/${GO_IMPORT}/packaging/log-plugins/container-group ${D}${datadir}/tedge/log-plugins/container-group
+
+    # tedge service plugins
+    install -d ${D}${datadir}/tedge/service-plugins
+    install -m 0755 ${S}/src/${GO_IMPORT}/packaging/service-plugins/container ${D}${datadir}/tedge/service-plugins/container
+    install -m 0755 ${S}/src/${GO_IMPORT}/packaging/service-plugins/container-group ${D}${datadir}/tedge/service-plugins/container-group
 
     # Allow sudo access
     install -d -m 0750 "${D}/etc/sudoers.d"
@@ -44,5 +55,8 @@ FILES:${PN} += "\
     ${TEDGE_CONFIG_DIR}/plugins/config.toml \
     ${TEDGE_CONFIG_DIR}/sm-plugins/container \
     ${TEDGE_CONFIG_DIR}/sm-plugins/container-group \
+    ${TEDGE_CONFIG_DIR}/sm-plugins/container-image \
+    ${datadir}/tedge/log-plugins/* \
+    ${datadir}/tedge/service-plugins/* \
     ${sysconfdir}/sudoers.d/tedge-container-plugin \
 "
