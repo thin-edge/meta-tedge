@@ -71,5 +71,5 @@ repos:
     url: "https://git.yoctoproject.org/meta-virtualization"
 
   meta-lts-mixins-go:
-    url: "https://github.com/thin-edge/meta-lts-mixins.git"
+    url: "https://git.yoctoproject.org/meta-lts-mixins"
     branch: scarthgap/go
