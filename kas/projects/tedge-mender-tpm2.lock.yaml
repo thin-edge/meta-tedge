@@ -19,6 +19,6 @@ overrides:
     meta-mender-community:
       commit: ebad311b35c45b420e354a24c9ce5e1ee709a25e
     meta-virtualization:
-      commit: 18d58082b2458cf85438ac6e0f2f1fd0153318cb
+      commit: 4a9f704d82a8a5d65aaffa598eeaeb86f1cb5b86
     meta-clang:
       commit: ef0d22f21910a0c30c967eeb17d8f209806e2d81

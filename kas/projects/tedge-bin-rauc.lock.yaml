@@ -17,4 +17,4 @@ overrides:
     meta-rauc-community:
       commit: 4d666ae4956f1cfacbd1a844f2e1794cb7784e2a
     meta-virtualization:
-      commit: 18d58082b2458cf85438ac6e0f2f1fd0153318cb
+      commit: 4a9f704d82a8a5d65aaffa598eeaeb86f1cb5b86
