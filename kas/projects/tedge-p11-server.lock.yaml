@@ -7,6 +7,6 @@ overrides:
     meta-yocto:
       commit: 79b6d87030178bed0088ad3b00aa6dfbabac37c4
     openembedded-core:
-      commit: ae5a301091f5b0574ea7444aab40b309b6d9f3f2
+      commit: 2285da08068a6d1b4a64c9a52d85a58be50e4679
     meta-openembedded:
       commit: c734c2cb9713dbd6d50697a9f6c25ebdf3ae589e

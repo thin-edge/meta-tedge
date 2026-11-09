@@ -7,7 +7,7 @@ overrides:
     meta-yocto:
       commit: 79b6d87030178bed0088ad3b00aa6dfbabac37c4
     openembedded-core:
-      commit: ae5a301091f5b0574ea7444aab40b309b6d9f3f2
+      commit: 2285da08068a6d1b4a64c9a52d85a58be50e4679
     meta-raspberrypi:
       commit: 919588393f41b48cb6c5d832aa35e58a19b6762d
     meta-openembedded:
@@ -15,7 +15,7 @@ overrides:
     meta-security:
       commit: 2703974d5e2d61b221dffa302c2e059a522adbf3
     meta-rugix:
-      commit: 32dafcfe65b7a2ed31d236249978da6b10fe7902
+      commit: 240ad5033d865ca3a0b5350fb229dfe4a6593650
     meta-virtualization:
       commit: 4a9f704d82a8a5d65aaffa598eeaeb86f1cb5b86
     meta-clang:
