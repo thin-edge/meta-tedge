@@ -9,6 +9,6 @@ overrides:
     openembedded-core:
       commit: 2285da08068a6d1b4a64c9a52d85a58be50e4679
     meta-openembedded:
-      commit: c734c2cb9713dbd6d50697a9f6c25ebdf3ae589e
+      commit: c0fcd7cca3760ef24e087ac4a31b8f357cb204da
     meta-clang:
       commit: ef0d22f21910a0c30c967eeb17d8f209806e2d81
