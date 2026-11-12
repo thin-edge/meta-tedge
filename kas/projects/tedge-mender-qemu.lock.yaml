@@ -9,7 +9,7 @@ overrides:
     openembedded-core:
       commit: 2285da08068a6d1b4a64c9a52d85a58be50e4679
     meta-openembedded:
-      commit: c734c2cb9713dbd6d50697a9f6c25ebdf3ae589e
+      commit: c0fcd7cca3760ef24e087ac4a31b8f357cb204da
     meta-mender:
       commit: 61bc8a8541589bb58c875ac99d45fc992f6f93d2
     meta-virtualization:
