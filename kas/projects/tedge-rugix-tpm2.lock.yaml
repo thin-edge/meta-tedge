@@ -15,7 +15,7 @@ overrides:
     meta-security:
       commit: 2703974d5e2d61b221dffa302c2e059a522adbf3
     meta-rugix:
-      commit: 240ad5033d865ca3a0b5350fb229dfe4a6593650
+      commit: ddc6b26408f0fc53627c57e814d5a5dd1d3a9eab
     meta-virtualization:
       commit: f27e2594ab43f4e596eb8e287e7e446ef4064810
     meta-clang:
