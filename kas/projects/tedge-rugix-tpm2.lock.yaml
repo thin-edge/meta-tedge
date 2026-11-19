@@ -11,7 +11,7 @@ overrides:
     meta-security:
       commit: b13f1705d723650de61277670c8a76aadea4cfdd
     meta-rugix:
-      commit: 5b82dc5439f55417dccde555d4a81fda3f2135f9
+      commit: c23b608890679428f6b64df5b9736c6c1416d8dc
     meta-lts-mixins-rust:
       commit: eedcdc7486ff15c3510c2ceff68c87d9db141312
     meta-lts-mixins-go:
