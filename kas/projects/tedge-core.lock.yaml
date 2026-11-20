@@ -5,9 +5,9 @@ overrides:
     bitbake:
       commit: 33581c84f3a85008239acbd940501a35de48dc91
     meta-yocto:
-      commit: b60511544c41f5d29d290681e15c9e302f747efe
+      commit: e941c69844c28fc40c4f149251f7281207525abe
     openembedded-core:
-      commit: 33a6bd6cc8a9a976902081642414bd67adc74879
+      commit: 16a03ed6c2db2fa1d7edac4f288a74958a00eb9f
     meta-openembedded:
       commit: c0fcd7cca3760ef24e087ac4a31b8f357cb204da
     meta-clang:
